@@ -31,11 +31,20 @@ abstract class Command {
         _requirements.addAll(subsystems)
     }
 
+    /**
+     * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's
+     * requirements, the old command will be descheduled and the new command will take its place.
+     * @param subsystems The subsystems to be required
+     */
+    protected fun addRequirements(subsystems: Collection<Subsystem>) {
+        _requirements.addAll(subsystems)
+    }
+
     open fun initialize() {}
 
     open fun execute() {}
 
-    open fun isFinished() = false
+    open fun isFinished() = true
 
     open fun end(interrupted: Boolean) {}
 

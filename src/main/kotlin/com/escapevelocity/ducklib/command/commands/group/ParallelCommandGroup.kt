@@ -1,6 +1,54 @@
 package com.escapevelocity.ducklib.command.commands.group
 
 import com.escapevelocity.ducklib.command.commands.Command
+import util.containsAny
+import java.security.InvalidParameterException
 
-abstract class CommandGroup(vararg var commands: Command): Command() {
+open class ParallelCommandGroup : CommandGroup {
+    constructor(vararg commands: Command) : super(*commands)
+
+    protected var _commands: LinkedHashMap<Command, Boolean>? = null
+        get() {
+            if (field == null) {
+                field = LinkedHashMap()
+            }
+
+            return field
+        }
+    final override val commands
+        get() = _commands!!.keys
+
+    override fun execute() {
+        for (command in _commands!!) {
+            if (command.value) {
+                continue
+            }
+
+            command.key.execute()
+
+            if (command.key.isFinished()) {
+                command.key.end(false)
+                _commands!![command.key] = true
+            }
+        }
+    }
+
+    override fun isFinished(): Boolean = _commands!!.values.all { it }
+
+    override fun addCommand(command: Command) {
+        if (requirements.containsAny(command.requirements)) {
+            throw InvalidParameterException("Commands in a command group must not require the same subsystems")
+        }
+
+        _commands!![command] = false
+        addRequirements(command.requirements)
+    }
+
+    override fun initialize() {
+        _commands!!.forEach { it.key.initialize() }
+    }
+
+    override fun end(interrupted: Boolean) {
+        _commands!!.forEach { it.key.end(interrupted) }
+    }
 }

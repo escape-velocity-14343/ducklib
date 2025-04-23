@@ -1,9 +1,14 @@
-import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.command.commands.*
 import com.escapevelocity.ducklib.command.commands.Command.Scheduler.scheduleCommand
-import com.escapevelocity.ducklib.command.commands.InstantCommand
+import com.escapevelocity.ducklib.command.commands.group.SequentialCommandGroup
 
 fun main() {
-    val c = InstantCommand { println("hi") };
+    val c = SequentialCommandGroup(
+        InstantCommand { println("aaa") },
+        WaitCommand(1.0),
+        InstantCommand { println("fish") },
+    ).alongWith(InstantCommand { println("hi") })
+
     c.scheduleCommand()
-    Command.run()
+    while (true) Command.run()
 }

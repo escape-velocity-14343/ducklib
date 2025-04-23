@@ -1,0 +1,62 @@
+package com.escapevelocity.ducklib.command.trigger
+
+import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.command.scheduler.CommandScheduler
+import com.escapevelocity.ducklib.command.scheduler.TriggerScheduler
+
+open class Trigger(private val ts: TriggerScheduler, private val cs: CommandScheduler, private val trigger: () -> Boolean): () -> Boolean {
+    override fun invoke(): Boolean = trigger.invoke()
+
+    /**
+     * Schedules [command] when the trigger moves from false to true
+     * @param command The command to schedule
+     */
+    fun <T: Trigger> T.onceOnTrue(command: Command): T {
+        var lastVal = this()
+        ts.bind({
+            val thisVal = this()
+            val ret = thisVal && !lastVal
+            ret
+        }, {
+            cs.schedule(command)
+        })
+        return this
+    }
+
+    /**
+     * Schedules [command] when the trigger moves from true to false
+     * @param command The command to schedule
+     */
+    fun <T: Trigger> T.onceOnFalse(command: Command): T {
+        (!this).onceOnTrue(command)
+        return this
+    }
+
+    /**
+     * Schedules [command] continuously while the trigger is true
+     * @param command The command to schedule
+     */
+    fun <T: Trigger> T.whileOnTrue(command: Command): T {
+        ts.bind(this) { cs.schedule(command) }
+        return this
+    }
+
+    /**
+     * Schedules [command] continuously while the trigger is true
+     * @param command The command to schedule
+     */
+    fun <T: Trigger> T.whileOnFalse(command: Command): T {
+        ts.bind(!this) { cs.schedule(command) }
+        return this
+    }
+
+    operator fun not(): Trigger = Trigger(ts, cs) { !this() }
+
+    infix fun and(other: () -> Boolean) = Trigger(ts, cs) { this() && other() }
+
+    infix fun or(other: () -> Boolean) = Trigger(ts, cs) { this() || other() }
+
+    infix fun xor(other: () -> Boolean) = Trigger(ts, cs) { this() xor other() }
+}
+
+fun (() -> Boolean).trigger(ts: TriggerScheduler, cs: CommandScheduler) = Trigger(ts, cs, this)

@@ -40,101 +40,30 @@ abstract class Command {
         _requirements.addAll(subsystems)
     }
 
+    /**
+     * Called once, when the command is scheduled. Override to provide custom behavior
+     */
     open fun initialize() {}
 
+    /**
+     * Called every time [Command.Scheduler.run] is called while the command is active
+     */
     open fun execute() {}
 
+    /**
+     * Checked every time [Command.Scheduler.run] is called, after [Command.execute]. Commands are guaranteed to run
+     * [Command.execute] once, even if this method returns `true`
+     */
     open fun isFinished() = true
 
+    /**
+     * Called when the command is finished and the command scheduler is about to deschedule the command
+     * @param interrupted If the command was interrupted, such as by calling [Command.Scheduler.cancel]
+     */
     open fun end(interrupted: Boolean) {}
 
     fun <T : Command> T.setName(name: String): T {
         this.name = name
         return this
-    }
-
-    companion object Scheduler {
-        private val scheduledCommands = HashSet<Command>()
-        private val commandsToSchedule = ArrayList<Command>()
-        private val commandsToCancel = ArrayList<Command>()
-        private val commandRequirements = HashMap<Subsystem, Command>()
-        private var runningCommands = false
-
-        fun schedule(command: Command) {
-            if (runningCommands) {
-                commandsToSchedule.add(command)
-                return
-            }
-
-            // check for conflicts
-            if (commandRequirements.keys.containsAny(command.requirements)) {
-                // if attempted to be scheduled command uses CANCEL_THIS conflict resolution, don't do anything
-                if (command.conflictResolution == SubsystemConflictResolution.CANCEL_THIS) {
-                    return
-                }
-
-                // otherwise, find the conflicting command(s) and deschedule it
-                for (subsystem in command.requirements) commandRequirements[subsystem]?.cancelCommand()
-            }
-
-            initCommand(command)
-        }
-
-        fun cancel(command: Command) {
-            if (runningCommands) {
-                commandsToCancel.add(command)
-                return
-            }
-
-            if (command !in scheduledCommands) {
-                return
-            }
-
-            command.end(true)
-            remove(command)
-        }
-
-        fun run() {
-            runningCommands = true
-            val commandsToRemove = ArrayList<Command>()
-            try {
-                for (command in scheduledCommands) {
-                    command.execute()
-                    if (command.isFinished()) {
-                        command.end(false)
-                        commandsToRemove.add(command)
-                    }
-                }
-            } finally {
-                runningCommands = false
-            }
-
-            for (command in commandsToRemove) command.removeCommand()
-            for (command in commandsToCancel) command.cancelCommand()
-            for (command in commandsToSchedule) command.scheduleCommand()
-        }
-
-        private fun remove(command: Command) {
-            scheduledCommands.remove(command)
-            commandRequirements.keys.removeAll(command.requirements)
-        }
-
-        private fun initCommand(command: Command) {
-            scheduledCommands.add(command)
-            for (subsystem in command.requirements) commandRequirements[subsystem] = command
-            command.initialize()
-        }
-
-        private fun Command.removeCommand() {
-            remove(this)
-        }
-
-        fun Command.scheduleCommand() {
-            schedule(this)
-        }
-
-        fun Command.cancelCommand() {
-            cancel(this)
-        }
     }
 }

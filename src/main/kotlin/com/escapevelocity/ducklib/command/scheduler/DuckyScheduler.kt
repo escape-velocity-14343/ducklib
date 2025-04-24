@@ -4,94 +4,130 @@ import com.escapevelocity.ducklib.command.commands.Command
 import com.escapevelocity.ducklib.command.commands.Command.SubsystemConflictResolution
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
 import util.containsAny
-import java.util.function.BooleanSupplier
 
 /**
  * The default ducklib scheduler. Does both the jobs of [CommandScheduler] and [TriggerScheduler]
  */
-open class DuckyScheduler : CommandScheduler, TriggerScheduler {
-    private val scheduledCommands = HashSet<Command>()
-    private val commandsToSchedule = ArrayList<Command>()
-    private val commandsToCancel = ArrayList<Command>()
-    private val commandRequirements = HashMap<Subsystem, Command>()
-    private var runningCommands = false
+open class DuckyScheduler {
+    companion object Scheduler: CommandScheduler, TriggerScheduler {
+        override val hasCommands
+            get() = scheduledCommands.size > 0
 
-    private val triggers = ArrayList<TriggeredAction>()
+        protected val scheduledCommands = HashSet<Command>()
+        private val commandsToSchedule = ArrayList<Command>()
+        private val commandsToCancel = ArrayList<Command>()
+        private val commandRequirements = HashMap<Subsystem, Command>()
+        private val subsystems = HashMap<Subsystem, Command?>()
+        private var runningCommands = false
 
-    override fun schedule(command: Command) {
-        if (runningCommands) {
-            commandsToSchedule.add(command)
-            return
-        }
+        private val triggers = ArrayList<TriggeredAction>()
 
-        // check for conflicts
-        if (commandRequirements.keys.containsAny(command.requirements)) {
-            // if attempted to be scheduled command uses CANCEL_THIS conflict resolution, don't do anything
-            if (command.conflictResolution == SubsystemConflictResolution.CANCEL_THIS) {
+        override fun scheduleCommand(command: Command) {
+            if (runningCommands) {
+                commandsToSchedule.add(command)
                 return
             }
 
-            // otherwise, find the conflicting command(s) and deschedule it
-            for (subsystem in command.requirements) commandRequirements[subsystem]?.cancelCommand()
+            // check for conflicts
+            if (command.conflicts()) {
+                // if attempted to be scheduled command uses CANCEL_THIS conflict resolution, don't do anything
+                if (command.conflictResolution == SubsystemConflictResolution.CANCEL_THIS) {
+                    return
+                }
+
+                // otherwise, find the conflicting command(s) and deschedule it
+                for (subsystem in command.requirements) commandRequirements[subsystem]?.cancel()
+            }
+
+            initCommand(command)
         }
 
-        initCommand(command)
-    }
+        override fun cancelCommand(command: Command) {
+            if (runningCommands) {
+                commandsToCancel.add(command)
+                return
+            }
 
-    override fun cancel(command: Command) {
-        if (runningCommands) {
-            commandsToCancel.add(command)
-            return
+            if (command !in scheduledCommands) {
+                return
+            }
+
+            command.end(true)
+            removeCommand(command)
         }
 
-        if (command !in scheduledCommands) {
-            return
+        override fun bind(trigger: () -> Boolean, action: () -> Unit) {
+            triggers.add(TriggeredAction(trigger, action))
         }
 
-        command.end(true)
-        remove(command)
-    }
+        override fun run() {
+            runningCommands = true
+            val commandsToRemove = ArrayList<Command>()
+            try {
+                for (command in scheduledCommands) {
+                    command.execute()
+                    if (command.isFinished()) {
+                        command.end(false)
+                        commandsToRemove.add(command)
+                    }
+                }
+            } finally {
+                runningCommands = false
+            }
 
-    override fun bind(trigger: () -> Boolean, action: () -> Unit) {
-        triggers.add(TriggeredAction(trigger, action))
-    }
+            for (command in commandsToRemove) command.remove()
+            for (command in commandsToCancel) command.cancel()
+            for (command in commandsToSchedule) command.schedule()
 
-    override fun run() {
-        runningCommands = true
-        val commandsToRemove = ArrayList<Command>()
-        try {
-            for (command in scheduledCommands) {
-                command.execute()
-                if (command.isFinished()) {
-                    command.end(false)
-                    commandsToRemove.add(command)
+            triggers.filter { it.trigger() }.forEach { it.action() }
+
+            for (subsystemCommand in subsystems) {
+                subsystemCommand.key.periodic()
+
+                val cmd = subsystemCommand.value
+                // if command exists, isn't already scheduled, and doesn't conflict, schedule it
+                if (cmd != null && cmd !in scheduledCommands && !cmd.conflicts()) {
+                    cmd.schedule()
                 }
             }
-        } finally {
-            runningCommands = false
         }
 
-        for (command in commandsToRemove) command.removeCommand()
-        for (command in commandsToCancel) command.cancelCommand()
-        for (command in commandsToSchedule) command.scheduleCommand()
+        override fun addSubsystem(vararg subsystems: Subsystem) {
+            for (subsystem in subsystems) {
+                this.subsystems[subsystem] = null
+            }
+        }
 
-        triggers.filter { it.trigger() }.forEach { it.action() }
+        override fun removeSubsystem(vararg subsystems: Subsystem) {
+            for (subsystem in subsystems) {
+                this.subsystems.remove(subsystem)
+                this.subsystems[subsystem]?.cancel()
+            }
+        }
+
+        override fun setDefaultCommand(vararg subsystems: Subsystem, command: Command?) {
+            for (subsystem in subsystems) {
+                this.subsystems[subsystem] = command
+            }
+        }
+
+        private fun removeCommand(command: Command) {
+            scheduledCommands.remove(command)
+            commandRequirements.keys.removeAll(command.requirements)
+        }
+
+        private fun initCommand(command: Command) {
+            scheduledCommands.add(command)
+            for (subsystem in command.requirements) commandRequirements[subsystem] = command
+            command.initialize()
+        }
+
+        private fun Command.remove() {
+            removeCommand(this)
+        }
+
+        private fun Command.conflicts() = commandRequirements.keys.containsAny(this.requirements)
+
+        data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)
     }
-
-    private fun remove(command: Command) {
-        scheduledCommands.remove(command)
-        commandRequirements.keys.removeAll(command.requirements)
-    }
-
-    private fun initCommand(command: Command) {
-        scheduledCommands.add(command)
-        for (subsystem in command.requirements) commandRequirements[subsystem] = command
-        command.initialize()
-    }
-
-    private fun Command.removeCommand() {
-        remove(this)
-    }
-
-    data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)
 }

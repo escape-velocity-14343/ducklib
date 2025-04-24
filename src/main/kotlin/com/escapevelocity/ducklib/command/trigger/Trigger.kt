@@ -11,14 +11,15 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
      * Schedules [command] when the trigger moves from false to true
      * @param command The command to schedule
      */
-    fun <T: Trigger> T.onceOnTrue(command: Command): T {
+    fun onceOnTrue(command: Command): Trigger {
         var lastVal = this()
         ts.bind({
             val thisVal = this()
             val ret = thisVal && !lastVal
+            lastVal = thisVal
             ret
         }, {
-            cs.schedule(command)
+            cs.scheduleCommand(command)
         })
         return this
     }
@@ -27,7 +28,7 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
      * Schedules [command] when the trigger moves from true to false
      * @param command The command to schedule
      */
-    fun <T: Trigger> T.onceOnFalse(command: Command): T {
+    fun onceOnFalse(command: Command): Trigger {
         (!this).onceOnTrue(command)
         return this
     }
@@ -36,8 +37,8 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
      * Schedules [command] continuously while the trigger is true
      * @param command The command to schedule
      */
-    fun <T: Trigger> T.whileOnTrue(command: Command): T {
-        ts.bind(this) { cs.schedule(command) }
+    fun whileOnTrue(command: Command): Trigger {
+        ts.bind(this) { cs.scheduleCommand(command) }
         return this
     }
 
@@ -45,8 +46,8 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
      * Schedules [command] continuously while the trigger is true
      * @param command The command to schedule
      */
-    fun <T: Trigger> T.whileOnFalse(command: Command): T {
-        ts.bind(!this) { cs.schedule(command) }
+    fun <T: Trigger> whileOnFalse(command: Command): Trigger {
+        ts.bind(!this) { cs.scheduleCommand(command) }
         return this
     }
 
@@ -59,4 +60,5 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
     infix fun xor(other: () -> Boolean) = Trigger(ts, cs) { this() xor other() }
 }
 
-fun (() -> Boolean).trigger(ts: TriggerScheduler, cs: CommandScheduler) = Trigger(ts, cs, this)
+fun (() -> Boolean).trigger(ts: TriggerScheduler, cs: CommandScheduler): Trigger = Trigger(ts, cs, this)
+fun <T> (() -> Boolean).trigger(tcs: T): Trigger where T: CommandScheduler, T: TriggerScheduler = Trigger(tcs, tcs, this)

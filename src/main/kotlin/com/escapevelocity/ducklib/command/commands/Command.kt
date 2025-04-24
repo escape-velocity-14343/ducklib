@@ -1,10 +1,6 @@
 package com.escapevelocity.ducklib.command.commands
 
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
-import util.containsAny
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 abstract class Command {
     enum class SubsystemConflictResolution {
@@ -20,7 +16,7 @@ abstract class Command {
 
     var name: String = this.javaClass.name
 
-    open val conflictResolution = SubsystemConflictResolution.CANCEL_OTHER
+    open val conflictResolution = SubsystemConflictResolution.CANCEL_THIS
 
     /**
      * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's

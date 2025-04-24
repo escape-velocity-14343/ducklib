@@ -1,11 +1,13 @@
 package com.escapevelocity.ducklib.command.commands
 
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
+import com.escapevelocity.ducklib.util.b16Hash
 
 abstract class Command {
     enum class SubsystemConflictResolution {
         CANCEL_THIS,
         CANCEL_OTHER,
+        QUEUE,
     }
 
     private val _requirements: MutableSet<Subsystem> = HashSet()
@@ -14,9 +16,11 @@ abstract class Command {
     var inGroup = false
         protected set
 
-    var name: String = this.javaClass.name
+    internal var _name: String = javaClass.simpleName
+    open val name: String
+        get() = _name
 
-    open val conflictResolution = SubsystemConflictResolution.CANCEL_THIS
+    open val conflictResolution = SubsystemConflictResolution.QUEUE
 
     /**
      * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's
@@ -42,24 +46,27 @@ abstract class Command {
     open fun initialize() {}
 
     /**
-     * Called every time [Command.Scheduler.run] is called while the command is active
+     * Called every time [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.run] is called while the command is active
      */
     open fun execute() {}
 
     /**
-     * Checked every time [Command.Scheduler.run] is called, after [Command.execute]. Commands are guaranteed to run
+     * Checked every time [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.run] is called, after [Command.execute]. Commands are guaranteed to run
      * [Command.execute] once, even if this method returns `true`
      */
-    open fun isFinished() = true
+    open val finished = true
 
     /**
      * Called when the command is finished and the command scheduler is about to deschedule the command
-     * @param interrupted If the command was interrupted, such as by calling [Command.Scheduler.cancel]
+     * @param interrupted If the command was interrupted, such as by calling [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.cancel]
      */
     open fun end(interrupted: Boolean) {}
 
-    fun <T : Command> T.setName(name: String): T {
-        this.name = name
-        return this
-    }
+
+    override fun toString(): String = "$name${if(name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
+}
+
+fun <T : Command> T.setName(name: String): T {
+    this._name = name
+    return this
 }

@@ -12,5 +12,5 @@ class DeadlineCommandGroup(private var deadlineCommand: Command, vararg commands
         return this
     }
 
-    override fun isFinished(): Boolean = deadlineCommand.isFinished()
+    override val finished = deadlineCommand.finished
 }

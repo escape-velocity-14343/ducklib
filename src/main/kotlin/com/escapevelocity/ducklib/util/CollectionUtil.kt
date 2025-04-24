@@ -1,4 +1,4 @@
-package util
+package com.escapevelocity.ducklib.util
 
 fun <T> Collection<T>.containsAny(collection: Collection<T>): Boolean {
     for (e in this) {

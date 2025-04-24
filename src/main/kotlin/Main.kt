@@ -1,18 +1,17 @@
-
-import com.escapevelocity.ducklib.command.commands.InstantCommand
-import com.escapevelocity.ducklib.command.commands.WaitCommand
-import com.escapevelocity.ducklib.command.commands.then
-import com.escapevelocity.ducklib.command.commands.with
-import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
-import com.escapevelocity.ducklib.command.trigger.trigger
+import com.escapevelocity.ducklib.command.commands.*
 
 fun main() {
-    val c = InstantCommand { println("aaa") } then WaitCommand(1.0) then InstantCommand { println("fish") } with InstantCommand { println("hi") } then InstantCommand { println("hello") }
+    val c = InstantCommand {  } then WaitCommand(1.0) then InstantCommand {  } with InstantCommand {  } then InstantCommand {  }
+    //val c = InstantCommand { println("hi") }.setName("hi") then (WaitCommand(1.0))
+    c.setName("hi2")
+    println(c)
+    //val buf = System.`in`.buffered();
 
-    val buf = System.`in`.buffered();
+    //{ buf.read().toChar() == 'a' }.trigger(DuckyScheduler).onceOnTrue(InstantCommand { println("hi") })
+    //c.schedule()
 
-    { buf.read().toChar() == 'a' }.trigger(DuckyScheduler).onceOnTrue(InstantCommand { println("hi") })
-//    c.schedule()
-
-    while (true) DuckyScheduler.run()
+    //println(DuckyScheduler)
+    //while (true) {
+    //    DuckyScheduler.run()
+    //}
 }

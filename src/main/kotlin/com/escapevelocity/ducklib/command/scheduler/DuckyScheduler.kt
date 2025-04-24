@@ -3,35 +3,44 @@ package com.escapevelocity.ducklib.command.scheduler
 import com.escapevelocity.ducklib.command.commands.Command
 import com.escapevelocity.ducklib.command.commands.Command.SubsystemConflictResolution
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
-import util.containsAny
+import com.escapevelocity.ducklib.util.containsAny
 
 /**
  * The default ducklib scheduler. Does both the jobs of [CommandScheduler] and [TriggerScheduler]
  */
 open class DuckyScheduler {
-    companion object Scheduler: CommandScheduler, TriggerScheduler {
+    companion object Scheduler : CommandScheduler, TriggerScheduler {
         override val hasCommands
             get() = scheduledCommands.size > 0
+        override val commands: Collection<Command>
+            get() = scheduledCommands
+        override val subsystems: Map<Subsystem, Command?>
+            get() = _subsystems
 
         protected val scheduledCommands = HashSet<Command>()
-        private val commandsToSchedule = ArrayList<Command>()
+        private val queuedCommands = LinkedHashSet<Command>()
         private val commandsToCancel = ArrayList<Command>()
         private val commandRequirements = HashMap<Subsystem, Command>()
-        private val subsystems = HashMap<Subsystem, Command?>()
+        private val _subsystems = HashMap<Subsystem, Command?>()
         private var runningCommands = false
 
         private val triggers = ArrayList<TriggeredAction>()
 
         override fun scheduleCommand(command: Command) {
-            if (runningCommands) {
-                commandsToSchedule.add(command)
+            if (runningCommands && command !in queuedCommands) {
+                queuedCommands.add(command)
                 return
             }
 
             // check for conflicts
-            if (command.conflicts()) {
-                // if attempted to be scheduled command uses CANCEL_THIS conflict resolution, don't do anything
+            if (command.conflicts) {
+                // if attempted to be scheduled command uses QUEUE conflict resolution, don't do anything
+                if (command.conflictResolution == SubsystemConflictResolution.QUEUE) {
+                    return
+                }
+
                 if (command.conflictResolution == SubsystemConflictResolution.CANCEL_THIS) {
+                    queuedCommands.remove(command)
                     return
                 }
 
@@ -40,6 +49,7 @@ open class DuckyScheduler {
             }
 
             initCommand(command)
+            queuedCommands.remove(command)
         }
 
         override fun cancelCommand(command: Command) {
@@ -66,7 +76,7 @@ open class DuckyScheduler {
             try {
                 for (command in scheduledCommands) {
                     command.execute()
-                    if (command.isFinished()) {
+                    if (command.finished) {
                         command.end(false)
                         commandsToRemove.add(command)
                     }
@@ -77,16 +87,16 @@ open class DuckyScheduler {
 
             for (command in commandsToRemove) command.remove()
             for (command in commandsToCancel) command.cancel()
-            for (command in commandsToSchedule) command.schedule()
+            for (command in queuedCommands) command.schedule()
 
             triggers.filter { it.trigger() }.forEach { it.action() }
 
-            for (subsystemCommand in subsystems) {
+            for (subsystemCommand in _subsystems) {
                 subsystemCommand.key.periodic()
 
                 val cmd = subsystemCommand.value
                 // if command exists, isn't already scheduled, and doesn't conflict, schedule it
-                if (cmd != null && cmd !in scheduledCommands && !cmd.conflicts()) {
+                if (cmd != null && cmd !in scheduledCommands && subsystemCommand.key !in commandRequirements) {
                     cmd.schedule()
                 }
             }
@@ -94,20 +104,20 @@ open class DuckyScheduler {
 
         override fun addSubsystem(vararg subsystems: Subsystem) {
             for (subsystem in subsystems) {
-                this.subsystems[subsystem] = null
+                this._subsystems[subsystem] = null
             }
         }
 
         override fun removeSubsystem(vararg subsystems: Subsystem) {
             for (subsystem in subsystems) {
-                this.subsystems.remove(subsystem)
-                this.subsystems[subsystem]?.cancel()
+                this._subsystems.remove(subsystem)
+                this._subsystems[subsystem]?.cancel()
             }
         }
 
         override fun setDefaultCommand(vararg subsystems: Subsystem, command: Command?) {
             for (subsystem in subsystems) {
-                this.subsystems[subsystem] = command
+                this._subsystems[subsystem] = command
             }
         }
 
@@ -126,7 +136,21 @@ open class DuckyScheduler {
             removeCommand(this)
         }
 
-        private fun Command.conflicts() = commandRequirements.keys.containsAny(this.requirements)
+        override val Command.conflicts
+            get() = commandRequirements.keys.containsAny(this.requirements)
+
+        override val Subsystem.command
+            get() = commandRequirements.getOrDefault(this, null)
+
+        override fun toString(): String {
+            return """
+DuckyScheduler
+Scheduled commands:${scheduledCommands.joinToString(prefix = "\n").prependIndent()}
+Registered subsystems: ${subsystems.entries.joinToString(prefix = "\n") { (ss, _) -> "${if (ss in commandRequirements) "🔒" else " "} ${ss.name}" }}
+Queued commands:${queuedCommands.mapIndexed { it, i -> "\n$i: $it" }.joinToString()}
+Subsystem commands:${subsystems.entries.joinToString(prefix = "\n")}
+                """
+        }
 
         data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)
     }

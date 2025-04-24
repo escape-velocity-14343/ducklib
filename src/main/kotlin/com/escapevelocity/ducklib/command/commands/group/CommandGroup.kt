@@ -1,6 +1,7 @@
 package com.escapevelocity.ducklib.command.commands.group
 
 import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.util.b16Hash
 
 abstract class CommandGroup(vararg commands: Command) : Command() {
     protected abstract val commands: Collection<Command>
@@ -28,4 +29,7 @@ abstract class CommandGroup(vararg commands: Command) : Command() {
     override fun end(interrupted: Boolean) {
         commands.forEach { it.end(interrupted) }
     }
+
+    override fun toString(): String =
+        "$_name${if(_name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()} [${commands.mapIndexed { i, cmd -> "\n$i: $cmd"}.joinToString("").prependIndent()}\n]"
 }

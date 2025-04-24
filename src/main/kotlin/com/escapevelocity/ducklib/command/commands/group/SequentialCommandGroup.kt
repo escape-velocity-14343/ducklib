@@ -34,11 +34,11 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
         val command = _commands!![currentCommand]
         command.execute()
 
-        if (command.isFinished()) {
+        if (command.finished) {
             command.end(false)
             currentCommand++
         }
     }
 
-    override fun isFinished(): Boolean = currentCommand >= _commands!!.size
+    override val finished = currentCommand >= _commands!!.size
 }

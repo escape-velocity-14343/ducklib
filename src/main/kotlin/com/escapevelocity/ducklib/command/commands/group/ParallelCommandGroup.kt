@@ -1,7 +1,7 @@
 package com.escapevelocity.ducklib.command.commands.group
 
 import com.escapevelocity.ducklib.command.commands.Command
-import util.containsAny
+import com.escapevelocity.ducklib.util.containsAny
 import java.security.InvalidParameterException
 
 open class ParallelCommandGroup : CommandGroup {
@@ -26,14 +26,14 @@ open class ParallelCommandGroup : CommandGroup {
 
             command.key.execute()
 
-            if (command.key.isFinished()) {
+            if (command.key.finished) {
                 command.key.end(false)
                 _commands!![command.key] = true
             }
         }
     }
 
-    override fun isFinished(): Boolean = _commands!!.values.all { it }
+    override val finished = _commands!!.values.all { it }
 
     override fun addCommand(command: Command) {
         if (requirements.containsAny(command.requirements)) {

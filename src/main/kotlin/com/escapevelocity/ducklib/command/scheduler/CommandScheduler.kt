@@ -9,6 +9,8 @@ import com.escapevelocity.ducklib.command.subsystem.Subsystem
  */
 interface CommandScheduler {
     val hasCommands: Boolean
+    val commands: Collection<Command>
+    val subsystems: Map<Subsystem, Command?>
 
     fun scheduleCommand(command: Command)
 
@@ -29,4 +31,14 @@ interface CommandScheduler {
     fun Command.cancel() {
         cancelCommand(this)
     }
+
+    /**
+     * Whether the command has a conflict or not (e.g. whether it can be scheduled and then will run on a single tick)
+     */
+    val Command.conflicts: Boolean
+
+    /**
+     * The conflicting command, if there is one
+     */
+    val Subsystem.command: Command?
 }

@@ -22,8 +22,12 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
     }
 
     override fun initialize() {
-        super.initialize()
+        println("hi")
         currentCommand = 0
+
+        if (_commands!!.size > 0) {
+            _commands!!.first().initialize()
+        }
     }
 
     override fun execute() {
@@ -35,10 +39,17 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
         command.execute()
 
         if (command.finished) {
+            println(command)
             command.end(false)
             currentCommand++
+            if (currentCommand < _commands!!.size) {
+                _commands!![currentCommand].initialize()
+            }
         }
     }
 
-    override val finished = currentCommand >= _commands!!.size
+    override val finished
+        get() = currentCommand >= _commands!!.size
+
+    override fun Command.prefix(): String = if(currentCommand < _commands!!.size && this == _commands!![currentCommand]) ">" else " "
 }

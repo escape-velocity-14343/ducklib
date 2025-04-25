@@ -31,5 +31,7 @@ abstract class CommandGroup(vararg commands: Command) : Command() {
     }
 
     override fun toString(): String =
-        "$_name${if(_name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()} [${commands.mapIndexed { i, cmd -> "\n$i: $cmd"}.joinToString("").prependIndent()}\n]"
+        "$_name${if(_name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()} [${commands.mapIndexed { i, cmd -> "\n${cmd.prefix()}$i: $cmd"}.joinToString("").prependIndent()}\n]"
+
+    protected open fun Command.prefix(): String = ""
 }

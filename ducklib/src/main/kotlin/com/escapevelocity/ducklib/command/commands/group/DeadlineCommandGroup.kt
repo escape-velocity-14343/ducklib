@@ -12,5 +12,6 @@ class DeadlineCommandGroup(private var deadlineCommand: Command, vararg commands
         return this
     }
 
-    override val finished = deadlineCommand.finished
+    override val finished
+        get() = deadlineCommand.finished
 }

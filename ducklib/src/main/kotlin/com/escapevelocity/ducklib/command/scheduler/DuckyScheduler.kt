@@ -32,6 +32,10 @@ open class DuckyScheduler {
                 return
             }
 
+            if (command in scheduledCommands) {
+                return
+            }
+
             // check for conflicts
             if (command.conflicts) {
                 // if attempted to be scheduled command uses QUEUE conflict resolution, don't do anything
@@ -77,6 +81,7 @@ open class DuckyScheduler {
                 for (command in scheduledCommands) {
                     command.execute()
                     if (command.finished) {
+                        print(command.toString())
                         command.end(false)
                         commandsToRemove.add(command)
                     }

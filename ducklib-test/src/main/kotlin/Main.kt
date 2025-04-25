@@ -22,7 +22,7 @@ import androidx.compose.ui.window.application
 import com.escapevelocity.ducklib.command.commands.*
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Scheduler.schedule
-import com.escapevelocity.ducklib.command.trigger.trigger
+import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Scheduler.trigger
 import kotlinx.coroutines.delay
 
 @Composable
@@ -33,7 +33,7 @@ fun App() {
 
     val c = WaitCommand(1.0) with WaitCommand(1.0) then WaitCommand(1.0);
 
-    remember { { buttonPressed }.trigger(DuckyScheduler).onceOnTrue(WaitCommand(1.0)) }
+    remember { { buttonPressed }.trigger.onceOnTrue(c) }
 
     LaunchedEffect(Unit) {
         while (true) {

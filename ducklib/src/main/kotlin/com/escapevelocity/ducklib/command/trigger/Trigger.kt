@@ -19,8 +19,9 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
             lastVal = thisVal
             ret
         }, {
-            println("hi")
-            cs.scheduleCommand(command)
+            with (cs) {
+                command.schedule()
+            }
         })
         return this
     }
@@ -60,6 +61,3 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
 
     infix fun xor(other: () -> Boolean) = Trigger(ts, cs) { this() xor other() }
 }
-
-fun (() -> Boolean).trigger(ts: TriggerScheduler, cs: CommandScheduler): Trigger = Trigger(ts, cs, this)
-fun <T> (() -> Boolean).trigger(tcs: T): Trigger where T: CommandScheduler, T: TriggerScheduler = Trigger(tcs, tcs, this)

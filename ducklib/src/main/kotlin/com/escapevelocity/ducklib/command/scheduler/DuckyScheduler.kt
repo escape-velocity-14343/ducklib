@@ -3,6 +3,7 @@ package com.escapevelocity.ducklib.command.scheduler
 import com.escapevelocity.ducklib.command.commands.Command
 import com.escapevelocity.ducklib.command.commands.Command.SubsystemConflictResolution
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
+import com.escapevelocity.ducklib.command.trigger.Trigger
 import com.escapevelocity.ducklib.util.containsAny
 
 /**
@@ -158,5 +159,8 @@ Triggers: ${triggers.joinToString().prependIndent()}
         }
 
         data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)
+
+        val (() -> Boolean).trigger
+            get() = Trigger(this@Scheduler, this@Scheduler, this)
     }
 }

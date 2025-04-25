@@ -81,7 +81,6 @@ open class DuckyScheduler {
                 for (command in scheduledCommands) {
                     command.execute()
                     if (command.finished) {
-                        print(command.toString())
                         command.end(false)
                         commandsToRemove.add(command)
                     }
@@ -152,9 +151,10 @@ open class DuckyScheduler {
 DuckyScheduler
 Scheduled commands:${scheduledCommands.joinToString(prefix = "\n").prependIndent()}
 Registered subsystems: ${subsystems.entries.joinToString(prefix = "\n") { (ss, _) -> "${if (ss in commandRequirements) "🔒" else " "} ${ss.name}" }}
-Queued commands:${queuedCommands.mapIndexed { it, i -> "\n$i: $it" }.joinToString()}
-Subsystem commands:${subsystems.entries.joinToString(prefix = "\n")}
-                """
+Queued commands:${queuedCommands.mapIndexed { it, i -> "\n$i: $it" }.joinToString().prependIndent()}
+Subsystem commands:${subsystems.entries.joinToString(prefix = "\n").prependIndent()}
+Triggers: ${triggers.joinToString().prependIndent()}
+"""
         }
 
         data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)

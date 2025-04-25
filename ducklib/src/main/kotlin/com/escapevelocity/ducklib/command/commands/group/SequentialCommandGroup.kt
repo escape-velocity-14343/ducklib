@@ -22,7 +22,6 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
     }
 
     override fun initialize() {
-        println("hi")
         currentCommand = 0
 
         if (_commands!!.size > 0) {
@@ -39,7 +38,6 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
         command.execute()
 
         if (command.finished) {
-            println(command)
             command.end(false)
             currentCommand++
             if (currentCommand < _commands!!.size) {

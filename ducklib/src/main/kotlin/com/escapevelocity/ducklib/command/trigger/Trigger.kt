@@ -19,6 +19,7 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
             lastVal = thisVal
             ret
         }, {
+            println("hi")
             cs.scheduleCommand(command)
         })
         return this

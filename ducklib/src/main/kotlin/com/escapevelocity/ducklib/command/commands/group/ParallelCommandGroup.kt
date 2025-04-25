@@ -33,7 +33,6 @@ open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*comman
             command.key.execute()
 
             if (command.key.finished) {
-                println(command)
                 command.key.end(false)
                 _commands!![command.key] = true
             }

@@ -22,7 +22,7 @@ interface CommandScheduler {
 
     fun removeSubsystem(vararg subsystems: Subsystem)
 
-    fun setDefaultCommand(vararg subsystems: Subsystem, command: Command?)
+    fun setDefaultCommand(subsystem: Subsystem, command: Command?)
 
     fun Command.schedule() {
         scheduleCommand(this)

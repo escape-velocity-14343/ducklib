@@ -126,10 +126,8 @@ open class DuckyScheduler {
             }
         }
 
-        override fun setDefaultCommand(vararg subsystems: Subsystem, command: Command?) {
-            for (subsystem in subsystems) {
-                this._subsystems[subsystem] = command
-            }
+        override fun setDefaultCommand(subsystem: Subsystem, command: Command?) {
+            this._subsystems[subsystem] = command
         }
 
         private fun removeCommand(command: Command) {
@@ -166,7 +164,11 @@ ${
 Queued commands:
 ${queuedCommands.mapIndexed { it, i -> "$i: $it" }.joinToString("\n").prependIndent()}
 Subsystem commands:
-${subsystems.entries.joinToString("\n").prependIndent()}
+${
+                subsystems.entries.joinToString("\n") { (ss, cmd) ->
+                    "$ss${if (cmd in scheduledCommands) ">>>" else " - "}$cmd"
+                }.prependIndent()
+            }
 Triggers:
 ${
                 triggers.joinToString("\n").prependIndent()

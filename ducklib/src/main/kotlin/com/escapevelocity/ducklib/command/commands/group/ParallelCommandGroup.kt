@@ -18,23 +18,23 @@ open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*comman
         get() = _commands!!.keys
 
     override fun initialize() {
-        _commands!!.forEach { it.key.initialize() }
-        for (key in _commands!!.keys) {
+        commands.forEach { it.initialize() }
+        for (key in commands) {
             _commands!![key] = false
         }
     }
 
     override fun execute() {
-        for (command in _commands!!) {
-            if (command.value) {
+        for (command in commands) {
+            if (_commands!![command] == true) {
                 continue
             }
 
-            command.key.execute()
+            command.execute()
 
-            if (command.key.finished) {
-                command.key.end(false)
-                _commands!![command.key] = true
+            if (command.finished) {
+                command.end(false)
+                _commands!![command] = true
             }
         }
     }
@@ -52,6 +52,8 @@ open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*comman
     }
 
     override fun end(interrupted: Boolean) {
-        _commands!!.forEach { it.key.end(interrupted) }
+        commands.forEach { it.end(interrupted) }
     }
+
+    override fun Command.prefix() = if (_commands!![this] == false) ">" else " "
 }

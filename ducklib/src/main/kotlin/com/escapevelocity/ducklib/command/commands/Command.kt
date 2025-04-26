@@ -20,14 +20,14 @@ abstract class Command {
     open val name: String
         get() = _name
 
-    open val conflictResolution = SubsystemConflictResolution.QUEUE
+    open var conflictResolution = SubsystemConflictResolution.QUEUE
 
     /**
      * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's
      * requirements, the old command will be descheduled and the new command will take its place.
      * @param subsystems The subsystems to be required
      */
-    protected fun addRequirements(vararg subsystems: Subsystem) {
+    fun addRequirements(vararg subsystems: Subsystem) {
         _requirements.addAll(subsystems)
     }
 
@@ -36,8 +36,16 @@ abstract class Command {
      * requirements, the old command will be descheduled and the new command will take its place.
      * @param subsystems The subsystems to be required
      */
-    protected fun addRequirements(subsystems: Collection<Subsystem>) {
+    fun addRequirements(subsystems: Collection<Subsystem>) {
         _requirements.addAll(subsystems)
+    }
+
+    fun removeRequirements(vararg subsystems: Subsystem) {
+        _requirements.removeAll(subsystems.toSet())
+    }
+
+    fun removeRequirements(subsystems: Collection<Subsystem>) {
+        _requirements.removeAll(subsystems.toSet())
     }
 
     /**
@@ -68,5 +76,10 @@ abstract class Command {
 
 fun <T : Command> T.setName(name: String): T {
     this._name = name
+    return this
+}
+
+fun <T: Command> T.setConflictResolution(conflictResolution: Command.SubsystemConflictResolution): T {
+    this.conflictResolution = conflictResolution
     return this
 }

@@ -15,5 +15,5 @@ class WaitCommand(private val seconds: Double) : Command() {
         get() = (System.nanoTime() - timer) / 1e9 > seconds
 
     override fun toString(): String = super.toString() +
-            if (timer > 0) " (${(System.nanoTime() - timer) / 1e9} / ${seconds})" else ""
+            if (timer > 0) " (%.3f / %.3f)".format((System.nanoTime() - timer) / 1e9, seconds) else ""
 }

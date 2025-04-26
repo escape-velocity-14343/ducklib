@@ -4,6 +4,7 @@ import com.escapevelocity.ducklib.command.commands.Command
 import com.escapevelocity.ducklib.command.commands.Command.SubsystemConflictResolution
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.command.trigger.Trigger
+import com.escapevelocity.ducklib.util.b16Hash
 import com.escapevelocity.ducklib.util.containsAny
 
 /**
@@ -26,6 +27,7 @@ open class DuckyScheduler {
         private var runningCommands = false
 
         private val triggers = ArrayList<TriggeredAction>()
+        private val lastTriggerNanos = HashMap<TriggeredAction, Long?>()
 
         override fun scheduleCommand(command: Command) {
             if (runningCommands && command !in queuedCommands) {
@@ -41,6 +43,7 @@ open class DuckyScheduler {
             if (command.conflicts) {
                 // if attempted to be scheduled command uses QUEUE conflict resolution, don't do anything
                 if (command.conflictResolution == SubsystemConflictResolution.QUEUE) {
+                    queuedCommands.add(command)
                     return
                 }
 
@@ -94,7 +97,10 @@ open class DuckyScheduler {
             for (command in commandsToCancel) command.cancel()
             for (command in queuedCommands) command.schedule()
 
-            triggers.filter { it.trigger() }.forEach { it.action() }
+            triggers.filter { it.trigger() }.forEach {
+                it.action()
+                lastTriggerNanos[it] = System.nanoTime()
+            }
 
             for (subsystemCommand in _subsystems) {
                 subsystemCommand.key.periodic()
@@ -149,16 +155,37 @@ open class DuckyScheduler {
 
         override fun toString(): String {
             return """
-DuckyScheduler
-Scheduled commands:${scheduledCommands.joinToString(prefix = "\n").prependIndent()}
-Registered subsystems: ${subsystems.entries.joinToString(prefix = "\n") { (ss, _) -> "${if (ss in commandRequirements) "🔒" else " "} ${ss.name}" }}
-Queued commands:${queuedCommands.mapIndexed { it, i -> "\n$i: $it" }.joinToString().prependIndent()}
-Subsystem commands:${subsystems.entries.joinToString(prefix = "\n").prependIndent()}
-Triggers: ${triggers.joinToString().prependIndent()}
+Scheduled commands:
+${scheduledCommands.joinToString("\n").prependIndent()}
+Registered subsystems:
+${
+                subsystems.entries.joinToString(
+                    "\n",
+                ) { (ss, _) -> "${if (ss in commandRequirements) "×" else " "}${ss.name}" }.prependIndent()
+            }
+Queued commands:
+${queuedCommands.mapIndexed { it, i -> "$i: $it" }.joinToString("\n").prependIndent()}
+Subsystem commands:
+${subsystems.entries.joinToString("\n").prependIndent()}
+Triggers:
+${
+                triggers.joinToString("\n").prependIndent()
+            }
 """
         }
 
-        data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit)
+        data class TriggeredAction(val trigger: () -> Boolean, val action: () -> Unit) {
+            override fun toString(): String {
+                val sb = StringBuilder("Trigger@")
+                sb.append(trigger.b16Hash())
+                sb.append(" -> ")
+                val lt = lastTriggerNanos[this]
+                if (lt != null) {
+                    sb.append(" (%.3f)".format((System.nanoTime() - lt) / 1e9))
+                }
+                return sb.toString()
+            }
+        }
 
         val (() -> Boolean).trigger
             get() = Trigger(this@Scheduler, this@Scheduler, this)

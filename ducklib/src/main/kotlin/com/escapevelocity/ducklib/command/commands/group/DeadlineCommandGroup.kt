@@ -14,4 +14,6 @@ class DeadlineCommandGroup(private var deadlineCommand: Command, vararg commands
 
     override val finished
         get() = deadlineCommand.finished
+
+    override fun Command.prefix() = if (this == deadlineCommand) "#" else " "
 }

@@ -5,41 +5,41 @@ import com.escapevelocity.ducklib.command.commands.group.ParallelCommandGroup
 import com.escapevelocity.ducklib.command.commands.group.RaceCommandGroup
 import com.escapevelocity.ducklib.command.commands.group.SequentialCommandGroup
 
-infix fun Command.raceWith(other: Command): RaceCommandGroup = RaceCommandGroup(this, other)
-infix fun Command.deadlineWith(other: Command): DeadlineCommandGroup = DeadlineCommandGroup(this, other)
+infix fun Command.raceWith(right: Command): RaceCommandGroup = RaceCommandGroup(this, right)
+infix fun Command.deadlineWith(right: Command): DeadlineCommandGroup = DeadlineCommandGroup(right, this)
 
-infix fun Command.with(other: Command): ParallelCommandGroup {
+infix fun Command.with(right: Command): ParallelCommandGroup {
     if (this is ParallelCommandGroup) {
-        this.addCommands(other)
+        this.addCommands(right)
         return this
     }
 
-    return ParallelCommandGroup(this, other)
+    return ParallelCommandGroup(this, right)
 }
 
-fun Command.with(vararg other: Command): ParallelCommandGroup {
+fun Command.with(vararg right: Command): ParallelCommandGroup {
     if (this is ParallelCommandGroup) {
-        this.addCommands(*other)
+        this.addCommands(*right)
         return this
     }
 
-    return ParallelCommandGroup(this, *other)
+    return ParallelCommandGroup(this, *right)
 }
 
-infix fun Command.then(other: Command): SequentialCommandGroup {
+infix fun Command.then(right: Command): SequentialCommandGroup {
     if (this is SequentialCommandGroup) {
-        this.addCommands(other)
+        this.addCommands(right)
         return this
     }
 
-    return SequentialCommandGroup(this, other)
+    return SequentialCommandGroup(this, right)
 }
 
-fun Command.then(vararg other: Command): SequentialCommandGroup {
+fun Command.then(vararg right: Command): SequentialCommandGroup {
     if (this is SequentialCommandGroup) {
-        this.addCommands(*other)
+        this.addCommands(*right)
         return this
     }
 
-    return SequentialCommandGroup(this, *other)
+    return SequentialCommandGroup(this, *right)
 }

@@ -82,6 +82,12 @@ open class DuckyScheduler {
             lastTriggerValues[ta] = null
         }
 
+        /**
+         * Execute a single tick of the scheduler.
+         *
+         * This updates all the commands, including scheduling queued commands, rescheduling unrequired and unscheduled
+         * subsystem commands, and updating trigger states.
+         */
         override fun run() {
             runningCommands = true
             val commandsToRemove = ArrayList<Command>()
@@ -136,6 +142,24 @@ open class DuckyScheduler {
 
         override fun setDefaultCommand(subsystem: Subsystem, command: Command?) {
             this._subsystems[subsystem] = command
+        }
+
+        /**
+         * Reset the state of the scheduler
+         */
+        override fun reset() {
+            if (runningCommands) {
+                throw ConcurrentModificationException("Hey! Please do not reset the scheduler while it is running!")
+            }
+
+            scheduledCommands.clear()
+            queuedCommands.clear()
+            commandsToCancel.clear()
+            commandRequirements.clear()
+            _subsystems.clear()
+            triggers.clear()
+            lastTriggerNanos.clear()
+            lastTriggerValues.clear()
         }
 
         private fun removeCommand(command: Command) {

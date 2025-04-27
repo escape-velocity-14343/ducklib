@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.escapevelocity.ducklib.command.commands.*
+import com.escapevelocity.ducklib.command.commands.group.SequentialCommandGroup
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Scheduler.trigger
 import kotlinx.coroutines.delay
@@ -30,16 +31,17 @@ fun App() {
     remember {
         val ss1 = Test1Subsystem()
         val ss2 = Test2Subsystem()
-        val c1 = WaitCommand(5.0) then WaitCommand(2.0) then WaitCommand(3.0) with WaitCommand(1.0) with WaitCommand(5.0)
+        val c1 =
+            WaitCommand(5.0) then WaitCommand(2.0) then WaitCommand(3.0) with WaitCommand(1.0) with WaitCommand(5.0)
         val c2 = WaitCommand(1.0).setConflictResolution(Command.SubsystemConflictResolution.CANCEL_OTHER)
         c1.addRequirements(ss1)
         c2.addRequirements(ss1)
 
-        ({ trigger1 }).trigger.onceOnTrue(c1)
+        ({ trigger1 }).trigger.whileOnTrue(c1)
         ({ trigger2 }).trigger.onceOnTrue(c2)
         DuckyScheduler.addSubsystem(ss1)
         DuckyScheduler.addSubsystem(ss2)
-        DuckyScheduler.setDefaultCommand(ss1, c1)
+        //DuckyScheduler.setDefaultCommand(ss1, c1)
     }
 
     LaunchedEffect(Unit) {

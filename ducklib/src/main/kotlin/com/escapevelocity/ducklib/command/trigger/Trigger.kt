@@ -4,7 +4,11 @@ import com.escapevelocity.ducklib.command.commands.Command
 import com.escapevelocity.ducklib.command.scheduler.CommandScheduler
 import com.escapevelocity.ducklib.command.scheduler.TriggerScheduler
 
-open class Trigger(private val ts: TriggerScheduler, private val cs: CommandScheduler, private val trigger: () -> Boolean): () -> Boolean {
+open class Trigger(
+    private val ts: TriggerScheduler,
+    private val cs: CommandScheduler,
+    private val trigger: () -> Boolean
+) : () -> Boolean {
     override fun invoke(): Boolean = trigger.invoke()
 
     /**
@@ -14,15 +18,42 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
     fun onceOnTrue(command: Command): Trigger {
         var lastVal = this()
         ts.bind({
-            val thisVal = this()
-            val ret = thisVal && !lastVal
-            lastVal = thisVal
-            ret
-        }, {
-            with (cs) {
+                val thisVal = this()
+                val ret = thisVal && !lastVal
+                lastVal = thisVal
+                ret
+        }) {
+            with(cs) {
                 command.schedule()
             }
-        })
+        }
+        return this
+    }
+
+    /**
+     * Schedules [command] when the trigger moves from false to true and cancels it when it moves to false
+     * @param command The command to schedule
+     */
+    fun whileOnTrue(command: Command): Trigger {
+        var lastValT = this()
+        ts.bind({
+                val thisVal = this()
+                val ret = thisVal && !lastValT
+                lastValT = thisVal
+                ret
+        }) {
+            cs.scheduleCommand(command)
+        }
+
+        var lastValF = this()
+        ts.bind({
+                val thisVal = this()
+                val ret = !thisVal && lastValF
+                lastValF = thisVal
+                ret
+        }) {
+            cs.cancelCommand(command)
+        }
         return this
     }
 
@@ -36,20 +67,11 @@ open class Trigger(private val ts: TriggerScheduler, private val cs: CommandSche
     }
 
     /**
-     * Schedules [command] continuously while the trigger is true
+     * Schedules [command] when the trigger moves from false to true and cancels it when it moves to false
      * @param command The command to schedule
      */
-    fun whileOnTrue(command: Command): Trigger {
-        ts.bind(this) { cs.scheduleCommand(command) }
-        return this
-    }
-
-    /**
-     * Schedules [command] continuously while the trigger is true
-     * @param command The command to schedule
-     */
-    fun <T: Trigger> whileOnFalse(command: Command): Trigger {
-        ts.bind(!this) { cs.scheduleCommand(command) }
+    fun whileOnFalse(command: Command): Trigger {
+        (!this).whileOnTrue(command)
         return this
     }
 

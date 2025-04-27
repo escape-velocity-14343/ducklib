@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +18,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.escapevelocity.ducklib.command.commands.*
-import com.escapevelocity.ducklib.command.commands.group.SequentialCommandGroup
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Scheduler.trigger
+import com.escapevelocity.ducklib.geometry.Vector2
 import kotlinx.coroutines.delay
 
 @Composable
@@ -27,6 +29,9 @@ fun App() {
     var text by remember { mutableStateOf("Hello, World!") }
     var trigger1 by remember { mutableStateOf(false) }
     var trigger2 by remember { mutableStateOf(false) }
+
+    val v = Vector2(0.5, 1.0)
+    val v2 = v.yx
 
     remember {
         val ss1 = Test1Subsystem()

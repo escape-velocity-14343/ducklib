@@ -1,11 +1,11 @@
 package com.escapevelocity.ducklib.command.scheduler
 
 import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.command.commands.Command.SubsystemConflictResolution
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.command.trigger.Trigger
 import com.escapevelocity.ducklib.util.b16Hash
 import com.escapevelocity.ducklib.util.containsAny
+import java.util.*
 
 /**
  * The default ducklib scheduler. Does both the jobs of [CommandScheduler] and [TriggerScheduler]
@@ -13,26 +13,29 @@ import com.escapevelocity.ducklib.util.containsAny
 open class DuckyScheduler {
     companion object Scheduler : CommandScheduler, TriggerScheduler {
         override val hasCommands
-            get() = scheduledCommands.size > 0
+            get() = scheduledCommands.isNotEmpty()
         override val commands: Collection<Command>
             get() = scheduledCommands
         override val subsystems: Map<Subsystem, Command?>
             get() = _subsystems
 
         protected val scheduledCommands = HashSet<Command>()
-        private val queuedCommands = LinkedHashSet<Command>()
-        private val commandsToCancel = ArrayList<Command>()
+        private val initializedCommands = HashSet<Command>()
+        private val queuedCommands = PriorityQueue<Command> { o1, o2 -> o1.priority.compareTo(o2.priority) }
         private val commandRequirements = HashMap<Subsystem, Command>()
         private val _subsystems = HashMap<Subsystem, Command?>()
-        private var runningCommands = false
+        private var deferLock = false
+        private val deferredActions = ArrayList<() -> Unit>()
 
         private val triggers = ArrayList<TriggeredAction>()
         private val lastTriggerValues = HashMap<TriggeredAction, Boolean?>()
         private val lastTriggerNanos = HashMap<TriggeredAction, Long?>()
 
         override fun scheduleCommand(command: Command) {
-            if (runningCommands && command !in queuedCommands) {
-                queuedCommands.add(command)
+            if (deferLock) {
+                defer {
+                    scheduleCommand(command)
+                }
                 return
             }
 
@@ -40,30 +43,64 @@ open class DuckyScheduler {
                 return
             }
 
-            // check for conflicts
-            if (command.conflicts) {
-                // if attempted to be scheduled command uses QUEUE conflict resolution, don't do anything
-                if (command.conflictResolution == SubsystemConflictResolution.QUEUE) {
-                    queuedCommands.add(command)
-                    return
+            if (!handleConflicts(command)) {
+                when (command.conflictResolution) {
+                    Command.ConflictResolution.CANCEL_ON_LOWER -> defer { queuedCommands.remove(command) }
+                    Command.ConflictResolution.QUEUE_ON_LOWER -> defer {
+                        if (command !in queuedCommands) queuedCommands.add(command)
+                    }
                 }
 
-                if (command.conflictResolution == SubsystemConflictResolution.CANCEL_THIS) {
-                    queuedCommands.remove(command)
-                    return
-                }
-
-                // otherwise, find the conflicting command(s) and deschedule it
-                for (subsystem in command.requirements) commandRequirements[subsystem]?.cancel()
+                return
             }
 
-            initCommand(command)
-            queuedCommands.remove(command)
+            initOrResumeCommand(command)
+            defer { queuedCommands.remove(command) }
+        }
+
+        /**
+         * @return Whether the conflicts have been "dealt with," or whether the command can be scheduled normally
+         */
+        private fun handleConflicts(command: Command): Boolean {
+            val conflictingCommands = HashSet<Command>()
+            for (requirement in command.requirements) {
+                commandRequirements[requirement]?.let { conflictingCommands.add(it) }
+            }
+
+            if (conflictingCommands.isEmpty()) {
+                // no conflicting commands
+                return true
+            }
+
+            val conflict = conflictingCommands.maxByOrNull { it.priority }!!
+            if (command.priority <= conflict.priority) {
+                // command has a lower or equal priority than the current highest; do nothing
+                return false
+            }
+
+            if (conflict.suspendable) {
+                defer {
+                    suspendCommand(conflict)
+                }
+            } else {
+                // no need to defer this because cancel already has its own deferring logic
+                cancelCommand(conflict)
+            }
+
+            return true
         }
 
         override fun cancelCommand(command: Command) {
-            if (runningCommands) {
-                commandsToCancel.add(command)
+            if (deferLock) {
+                defer {
+                    cancelCommand(command)
+                }
+                return
+            }
+
+            if (command in queuedCommands) {
+                queuedCommands.remove(command)
+                initializedCommands.remove(command)
                 return
             }
 
@@ -89,38 +126,40 @@ open class DuckyScheduler {
          * subsystem commands, and updating trigger states.
          */
         override fun run() {
-            runningCommands = true
-            val commandsToRemove = ArrayList<Command>()
+            deferLock = true
             try {
                 for (command in scheduledCommands) {
                     command.execute()
                     if (command.finished) {
                         command.end(false)
-                        commandsToRemove.add(command)
+                        defer {
+                            command.remove()
+                        }
                     }
                 }
-            } finally {
-                runningCommands = false
-            }
 
-            for (command in commandsToRemove) command.remove()
-            for (command in commandsToCancel) command.cancel()
-            for (command in queuedCommands) command.schedule()
-
-            for (ta in triggers) {
-                val triggerVal = ta.trigger()
-                if (triggerVal) {
-                    ta.action()
-                    lastTriggerNanos[ta] = System.nanoTime()
+                for (ta in triggers) {
+                    val triggerVal = ta.trigger()
+                    if (triggerVal) {
+                        ta.action()
+                        lastTriggerNanos[ta] = System.nanoTime()
+                    }
+                    lastTriggerValues[ta] = triggerVal
                 }
-                lastTriggerValues[ta] = triggerVal
+
+                for (command in queuedCommands) command.schedule()
+            } finally {
+                deferLock = false
             }
+
+            deferredActions.forEach { it() }
+            deferredActions.clear()
 
             for (subsystemCommand in _subsystems) {
                 subsystemCommand.key.periodic()
 
                 val cmd = subsystemCommand.value
-                // if command exists, isn't already scheduled, and doesn't conflict, schedule it
+                // if command exists, isn't already scheduled and doesn't conflict, schedule it
                 if (cmd != null && cmd !in scheduledCommands && subsystemCommand.key !in commandRequirements) {
                     cmd.schedule()
                 }
@@ -148,13 +187,13 @@ open class DuckyScheduler {
          * Reset the state of the scheduler
          */
         override fun reset() {
-            if (runningCommands) {
+            if (deferLock) {
                 throw ConcurrentModificationException("Hey! Please do not reset the scheduler while it is running!")
             }
 
             scheduledCommands.clear()
             queuedCommands.clear()
-            commandsToCancel.clear()
+            deferredActions.clear()
             commandRequirements.clear()
             _subsystems.clear()
             triggers.clear()
@@ -165,12 +204,46 @@ open class DuckyScheduler {
         private fun removeCommand(command: Command) {
             scheduledCommands.remove(command)
             commandRequirements.keys.removeAll(command.requirements)
+            initializedCommands.remove(command)
         }
 
-        private fun initCommand(command: Command) {
+        private fun initOrResumeCommand(command: Command) {
+            if (command in initializedCommands) {
+                resumeCommand(command)
+                return
+            }
+
             scheduledCommands.add(command)
             for (subsystem in command.requirements) commandRequirements[subsystem] = command
             command.initialize()
+            initializedCommands.add(command)
+        }
+
+        /**
+         * Suspends a command while also handling removing the requirements
+         */
+        private fun suspendCommand(command: Command) {
+            command.suspend()
+            scheduledCommands.remove(command)
+            queuedCommands.add(command)
+            commandRequirements.keys.removeAll(command.requirements)
+        }
+
+        /**
+         * Resumes a command while also handling adding back the requirements
+         */
+        private fun resumeCommand(command: Command) {
+            command.resume()
+            scheduledCommands.add(command)
+            for (subsystem in command.requirements) commandRequirements[subsystem] = command
+        }
+
+        private fun defer(always: Boolean = false, action: () -> Unit) {
+            if (always || deferLock) {
+                deferredActions.add(action)
+            } else {
+                action()
+            }
         }
 
         private fun Command.remove() {
@@ -204,7 +277,7 @@ ${
 Scheduled commands:
 ${scheduledCommands.joinToString("\n").prependIndent()}
 Queued commands:
-${queuedCommands.mapIndexed { it, i -> "$i: $it" }.joinToString("\n").prependIndent()}
+${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToString("\n").prependIndent()}
 """
         }
 

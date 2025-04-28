@@ -1,13 +1,13 @@
 package com.escapevelocity.ducklib.command.commands
 
+import com.escapevelocity.ducklib.command.commands.Command.Priority.LOWEST
 import com.escapevelocity.ducklib.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.util.b16Hash
 
 abstract class Command {
-    enum class SubsystemConflictResolution {
-        CANCEL_THIS,
-        CANCEL_OTHER,
-        QUEUE,
+    enum class ConflictResolution {
+        CANCEL_ON_LOWER,
+        QUEUE_ON_LOWER,
     }
 
     private val _requirements: MutableSet<Subsystem> = HashSet()
@@ -16,14 +16,24 @@ abstract class Command {
     var inGroup = false
         protected set
 
-    internal var _name: String = javaClass.simpleName
-    open val name: String
-        get() = _name
+    open var name: String = javaClass.simpleName
 
-    open var conflictResolution = SubsystemConflictResolution.QUEUE
+    var conflictResolution = ConflictResolution.QUEUE_ON_LOWER
+    var priority = LOWEST
 
     /**
-     * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's
+     * Whether this command is suspendable or not.
+     *
+     * A suspendable command will get suspended if another conflicting command gets scheduled. As a result, [run] will
+     * no longer get called. [suspend] will be called once when the command is suspended, and [resume] will be called
+     * once when the command is ready to be resumed again.
+     */
+    open val suspendable: Boolean = true
+
+    /**
+     * Adds a set of requirements to the command.
+     *
+     * If a command's requirements interfere with another scheduled command's
      * requirements, the old command will be descheduled and the new command will take its place.
      * @param subsystems The subsystems to be required
      */
@@ -32,7 +42,9 @@ abstract class Command {
     }
 
     /**
-     * Adds a set of requirements to the command. If a command's requirements interfere with another scheduled command's
+     * Adds a set of requirements to the command.
+     *
+     * If a command's requirements interfere with another scheduled command's
      * requirements, the old command will be descheduled and the new command will take its place.
      * @param subsystems The subsystems to be required
      */
@@ -49,7 +61,7 @@ abstract class Command {
     }
 
     /**
-     * Called once, when the command is scheduled. Override to provide custom behavior
+     * Called once when the command is scheduled. Override to provide custom behavior
      */
     open fun initialize() {}
 
@@ -65,6 +77,19 @@ abstract class Command {
     open val finished = true
 
     /**
+     * Called when the command scheduler suspends this command.
+     *
+     * The command scheduler will only suspend a command if [suspendable] is `true`, otherwise if a conflicting command
+     * with higher priority gets scheduled this command will get descheduled.
+     */
+    open fun suspend() {}
+
+    /**
+     * Called when the command scheduler resumes this command.
+     */
+    open fun resume() {}
+
+    /**
      * Called when the command is finished and the command scheduler is about to deschedule the command
      * @param interrupted If the command was interrupted, such as by calling [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.cancel]
      */
@@ -72,14 +97,38 @@ abstract class Command {
 
 
     override fun toString(): String = "$name${if(name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
+
+    object Priority {
+        const val LOWEST = Int.MIN_VALUE
+    }
 }
 
+/**
+ * Sets the [name] of the [Command].
+ *
+ * @return The command with the same type to facilitate chaining
+ */
 fun <T : Command> T.setName(name: String): T {
-    this._name = name
+    this.name = name
     return this
 }
 
-fun <T: Command> T.setConflictResolution(conflictResolution: Command.SubsystemConflictResolution): T {
+/**
+ * Sets the [priority] of the [Command].
+ *
+ * @return The command with the same type to facilitate chaining
+ */
+fun <T : Command> T.setPriority(priority: Int): T {
+    this.priority = priority
+    return this
+}
+
+/**
+ * Sets the [conflictResolution] of the [Command].
+ *
+ * @return The command with the same type to facilitate chaining
+ */
+fun <T: Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution): T {
     this.conflictResolution = conflictResolution
     return this
 }

@@ -72,19 +72,21 @@ open class DuckyScheduler {
                 return true
             }
 
-            val conflict = conflictingCommands.maxByOrNull { it.priority }!!
-            if (command.priority <= conflict.priority) {
+            val highestConflict = conflictingCommands.maxByOrNull { it.priority }!!
+            if (command.priority <= highestConflict.priority) {
                 // command has a lower or equal priority than the current highest; do nothing
                 return false
             }
 
-            if (conflict.suspendable) {
-                defer {
-                    suspendCommand(conflict)
+            for (conflict in conflictingCommands) {
+                if (conflict.suspendable) {
+                    defer {
+                        suspendCommand(conflict)
+                    }
+                } else {
+                    // no need to defer this because cancel already has its own deferring logic
+                    cancelCommand(conflict)
                 }
-            } else {
-                // no need to defer this because cancel already has its own deferring logic
-                cancelCommand(conflict)
             }
 
             return true

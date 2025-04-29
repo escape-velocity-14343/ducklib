@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
 class DeferredCommand(val commandSupplier: () -> Command, vararg requirements: Any) : Command() {
     init {

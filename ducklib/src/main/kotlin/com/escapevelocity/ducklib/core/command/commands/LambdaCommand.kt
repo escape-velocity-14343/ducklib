@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
 class LambdaCommand : Command() {
     var _suspendable: Boolean = super.suspendable

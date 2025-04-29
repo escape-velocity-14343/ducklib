@@ -1,9 +1,9 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
-import com.escapevelocity.ducklib.command.commands.group.DeadlineCommandGroup
-import com.escapevelocity.ducklib.command.commands.group.ParallelCommandGroup
-import com.escapevelocity.ducklib.command.commands.group.RaceCommandGroup
-import com.escapevelocity.ducklib.command.commands.group.SequentialCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.group.DeadlineCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.group.ParallelCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.group.RaceCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.group.SequentialCommandGroup
 
 infix fun Command.raceWith(right: Command): RaceCommandGroup = RaceCommandGroup(this, right)
 infix fun Command.deadlineWith(right: Command): DeadlineCommandGroup = DeadlineCommandGroup(right, this)

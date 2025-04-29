@@ -1,7 +1,7 @@
-package com.escapevelocity.ducklib.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.group
 
-import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.util.b16Hash
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.util.b16Hash
 
 abstract class CommandGroup(vararg commands: Command) : Command() {
     protected abstract val commands: Collection<Command>

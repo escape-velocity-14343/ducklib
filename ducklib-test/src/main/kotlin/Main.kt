@@ -1,4 +1,3 @@
-
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -18,11 +17,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.command.commands.WaitCommand
-import com.escapevelocity.ducklib.command.commands.setPriority
-import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
-import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Companion.trigger
-import com.escapevelocity.ducklib.geometry.Vector2
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.WaitCommand
+import com.escapevelocity.ducklib.core.command.commands.configure
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.trigger
+import com.escapevelocity.ducklib.core.geometry.Vector2
 import kotlinx.coroutines.delay
 
 @Composable
@@ -41,11 +41,26 @@ fun App() {
     remember {
         val ss1 = Test1Subsystem()
         val ss2 = Test2Subsystem()
-        val c1 = WaitCommand(2.0).setPriority(1)
-        val c2 = WaitCommand(2.0).setPriority(1)
-        val c3 = WaitCommand(2.0).setPriority(2)
-        val c4 = WaitCommand(2.0).setPriority(1)
-        val c5 = WaitCommand(2.0).setPriority(4)
+        val c1 = WaitCommand(2.0).configure {
+            priority = 1
+            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+        }
+        val c2 = WaitCommand(2.0).configure {
+            priority = 1
+            equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+        }
+        val c3 = WaitCommand(2.0).configure {
+            priority = 2
+            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+        }
+        val c4 = WaitCommand(2.0).configure {
+            priority = 1
+            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+        }
+        val c5 = WaitCommand(2.0).configure {
+            priority = 4
+            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+        }
         c1.addRequirements(ss1)
         c2.addRequirements(ss1)
         c3.addRequirements(ss1, ss2)

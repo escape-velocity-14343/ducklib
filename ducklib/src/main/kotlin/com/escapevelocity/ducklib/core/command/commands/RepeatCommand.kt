@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
 class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
     override val suspendable: Boolean

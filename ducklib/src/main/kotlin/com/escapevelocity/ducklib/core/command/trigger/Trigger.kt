@@ -1,8 +1,8 @@
-package com.escapevelocity.ducklib.command.trigger
+package com.escapevelocity.ducklib.core.command.trigger
 
-import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.command.scheduler.CommandScheduler
-import com.escapevelocity.ducklib.command.scheduler.TriggerScheduler
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler
+import com.escapevelocity.ducklib.core.command.scheduler.TriggerScheduler
 
 open class Trigger(
     private val ts: TriggerScheduler,

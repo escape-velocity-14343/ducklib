@@ -1,7 +1,7 @@
-package com.escapevelocity.ducklib.command.scheduler
+package com.escapevelocity.ducklib.core.command.scheduler
 
-import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.command.subsystem.Subsystem
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 
 /**
  * An interface that defines a command scheduler - a class that allows you to add commands, run added commands, and

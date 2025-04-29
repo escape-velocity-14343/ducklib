@@ -1,6 +1,6 @@
-package com.escapevelocity.ducklib.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.group
 
-import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.Command
 
 class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) {
     private var _commands: ArrayList<Command>? = null

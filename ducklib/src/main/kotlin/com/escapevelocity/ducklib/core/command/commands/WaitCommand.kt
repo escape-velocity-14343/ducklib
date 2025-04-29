@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
 class WaitCommand(private val seconds: Double, private val trackSuspensionTime: Boolean = true) : Command() {
     private var timer = -1L

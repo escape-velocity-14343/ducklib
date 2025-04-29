@@ -1,6 +1,6 @@
-package com.escapevelocity.ducklib.command.scheduler
+package com.escapevelocity.ducklib.core.command.scheduler
 
-import com.escapevelocity.ducklib.command.trigger.Trigger
+import com.escapevelocity.ducklib.core.command.trigger.Trigger
 
 interface TriggerScheduler {
     /**

@@ -1,12 +1,17 @@
-package com.escapevelocity.ducklib.command.commands
+package com.escapevelocity.ducklib.core.command.commands
 
-import com.escapevelocity.ducklib.command.commands.Command.Priority.LOWEST
-import com.escapevelocity.ducklib.util.b16Hash
+import com.escapevelocity.ducklib.core.command.commands.Command.Priority.LOWEST
+import com.escapevelocity.ducklib.core.util.b16Hash
 
 abstract class Command {
     enum class ConflictResolution {
         CANCEL_ON_LOWER,
         QUEUE_ON_LOWER,
+    }
+
+    enum class EqualPriorityResolution {
+        SCHEDULE_IF_NEWER,
+        QUEUE,
     }
 
     private val _requirements: MutableSet<Any> = HashSet()
@@ -18,6 +23,7 @@ abstract class Command {
     open var name: String = javaClass.simpleName
 
     var conflictResolution = ConflictResolution.QUEUE_ON_LOWER
+    var equalPriorityResolution = EqualPriorityResolution.SCHEDULE_IF_NEWER
     var priority = LOWEST
 
     /**
@@ -120,6 +126,7 @@ abstract class Command {
 /**
  * Sets the [name] of the [Command].
  *
+ * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
 fun <T : Command> T.setName(name: String): T {
@@ -130,6 +137,7 @@ fun <T : Command> T.setName(name: String): T {
 /**
  * Sets the [priority] of the [Command].
  *
+ * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
 fun <T : Command> T.setPriority(priority: Int): T {
@@ -138,11 +146,35 @@ fun <T : Command> T.setPriority(priority: Int): T {
 }
 
 /**
- * Sets the [conflictResolution] of the [Command].
+ * Sets the [Command.conflictResolution] of the [Command].
  *
+ * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
 fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution): T {
     this.conflictResolution = conflictResolution
+    return this
+}
+
+/**
+ * Sets the [Command.equalPriorityResolution] of the [Command].
+ *
+ * **NOTE**: If you need to set multiple methods, consider [configure] instead
+ *
+ * @return The command with the same type to facilitate chaining
+ */
+fun <T : Command> T.setEqualPriorityResolution(equalPriorityResolution: Command.EqualPriorityResolution): T {
+    this.equalPriorityResolution = equalPriorityResolution
+    return this
+}
+
+/**
+ * Configures a command instance using the specified builder function and returns the configured instance.
+ *
+ * @param configuration A function used to configure this command instance.
+ * @return The configured command instance.
+ */
+fun <T : Command> T.configure(configuration: T.() -> Unit): T {
+    this.configuration()
     return this
 }

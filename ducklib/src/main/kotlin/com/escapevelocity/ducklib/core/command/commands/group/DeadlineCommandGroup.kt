@@ -1,6 +1,6 @@
-package com.escapevelocity.ducklib.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.group
 
-import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.Command
 import java.security.InvalidParameterException
 
 class DeadlineCommandGroup(private var deadlineCommand: Command, vararg commands: Command): ParallelCommandGroup(deadlineCommand, *commands) {

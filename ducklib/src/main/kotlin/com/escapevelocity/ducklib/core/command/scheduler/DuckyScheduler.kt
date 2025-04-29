@@ -1,10 +1,10 @@
-package com.escapevelocity.ducklib.command.scheduler
+package com.escapevelocity.ducklib.core.command.scheduler
 
-import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.command.subsystem.Subsystem
-import com.escapevelocity.ducklib.command.trigger.Trigger
-import com.escapevelocity.ducklib.util.b16Hash
-import com.escapevelocity.ducklib.util.containsAny
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
+import com.escapevelocity.ducklib.core.command.trigger.Trigger
+import com.escapevelocity.ducklib.core.util.b16Hash
+import com.escapevelocity.ducklib.core.util.containsAny
 import java.util.*
 
 /**
@@ -91,7 +91,7 @@ open class DuckyScheduler {
             }
 
             if (command.priority == highestConflict.priority) {
-                if (firstScheduleAttemptTime[command]!! < firstScheduleAttemptTime[highestConflict]!!) {
+                if (command.equalPriorityResolution == Command.EqualPriorityResolution.QUEUE || firstScheduleAttemptTime[command]!! < firstScheduleAttemptTime[highestConflict]!!) {
                     // command has equal priority to the highest but was scheduled later
                     return false
                 }

@@ -1,6 +1,6 @@
-package com.escapevelocity.ducklib.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.group
 
-import com.escapevelocity.ducklib.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.Command
 
 class RaceCommandGroup(vararg commands: Command): ParallelCommandGroup(*commands) {
     override val finished

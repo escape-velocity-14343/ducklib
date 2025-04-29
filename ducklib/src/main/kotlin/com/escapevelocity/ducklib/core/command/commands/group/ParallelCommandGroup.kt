@@ -1,7 +1,7 @@
-package com.escapevelocity.ducklib.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.group
 
-import com.escapevelocity.ducklib.command.commands.Command
-import com.escapevelocity.ducklib.util.containsAny
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.util.containsAny
 import java.security.InvalidParameterException
 
 open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*commands) {

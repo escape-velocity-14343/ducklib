@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.geometry
+package com.escapevelocity.ducklib.core.geometry
 
 import kotlin.math.atan2
 import kotlin.math.cos

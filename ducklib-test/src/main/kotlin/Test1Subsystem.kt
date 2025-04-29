@@ -1,4 +1,4 @@
-import com.escapevelocity.ducklib.command.subsystem.Subsystem
+import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 
 class Test1Subsystem: Subsystem() {
 }

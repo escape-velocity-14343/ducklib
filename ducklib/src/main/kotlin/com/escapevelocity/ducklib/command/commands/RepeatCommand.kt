@@ -40,3 +40,5 @@ class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
         command.end(interrupted)
     }
 }
+
+fun Command.repeat(times: Int? = null) = RepeatCommand(this, times)

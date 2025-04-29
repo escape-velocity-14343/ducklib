@@ -21,7 +21,7 @@ interface CommandScheduler {
     /**
      * A list of the currently registered commands.
      */
-    val subsystems: Map<Subsystem, Command?>
+    val subsystems: Set<Subsystem>
 
     /**
      * Schedule a command.
@@ -56,25 +56,6 @@ interface CommandScheduler {
      * @param subsystems Zero or more subsystems to deregister
      */
     fun removeSubsystem(vararg subsystems: Subsystem)
-
-    /**
-     * Set the default command of a subsystem.
-     *
-     * Default commands of a subsystem will run forever, and must require that subsystem. Command overriding behavior is
-     * controlled by [Command.ConflictResolution], so make sure that a default command has a
-     * [Command.conflictResolution] of [Command.ConflictResolution.CANCEL_THIS] or
-     * [Command.ConflictResolution.QUEUE] (it doesn't really matter since if a default command gets kicked off
-     * the scheduled commands, it'll just keep trying to get rescheduled every tick)
-     *
-     * **NOTE**: A default command will only get overridden if the other command has a [Command.conflictResolution] of
-     * [Command.ConflictResolution.CANCEL_OTHER].
-     *
-     * **NOTE**: Unlike in FTCLib, default commands will simply be rescheduled if they finish. Their [Command.end]
-     * method *will* be called.
-     * @param subsystem The subsystem to associate the default command with
-     * @param command The default command. If null, no default command will be associated with the subsystem
-     */
-    fun setDefaultCommand(subsystem: Subsystem, command: Command?)
 
     /**
      * Reset the state of the scheduler

@@ -21,7 +21,7 @@ import androidx.compose.ui.window.application
 import com.escapevelocity.ducklib.command.commands.WaitCommand
 import com.escapevelocity.ducklib.command.commands.setPriority
 import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler
-import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Scheduler.trigger
+import com.escapevelocity.ducklib.command.scheduler.DuckyScheduler.Companion.trigger
 import com.escapevelocity.ducklib.geometry.Vector2
 import kotlinx.coroutines.delay
 

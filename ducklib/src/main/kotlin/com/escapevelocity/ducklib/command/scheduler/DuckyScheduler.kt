@@ -11,19 +11,20 @@ import java.util.*
  * The default ducklib scheduler. Does both the jobs of [CommandScheduler] and [TriggerScheduler]
  */
 open class DuckyScheduler {
-    companion object Scheduler : CommandScheduler, TriggerScheduler {
+    companion object : CommandScheduler, TriggerScheduler {
         override val hasCommands
             get() = scheduledCommands.isNotEmpty()
         override val commands: Collection<Command>
             get() = scheduledCommands
-        override val subsystems: Map<Subsystem, Command?>
+        override val subsystems: Set<Subsystem>
             get() = _subsystems
 
         protected val scheduledCommands = HashSet<Command>()
         private val initializedCommands = HashSet<Command>()
         private val queuedCommands = PriorityQueue<Command> { o1, o2 -> o1.priority.compareTo(o2.priority) }
         private val commandRequirements = HashMap<Subsystem, Command>()
-        private val _subsystems = HashMap<Subsystem, Command?>()
+        private val _subsystems = HashSet<Subsystem>()
+
         private var deferLock = false
         private val deferredActions = ArrayList<() -> Unit>()
 
@@ -157,32 +158,15 @@ open class DuckyScheduler {
             deferredActions.forEach { it() }
             deferredActions.clear()
 
-            for (subsystemCommand in _subsystems) {
-                subsystemCommand.key.periodic()
-
-                val cmd = subsystemCommand.value
-                // if command exists, isn't already scheduled and doesn't conflict, schedule it
-                if (cmd != null && cmd !in scheduledCommands && subsystemCommand.key !in commandRequirements) {
-                    cmd.schedule()
-                }
-            }
+            subsystems.forEach(Subsystem::periodic)
         }
 
         override fun addSubsystem(vararg subsystems: Subsystem) {
-            for (subsystem in subsystems) {
-                this._subsystems[subsystem] = null
-            }
+            _subsystems.addAll(subsystems)
         }
 
         override fun removeSubsystem(vararg subsystems: Subsystem) {
-            for (subsystem in subsystems) {
-                this._subsystems.remove(subsystem)
-                this._subsystems[subsystem]?.cancel()
-            }
-        }
-
-        override fun setDefaultCommand(subsystem: Subsystem, command: Command?) {
-            this._subsystems[subsystem] = command
+            _subsystems.removeAll(subsystems)
         }
 
         /**
@@ -240,12 +224,16 @@ open class DuckyScheduler {
             for (subsystem in command.requirements) commandRequirements[subsystem] = command
         }
 
-        private fun defer(always: Boolean = false, action: () -> Unit) {
-            if (always || deferLock) {
+        private fun defer(action: () -> Unit) {
+            if (deferLock) {
                 deferredActions.add(action)
             } else {
                 action()
             }
+        }
+
+        private fun deferAlways(action: () -> Unit) {
+            deferredActions.add(action)
         }
 
         private fun Command.remove() {
@@ -266,15 +254,9 @@ ${
             }
 Registered subsystems:
 ${
-                subsystems.entries.joinToString(
+                subsystems.joinToString(
                     "\n",
-                ) { (ss, _) -> "${if (ss in commandRequirements) "×" else " "}${ss.name}" }.prependIndent()
-            }
-Subsystem commands:
-${
-                subsystems.entries.joinToString("\n") { (ss, cmd) ->
-                    "$ss${if (cmd in scheduledCommands) ">>>" else " - "}$cmd"
-                }.prependIndent()
+                ) { "${if (it in commandRequirements) "×" else " "}${it.name}" }.prependIndent()
             }
 Scheduled commands:
 ${scheduledCommands.joinToString("\n").prependIndent()}
@@ -311,6 +293,6 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
         }
 
         val (() -> Boolean).trigger
-            get() = Trigger(this@Scheduler, this@Scheduler, this)
+            get() = Trigger(this@Companion, this@Companion, this)
     }
 }

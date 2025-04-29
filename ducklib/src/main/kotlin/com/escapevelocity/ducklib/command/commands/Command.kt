@@ -1,7 +1,6 @@
 package com.escapevelocity.ducklib.command.commands
 
 import com.escapevelocity.ducklib.command.commands.Command.Priority.LOWEST
-import com.escapevelocity.ducklib.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.util.b16Hash
 
 abstract class Command {
@@ -10,8 +9,8 @@ abstract class Command {
         QUEUE_ON_LOWER,
     }
 
-    private val _requirements: MutableSet<Subsystem> = HashSet()
-    val requirements: Set<Subsystem>
+    private val _requirements: MutableSet<Any> = HashSet()
+    val requirements: Set<Any>
         get() = _requirements
     var inGroup = false
         protected set
@@ -33,31 +32,45 @@ abstract class Command {
     /**
      * Adds a set of requirements to the command.
      *
-     * If a command's requirements interfere with another scheduled command's
-     * requirements, the old command will be descheduled and the new command will take its place.
-     * @param subsystems The subsystems to be required
+     * If a command's requirements interfere with another scheduled command's requirements, the old command will be
+     * descheduled and the new command will take its place depending on the priority rules.
+     * @param requirements The objects to be required
      */
-    fun addRequirements(vararg subsystems: Subsystem) {
-        _requirements.addAll(subsystems)
+    fun addRequirements(vararg requirements: Any) {
+        _requirements.addAll(requirements)
     }
 
     /**
      * Adds a set of requirements to the command.
      *
-     * If a command's requirements interfere with another scheduled command's
-     * requirements, the old command will be descheduled and the new command will take its place.
-     * @param subsystems The subsystems to be required
+     * If a command's requirements interfere with another scheduled command's requirements, the old command will be
+     * descheduled and the new command will take its place depending on the priority rules.
+     * @param requirements The objects to be required
      */
-    fun addRequirements(subsystems: Collection<Subsystem>) {
-        _requirements.addAll(subsystems)
+    fun addRequirements(requirements: Collection<Any>) {
+        _requirements.addAll(requirements)
     }
 
-    fun removeRequirements(vararg subsystems: Subsystem) {
-        _requirements.removeAll(subsystems.toSet())
+    /**
+     * Removes a set of requirements to the command.
+     *
+     * If a command's requirements interfere with another scheduled command's requirements, the old command will be
+     * descheduled and the new command will take its place depending on the priority rules.
+     * @param requirements The objects to be no longer required
+     */
+    fun removeRequirements(vararg subsystems: Any) {
+        _requirements.removeAll(subsystems)
     }
 
-    fun removeRequirements(subsystems: Collection<Subsystem>) {
-        _requirements.removeAll(subsystems.toSet())
+    /**
+     * Removes a set of requirements to the command.
+     *
+     * If a command's requirements interfere with another scheduled command's requirements, the old command will be
+     * descheduled and the new command will take its place depending on the priority rules.
+     * @param requirements The objects to be no longer required
+     */
+    fun removeRequirements(subsystems: Collection<Any>) {
+        _requirements.removeAll(subsystems)
     }
 
     /**
@@ -96,7 +109,8 @@ abstract class Command {
     open fun end(interrupted: Boolean) {}
 
 
-    override fun toString(): String = "$name${if(name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
+    override fun toString(): String =
+        "$name${if (name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
 
     object Priority {
         const val LOWEST = Int.MIN_VALUE
@@ -128,7 +142,7 @@ fun <T : Command> T.setPriority(priority: Int): T {
  *
  * @return The command with the same type to facilitate chaining
  */
-fun <T: Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution): T {
+fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution): T {
     this.conflictResolution = conflictResolution
     return this
 }

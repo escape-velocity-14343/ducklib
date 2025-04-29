@@ -51,9 +51,7 @@ open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*comman
         addRequirements(command.requirements)
     }
 
-    override fun end(interrupted: Boolean) {
-        commands.forEach { it.end(interrupted) }
-    }
+    override fun end(interrupted: Boolean) = commands.forEach { it.end(interrupted) }
 
     override fun Command.prefix() = if (_commands!![this] == false) ">" else " "
 }

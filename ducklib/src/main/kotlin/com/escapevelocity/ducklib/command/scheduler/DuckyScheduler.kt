@@ -21,8 +21,14 @@ open class DuckyScheduler {
 
         protected val scheduledCommands = HashSet<Command>()
         private val initializedCommands = HashSet<Command>()
-        private val queuedCommands = PriorityQueue<Command> { o1, o2 -> o1.priority.compareTo(o2.priority) }
-        private val commandRequirements = HashMap<Subsystem, Command>()
+        private val firstScheduleAttemptTime = HashMap<Command, Long>()
+        private val queuedCommands = PriorityQueue<Command> { o1, o2 ->
+            if (o1.priority == o2.priority)
+                firstScheduleAttemptTime[o1]!!.compareTo(firstScheduleAttemptTime[o2]!!)
+            else
+                o1.priority.compareTo(o2.priority)
+        }
+        private val commandRequirements = HashMap<Any, Command>()
         private val _subsystems = HashSet<Subsystem>()
 
         private var deferLock = false
@@ -40,13 +46,18 @@ open class DuckyScheduler {
                 return
             }
 
+            firstScheduleAttemptTime.putIfAbsent(command, System.nanoTime())
+
             if (command in scheduledCommands) {
                 return
             }
 
             if (!handleConflicts(command)) {
                 when (command.conflictResolution) {
-                    Command.ConflictResolution.CANCEL_ON_LOWER -> defer { queuedCommands.remove(command) }
+                    Command.ConflictResolution.CANCEL_ON_LOWER -> defer {
+                        queuedCommands.remove(command)
+                        firstScheduleAttemptTime.remove(command)
+                    }
                     Command.ConflictResolution.QUEUE_ON_LOWER -> defer {
                         if (command !in queuedCommands) queuedCommands.add(command)
                     }
@@ -74,9 +85,16 @@ open class DuckyScheduler {
             }
 
             val highestConflict = conflictingCommands.maxByOrNull { it.priority }!!
-            if (command.priority <= highestConflict.priority) {
+            if (command.priority < highestConflict.priority) {
                 // command has a lower or equal priority than the current highest; do nothing
                 return false
+            }
+
+            if (command.priority == highestConflict.priority) {
+                if (firstScheduleAttemptTime[command]!! < firstScheduleAttemptTime[highestConflict]!!) {
+                    // command has equal priority to the highest but was scheduled later
+                    return false
+                }
             }
 
             for (conflict in conflictingCommands) {
@@ -191,6 +209,7 @@ open class DuckyScheduler {
             scheduledCommands.remove(command)
             commandRequirements.keys.removeAll(command.requirements)
             initializedCommands.remove(command)
+            firstScheduleAttemptTime.remove(command)
         }
 
         private fun initOrResumeCommand(command: Command) {
@@ -268,7 +287,7 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
         data class TriggeredAction(
             val trigger: () -> Boolean,
             val originalTrigger: Trigger? = null,
-            val action: () -> Unit
+            val action: () -> Unit,
         ) {
             override fun toString(): String {
                 val sb = StringBuilder()

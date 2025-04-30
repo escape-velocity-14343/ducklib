@@ -35,7 +35,8 @@ interface CommandScheduler {
     /**
      * Cancel a command.
      *
-     * **NOTE**: If the scheduler is currently running, the cancellation will be deferred until the scheduler is done running.
+     * **NOTE**: If the scheduler is currently running, the cancellation will be deferred until the scheduler is done
+     * running.
      * @param command The command to cancel
      */
     fun cancelCommand(command: Command)
@@ -62,6 +63,15 @@ interface CommandScheduler {
      */
     fun reset()
 
+    /**
+     * Schedule a command.
+     *
+     * **NOTE**: If the scheduler is currently running, the scheduling will be deferred until the scheduler is done
+     * running.
+     * @param command The command to schedule
+     * @sample com.escapevelocity.ducklib.core.samples.implicitCommandSchedulerSample
+     * @sample com.escapevelocity.ducklib.core.samples.explicitCommandSchedulerSample
+     */
     fun Command.schedule() {
         scheduleCommand(this)
     }

@@ -1,0 +1,68 @@
+package com.escapevelocity.ducklib.core.samples
+
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.WaitCommand
+import com.escapevelocity.ducklib.core.command.commands.configure
+import com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.trigger
+
+fun inlineCommandConfigurationSample() {
+    val cmd = WaitCommand(5.0).configure {
+        priority = Command.Priority.LOWEST
+        name = "MyWaitCommand"
+        conflictResolution = Command.ConflictResolution.CANCEL_ON_LOWER
+        equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+    }
+}
+
+fun statementCommandConfigurationSample() {
+    val cmd = WaitCommand(5.0)
+    cmd.configure {
+        priority = Command.Priority.LOWEST
+        name = "MyWaitCommand"
+        conflictResolution = Command.ConflictResolution.CANCEL_ON_LOWER
+        equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+    }
+}
+
+fun implicitCommandSchedulerSample() {
+    val cmd = WaitCommand(5.0)
+
+    // schedule implicitly links to DuckyScheduler's companion object
+    cmd.schedule()
+}
+
+fun explicitCommandSchedulerSample(cs: CommandScheduler) {
+    val cmd = WaitCommand(5.0)
+    with(cs) {
+        // schedule links to `cs` object
+        cmd.schedule()
+    }
+}
+
+fun triggerOnceOnSample() {
+    ({ boolean1 }).trigger.onceOnTrue { println("hi") }
+    ({ boolean1 }).trigger.onceOnTrue(WaitCommand(5.0))
+}
+
+fun triggerWhileOnSample() {
+    ({ boolean1 }).trigger.whileOnTrue({ println("rising edge") }) { println("falling edge") }
+    ({ boolean1 }).trigger.whileOnTrue(WaitCommand(5.0))
+}
+
+fun triggerCombinationSample() {
+    ({ boolean1 && boolean2 }).trigger // etc.
+    // same as
+    (({ boolean1 }).trigger and ({ boolean2 }).trigger) // etc.
+}
+
+fun triggerInversionSample() {
+    val boolean1trigger = ({ boolean1 }).trigger
+
+    // this will activate on falling edge instead of rising now
+    (!boolean1trigger).onceOnTrue { println("hi") }
+}
+
+val boolean1 = true
+val boolean2 = true

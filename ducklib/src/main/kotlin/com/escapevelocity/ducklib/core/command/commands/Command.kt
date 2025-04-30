@@ -114,7 +114,6 @@ abstract class Command {
      */
     open fun end(interrupted: Boolean) {}
 
-
     override fun toString(): String =
         "$name${if (name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
 
@@ -129,10 +128,7 @@ abstract class Command {
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setName(name: String): T {
-    this.name = name
-    return this
-}
+fun <T : Command> T.setName(name: String) = configure { this.name = name }
 
 /**
  * Sets the [priority] of the [Command].
@@ -140,10 +136,7 @@ fun <T : Command> T.setName(name: String): T {
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setPriority(priority: Int): T {
-    this.priority = priority
-    return this
-}
+fun <T : Command> T.setPriority(priority: Int) = configure { this.priority = priority }
 
 /**
  * Sets the [Command.conflictResolution] of the [Command].
@@ -151,10 +144,8 @@ fun <T : Command> T.setPriority(priority: Int): T {
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution): T {
-    this.conflictResolution = conflictResolution
-    return this
-}
+fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution) =
+    configure { this.conflictResolution = conflictResolution }
 
 /**
  * Sets the [Command.equalPriorityResolution] of the [Command].
@@ -163,16 +154,16 @@ fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictRe
  *
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setEqualPriorityResolution(equalPriorityResolution: Command.EqualPriorityResolution): T {
-    this.equalPriorityResolution = equalPriorityResolution
-    return this
-}
+fun <T : Command> T.setEqualPriorityResolution(equalPriorityResolution: Command.EqualPriorityResolution) =
+    configure { this.equalPriorityResolution = equalPriorityResolution }
 
 /**
  * Configures a command instance using the specified builder function and returns the configured instance.
  *
  * @param configuration A function used to configure this command instance.
  * @return The configured command instance.
+ * @sample com.escapevelocity.ducklib.core.samples.inlineCommandConfigurationSample
+ * @sample com.escapevelocity.ducklib.core.samples.statementCommandConfigurationSample
  */
 fun <T : Command> T.configure(configuration: T.() -> Unit): T {
     this.configuration()

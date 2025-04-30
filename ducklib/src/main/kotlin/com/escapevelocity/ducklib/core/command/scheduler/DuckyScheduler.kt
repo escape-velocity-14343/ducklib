@@ -2,7 +2,6 @@ package com.escapevelocity.ducklib.core.command.scheduler
 
 import com.escapevelocity.ducklib.core.command.commands.Command
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
-import com.escapevelocity.ducklib.core.command.trigger.Trigger
 import com.escapevelocity.ducklib.core.util.b16Hash
 import com.escapevelocity.ducklib.core.util.containsAny
 import java.util.*
@@ -58,6 +57,7 @@ open class DuckyScheduler {
                         queuedCommands.remove(command)
                         firstScheduleAttemptTime.remove(command)
                     }
+
                     Command.ConflictResolution.QUEUE_ON_LOWER -> defer {
                         if (command !in queuedCommands) queuedCommands.add(command)
                     }
@@ -133,7 +133,7 @@ open class DuckyScheduler {
             removeCommand(command)
         }
 
-        override fun bind(trigger: () -> Boolean, originalTrigger: Trigger?, action: () -> Unit) {
+        override fun bind(trigger: () -> Boolean, originalTrigger: (() -> Boolean)?, action: () -> Unit) {
             val ta = TriggeredAction(trigger, originalTrigger, action)
             triggers.add(ta)
             lastTriggerNanos[ta] = null
@@ -286,7 +286,7 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
 
         data class TriggeredAction(
             val trigger: () -> Boolean,
-            val originalTrigger: Trigger? = null,
+            val originalTrigger: (() -> Boolean)? = null,
             val action: () -> Unit,
         ) {
             override fun toString(): String {
@@ -311,7 +311,25 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
             }
         }
 
-        val (() -> Boolean).trigger
-            get() = Trigger(this@Companion, this@Companion, this)
+        fun <T : () -> Boolean> T.onceOnTrue(command: Command): T {
+            var lastVal = this()
+            bind({
+                val thisVal = this()
+                val ret = thisVal && !lastVal
+                lastVal = thisVal
+                ret
+            }, this) {
+                command.schedule()
+            }
+            return this
+        }
+
+        fun <T : () -> Boolean> T.onceOnFalse(command: Command): T = onceOnFalse { command.schedule() }
+
+        fun <T : () -> Boolean> T.whileOnTrue(command: Command) =
+            onceOnTrue { command.schedule() }.onceOnFalse { command.cancel() }
+
+        fun <T : () -> Boolean> T.whileOnFalse(command: Command) =
+            onceOnTrue { command.cancel() }.onceOnFalse { command.schedule() }
     }
 }

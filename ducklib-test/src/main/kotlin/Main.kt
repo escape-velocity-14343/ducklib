@@ -17,17 +17,19 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.core.command.commands.Command
-import com.escapevelocity.ducklib.core.command.commands.WaitCommand
-import com.escapevelocity.ducklib.core.command.commands.configure
+import com.escapevelocity.ducklib.core.command.commands.*
+import com.escapevelocity.ducklib.core.command.commands.group.ParallelCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.group.SequentialCommandGroup
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
-import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.trigger
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.Vector2
 import kotlinx.coroutines.delay
+import kotlin.math.PI
 
 @Composable
 @Preview
 fun App() {
+    println("app run")
     var text by remember { mutableStateOf("Hello, World!") }
     var trigger1 by remember { mutableStateOf(false) }
     var trigger2 by remember { mutableStateOf(false) }
@@ -37,6 +39,7 @@ fun App() {
 
     val v = Vector2(0.5, 1.0)
     val v2 = v.yx
+    val v3 = Vector2.fromAngle(PI / 2.0)
 
     remember {
         val ss1 = Test1Subsystem()
@@ -61,17 +64,22 @@ fun App() {
             priority = 4
             equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
         }
+
+        val g = c1 then c2 then c3 with c4
+        ParallelCommandGroup(SequentialCommandGroup(c1, c2, c3), c4)
+
         c1.addRequirements(ss1)
         c2.addRequirements(ss1)
         c3.addRequirements(ss1, ss2)
         c4.addRequirements(ss2)
         c5.addRequirements(ss1)
 
-        ({ trigger1 }).trigger.onceOnTrue(c1)
-        ({ trigger2 }).trigger.onceOnTrue(c2)
-        ({ trigger3 }).trigger.onceOnTrue(c3)
-        ({ trigger4 }).trigger.onceOnTrue(c4)
-        ({ trigger5 }).trigger.onceOnTrue(c5)
+        ({ trigger1 }).onceOnTrue(c1)
+        ({ trigger2 }).onceOnTrue(c2)
+        ({ trigger3 }).onceOnTrue(c3)
+        ({ trigger4 }).onceOnTrue(c4)
+        ({ trigger5 }).onceOnTrue(c5)
+        ({ trigger5 }).onceOnTrue(c5)
         DuckyScheduler.addSubsystem(ss1)
         DuckyScheduler.addSubsystem(ss2)
         //DuckyScheduler.setDefaultCommand(ss1, c1)

@@ -4,8 +4,11 @@ import com.escapevelocity.ducklib.core.command.commands.Command
 import com.escapevelocity.ducklib.core.command.commands.WaitCommand
 import com.escapevelocity.ducklib.core.command.commands.configure
 import com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
-import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.trigger
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.whileOnTrue
+import com.escapevelocity.ducklib.core.util.and
+import com.escapevelocity.ducklib.core.util.not
 
 fun inlineCommandConfigurationSample() {
     val cmd = WaitCommand(5.0).configure {
@@ -42,23 +45,23 @@ fun explicitCommandSchedulerSample(cs: CommandScheduler) {
 }
 
 fun triggerOnceOnSample() {
-    ({ boolean1 }).trigger.onceOnTrue { println("hi") }
-    ({ boolean1 }).trigger.onceOnTrue(WaitCommand(5.0))
+    ({ boolean1 }).onceOnTrue { println("hi") }
+    ({ boolean1 }).onceOnTrue(WaitCommand(5.0))
 }
 
 fun triggerWhileOnSample() {
-    ({ boolean1 }).trigger.whileOnTrue({ println("rising edge") }) { println("falling edge") }
-    ({ boolean1 }).trigger.whileOnTrue(WaitCommand(5.0))
+    ({ boolean1 }).whileOnTrue({ println("rising edge") }) { println("falling edge") }
+    ({ boolean1 }).whileOnTrue(WaitCommand(5.0))
 }
 
 fun triggerCombinationSample() {
-    ({ boolean1 && boolean2 }).trigger // etc.
+    ({ boolean1 && boolean2 }) // etc.
     // same as
-    (({ boolean1 }).trigger and ({ boolean2 }).trigger) // etc.
+    ({ boolean1 } and { boolean2 }) // etc.
 }
 
 fun triggerInversionSample() {
-    val boolean1trigger = ({ boolean1 }).trigger
+    val boolean1trigger = ({ boolean1 })
 
     // this will activate on falling edge instead of rising now
     (!boolean1trigger).onceOnTrue { println("hi") }

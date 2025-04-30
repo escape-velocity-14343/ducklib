@@ -1,65 +1,65 @@
 package com.escapevelocity.ducklib.core.command.commands
 
 class LambdaCommand : Command() {
-    var _suspendable: Boolean = super.suspendable
-    var _initialize: () -> Unit = {}
-    var _execute: () -> Unit = {}
-    var _finished: () -> Boolean = { false }
-    var _suspend: () -> Unit = {}
-    var _resume: () -> Unit = {}
-    var _end: (Boolean) -> Unit = {}
+    var lmsuspendable: Boolean = super.suspendable
+    var lminitialize: () -> Unit = {}
+    var lmexecute: () -> Unit = {}
+    var lmfinished: () -> Boolean = { false }
+    var lmsuspend: () -> Unit = {}
+    var lmresume: () -> Unit = {}
+    var lmend: (Boolean) -> Unit = {}
 
     override val suspendable: Boolean
-        get() = _suspendable
+        get() = lmsuspendable
 
     override fun initialize() {
-        _initialize()
+        lminitialize()
     }
 
     override fun execute() {
-        _execute()
+        lmexecute()
     }
 
     override val finished: Boolean
-        get() = _finished()
+        get() = lmfinished()
 
     override fun suspend() {
-        _suspend()
+        lmsuspend()
     }
 
     override fun resume() {
-        _resume()
+        lmresume()
     }
 
     override fun end(interrupted: Boolean) {
-        _end(interrupted)
+        lmend(interrupted)
     }
 
     fun setSuspendable(suspendable: Boolean) {
-        _suspendable = suspendable
+        lmsuspendable = suspendable
     }
 
     fun setInitialize(initialize: () -> Unit) {
-        _initialize = initialize
+        lminitialize = initialize
     }
 
     fun setExecute(execute: () -> Unit) {
-        _execute = execute
+        lmexecute = execute
     }
 
     fun setFinished(finished: () -> Boolean) {
-        _finished = finished
+        lmfinished = finished
     }
 
     fun setSuspend(suspend: () -> Unit) {
-        _suspend = suspend
+        lmsuspend = suspend
     }
 
     fun setResume(resume: () -> Unit) {
-        _resume = resume
+        lmresume = resume
     }
 
     fun setEnd(end: (Boolean) -> Unit) {
-        _end = end
+        lmend = end
     }
 }

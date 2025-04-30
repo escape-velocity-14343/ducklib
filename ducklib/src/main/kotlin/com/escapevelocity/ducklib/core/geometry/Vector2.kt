@@ -5,7 +5,7 @@ import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.sin
 
-data class Vector2(val x: Double, val y: Double) {
+data class Vector2(val x: Inches, val y: Inches) {
     override fun toString() = "($x, $y)"
 
     val angle
@@ -23,19 +23,19 @@ data class Vector2(val x: Double, val y: Double) {
     val yy
         get() = Vector2(y, y)
 
-    fun rotated(t: Double) = Vector2(x * cos(t) - y * sin(t), y * cos(t) + x * sin(t))
+    fun rotated(t: Radians) = Vector2(x * cos(t) - y * sin(t), y * cos(t) + x * sin(t))
     fun distanceTo(other: Vector2) = (other - this).length
     fun distanceSquaredTo(other: Vector2) = (other - this).lengthSquared
     fun angleTo(other: Vector2) = (other - this).angle
-    fun setLength(length: Double) = this.normalized * length
-    fun limitLength(length: Double) = if (this.length > length) this.setLength(length) else this
+    fun setLength(length: Inches) = this.normalized * length
+    fun limitLength(length: Inches) = if (this.length > length) this.setLength(length) else this
 
     operator fun plus(right: Vector2) = Vector2(x + right.x, y + right.y)
     operator fun minus(right: Vector2) = Vector2(x - right.x, y - right.y)
     operator fun times(right: Vector2) = Vector2(x * right.x, y * right.y)
-    operator fun times(right: Double) = Vector2(x * right, y * right)
+    operator fun times(right: Inches) = Vector2(x * right, y * right)
     operator fun div(right: Vector2) = Vector2(x / right.x, y / right.y)
-    operator fun div(right: Double) = Vector2(x / right, y / right)
+    operator fun div(right: Inches) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
 
     operator fun get(index: Int) = when (index) {
@@ -45,6 +45,6 @@ data class Vector2(val x: Double, val y: Double) {
     }
 
     companion object Factory {
-        fun fromAngle(angle: Double, length: Double = 1.0) = Vector2(cos(angle) * length, sin(angle) * length)
+        fun fromAngle(angle: Radians, length: Inches = 1.0) = Vector2(cos(angle) * length, sin(angle) * length)
     }
 }

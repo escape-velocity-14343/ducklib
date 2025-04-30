@@ -8,11 +8,11 @@ import kotlin.math.sin
 data class Vector2(val x: Inches, val y: Inches) {
     override fun toString() = "($x, $y)"
 
-    val angle
+    val angle: Radians
         get() = atan2(y, x)
-    val length
+    val length: Inches
         get() = hypot(x, y)
-    val lengthSquared
+    val lengthSquared: Double
         get() = (x * x + y * y)
     val normalized
         get() = this / length
@@ -38,7 +38,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     operator fun div(right: Inches) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
 
-    operator fun get(index: Int) = when (index) {
+    operator fun get(index: Int): Inches = when (index) {
         0 -> x
         1 -> y
         else -> throw IndexOutOfBoundsException("Index $index is not a valid axis index for Vector2")

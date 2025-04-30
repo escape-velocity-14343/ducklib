@@ -17,6 +17,6 @@ rootProject.name = "ducklib-test"
 
 includeBuild("../ducklib") {
     dependencySubstitution {
-        substitute(module("com.escapevelocity:ducklib")).using(project(":"))
+        substitute(module("com.escapevelocity.ducklib:core")).using(project(":"))
     }
 }

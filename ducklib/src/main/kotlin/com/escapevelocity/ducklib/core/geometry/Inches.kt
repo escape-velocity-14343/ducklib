@@ -2,6 +2,7 @@ package com.escapevelocity.ducklib.core.geometry
 
 import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
+import kotlin.math.hypot
 
 @JvmInline
 value class Inches(val v: Double) : Comparable<Inches> {
@@ -41,4 +42,4 @@ operator fun Number.minus(right: Inches) = Inches(this.toDouble() - right.v)
 operator fun Number.times(right: Inches) = Inches(this.toDouble() * right.v)
 operator fun Number.div(right: Inches) = Inches(this.toDouble() / right.v)
 
-fun hypot(x: Inches, y: Inches) = kotlin.math.hypot(x.v, y.v).inches
+fun hypot(x: Inches, y: Inches) = hypot(x.v, y.v).inches

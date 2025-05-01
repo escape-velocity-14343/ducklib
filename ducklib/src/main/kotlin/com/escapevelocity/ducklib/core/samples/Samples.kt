@@ -10,7 +10,7 @@ import com.escapevelocity.ducklib.core.util.not
 
 fun inlineCommandConfigurationSample() {
     val cmd = WaitCommand(5.0).configure {
-        priority = Command.Priority.LOWEST
+        priority = Priority.LOWEST
         name = "MyWaitCommand"
         onHigherConflict = OnHigherConflict.CANCEL
         onEqualConflict = OnEqualConflict.QUEUE
@@ -20,7 +20,7 @@ fun inlineCommandConfigurationSample() {
 fun statementCommandConfigurationSample() {
     val cmd = WaitCommand(5.0)
     cmd.configure {
-        priority = Command.Priority.LOWEST
+        priority = Priority.LOWEST
         name = "MyWaitCommand"
         onHigherConflict = OnHigherConflict.CANCEL
         onEqualConflict = OnEqualConflict.QUEUE

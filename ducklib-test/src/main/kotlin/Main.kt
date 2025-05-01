@@ -1,38 +1,37 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.escapevelocity.ducklib.core.command.commands.OnEqualConflict
 import com.escapevelocity.ducklib.core.command.commands.WaitCommand
 import com.escapevelocity.ducklib.core.command.commands.configure
+import com.escapevelocity.ducklib.core.command.commands.priority
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
-import com.escapevelocity.ducklib.core.geometry.Vector2
-import com.escapevelocity.ducklib.core.geometry.div
-import com.escapevelocity.ducklib.core.geometry.inches
-import com.escapevelocity.ducklib.core.geometry.radians
+import com.escapevelocity.ducklib.core.geometry.*
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 
 @Composable
 @Preview
 fun App() {
-    println("app run")
     var text by remember { mutableStateOf("Hello, World!") }
     var trigger1 by remember { mutableStateOf(false) }
     var trigger2 by remember { mutableStateOf(false) }
@@ -48,23 +47,23 @@ fun App() {
         val ss1 = Test1Subsystem()
         val ss2 = Test2Subsystem()
         val c1 = WaitCommand(2.0).configure {
-            priority = 1
+            priority = 1.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c2 = WaitCommand(2.0).configure {
-            priority = 1
+            priority = 1.priority
             onEqualConflict = OnEqualConflict.QUEUE
         }
         val c3 = WaitCommand(2.0).configure {
-            priority = 2
+            priority = 2.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c4 = WaitCommand(2.0).configure {
-            priority = 1
+            priority = 1.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c5 = WaitCommand(2.0).configure {
-            priority = 4
+            priority = 4.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
         }
 
@@ -107,6 +106,7 @@ fun App() {
                 TriggerButton(trigger4::toString) { trigger4 = it }
                 TriggerButton(trigger5::toString) { trigger5 = it }
             }
+            RotatingWidget { it }
             Text(text)
         }
     }
@@ -115,7 +115,7 @@ fun App() {
 @Composable
 fun TriggerButton(text: () -> String, onPressChanged: (Boolean) -> Unit) = Box(
     contentAlignment = Alignment.Center,
-    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
+    modifier = Modifier.background(Color.Red).defaultMinSize(50.dp, 50.dp).pointerInput(Unit) {
         detectTapGestures(onPress = {
             onPressChanged(true)
             tryAwaitRelease()
@@ -123,6 +123,35 @@ fun TriggerButton(text: () -> String, onPressChanged: (Boolean) -> Unit) = Box(
         })
     }) {
     Text(text())
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun RotatingWidget(onAngleChanged: (Radians) -> Radians) {
+    var angle by remember { mutableStateOf(0.0.radians) }
+    var totalDrag by remember { mutableStateOf(Vector2.ZERO) }
+    Box(
+        modifier = Modifier
+            .size(100.dp)
+            .background(Color.LightGray, CircleShape)
+            .pointerInput(Unit) {
+                detectDragGestures(onDragStart = {
+                    totalDrag = Vector2(it.x.inches, it.y.inches)
+                }, onDrag = {
+                    totalDrag += Vector2(it.x.inches, it.y.inches)
+                    angle = onAngleChanged((totalDrag - Vector2(50.inches, 50.inches)).angle)
+                })
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text("%.3f".format(angle.v))
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val x = center.x + (cos(angle) * 40.0).dp.toPx()
+            val y = center.y + (sin(angle) * 40.0).dp.toPx()
+            drawCircle(Color.Gray, radius = 5.dp.toPx(), center = Offset(x, y))
+            drawLine(Color.Gray, center, Offset(x, y))
+        }
+    }
 }
 
 fun main() = application {

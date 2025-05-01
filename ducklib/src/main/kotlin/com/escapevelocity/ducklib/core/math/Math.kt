@@ -1,8 +1,79 @@
 package com.escapevelocity.ducklib.core.math
 
-fun umod(x: Byte, y: Byte) = ((x % y) + y) % y
-fun umod(x: Short, y: Short) = ((x % y) + y) % y
-fun umod(x: Int, y: Int) = ((x % y) + y) % y
-fun umod(x: Long, y: Long) = ((x % y) + y) % y
-fun umod(x: Float, y: Float) = ((x % y) + y) % y
-fun umod(x: Double, y: Double) = ((x % y) + y) % y
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Byte, divisor: Byte) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Short, divisor: Short) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Int, divisor: Int) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Long, divisor: Long) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Float, divisor: Float) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Calculates the good modulo of two numbers.
+ *
+ * The result will always have the same sign as the divisor,
+ * instead of the default remainder operators which always have the same sign as the dividend
+ *
+ * @param dividend The dividend
+ * @param divisor The divisor
+ * @return The result,
+ * which is always in the range `[0, divisor)`.
+ */
+fun umod(dividend: Double, divisor: Double) = ((dividend % divisor) + divisor) % divisor

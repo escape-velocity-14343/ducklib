@@ -44,6 +44,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     }
 
     companion object Factory {
+        val ZERO = Vector2(0.0.inches, 0.0.inches)
         fun fromAngle(angle: Radians, length: Inches = 1.0.inches) = Vector2(cos(angle) * length, sin(angle) * length)
     }
 }

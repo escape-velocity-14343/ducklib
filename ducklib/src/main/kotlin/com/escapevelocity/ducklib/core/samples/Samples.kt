@@ -1,8 +1,6 @@
 package com.escapevelocity.ducklib.core.samples
 
-import com.escapevelocity.ducklib.core.command.commands.Command
-import com.escapevelocity.ducklib.core.command.commands.WaitCommand
-import com.escapevelocity.ducklib.core.command.commands.configure
+import com.escapevelocity.ducklib.core.command.commands.*
 import com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
@@ -14,8 +12,8 @@ fun inlineCommandConfigurationSample() {
     val cmd = WaitCommand(5.0).configure {
         priority = Command.Priority.LOWEST
         name = "MyWaitCommand"
-        conflictResolution = Command.ConflictResolution.CANCEL_ON_LOWER
-        equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+        onHigherConflict = OnHigherConflict.CANCEL
+        onEqualConflict = OnEqualConflict.QUEUE
     }
 }
 
@@ -24,8 +22,8 @@ fun statementCommandConfigurationSample() {
     cmd.configure {
         priority = Command.Priority.LOWEST
         name = "MyWaitCommand"
-        conflictResolution = Command.ConflictResolution.CANCEL_ON_LOWER
-        equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+        onHigherConflict = OnHigherConflict.CANCEL
+        onEqualConflict = OnEqualConflict.QUEUE
     }
 }
 

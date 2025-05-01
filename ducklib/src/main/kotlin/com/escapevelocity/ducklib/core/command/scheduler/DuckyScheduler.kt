@@ -1,6 +1,8 @@
 package com.escapevelocity.ducklib.core.command.scheduler
 
 import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.OnEqualConflict
+import com.escapevelocity.ducklib.core.command.commands.OnHigherConflict
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.core.util.b16Hash
 import com.escapevelocity.ducklib.core.util.containsAny
@@ -54,13 +56,13 @@ open class DuckyScheduler {
             }
 
             if (!handleConflicts(command)) {
-                when (command.conflictResolution) {
-                    Command.ConflictResolution.CANCEL_ON_LOWER -> defer {
+                when (command.onHigherConflict) {
+                    OnHigherConflict.CANCEL -> defer {
                         queuedCommands.remove(command)
                         firstScheduleAttemptTime.remove(command)
                     }
 
-                    Command.ConflictResolution.QUEUE_ON_LOWER -> defer {
+                    OnHigherConflict.QUEUE -> defer {
                         if (command !in queuedCommands) queuedCommands.add(command)
                     }
                 }
@@ -93,7 +95,7 @@ open class DuckyScheduler {
             }
 
             if (command.priority == highestConflict.priority) {
-                if (command.equalPriorityResolution == Command.EqualPriorityResolution.QUEUE || firstScheduleAttemptTime[command]!! < firstScheduleAttemptTime[highestConflict]!!) {
+                if (command.onEqualConflict == OnEqualConflict.QUEUE || firstScheduleAttemptTime[command]!! < firstScheduleAttemptTime[highestConflict]!!) {
                     // command has equal priority to the highest but was scheduled later
                     return false
                 }

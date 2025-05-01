@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.OnEqualConflict
 import com.escapevelocity.ducklib.core.command.commands.WaitCommand
 import com.escapevelocity.ducklib.core.command.commands.configure
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
@@ -49,23 +49,23 @@ fun App() {
         val ss2 = Test2Subsystem()
         val c1 = WaitCommand(2.0).configure {
             priority = 1
-            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+            onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c2 = WaitCommand(2.0).configure {
             priority = 1
-            equalPriorityResolution = Command.EqualPriorityResolution.QUEUE
+            onEqualConflict = OnEqualConflict.QUEUE
         }
         val c3 = WaitCommand(2.0).configure {
             priority = 2
-            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+            onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c4 = WaitCommand(2.0).configure {
             priority = 1
-            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+            onEqualConflict = OnEqualConflict.OVERRIDE
         }
         val c5 = WaitCommand(2.0).configure {
             priority = 4
-            equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
+            onEqualConflict = OnEqualConflict.OVERRIDE
         }
 
         //val g = c1 then c2 then c3 with c4

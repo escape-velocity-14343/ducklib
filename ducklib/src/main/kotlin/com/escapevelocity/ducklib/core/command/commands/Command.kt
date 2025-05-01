@@ -1,18 +1,8 @@
 package com.escapevelocity.ducklib.core.command.commands
 
-import com.escapevelocity.ducklib.core.command.commands.Command.Priority.LOWEST
 import com.escapevelocity.ducklib.core.util.b16Hash
 
 abstract class Command {
-    enum class ConflictResolution {
-        CANCEL_ON_LOWER,
-        QUEUE_ON_LOWER,
-    }
-
-    enum class EqualPriorityResolution {
-        SCHEDULE_IF_NEWER,
-        QUEUE,
-    }
 
     private val _requirements: MutableSet<Any> = HashSet()
     val requirements: Set<Any>
@@ -22,9 +12,20 @@ abstract class Command {
 
     open var name: String = javaClass.simpleName
 
-    var conflictResolution = ConflictResolution.QUEUE_ON_LOWER
-    var equalPriorityResolution = EqualPriorityResolution.SCHEDULE_IF_NEWER
-    var priority = LOWEST
+    /**
+     * Sets which action to take when the conflicting command has higher priority to this one.
+     */
+    var onHigherConflict = OnHigherConflict.QUEUE
+
+    /**
+     * Sets which action to take when the conflicting command has equal priority to this one.
+     */
+    var onEqualConflict = OnEqualConflict.OVERRIDE
+
+    /**
+     * The priority of this command. Higher-priority commands will be scheduled over lower-priority ones.
+     */
+    var priority = Priority.LOWEST
 
     /**
      * Whether this command is suspendable or not.
@@ -116,10 +117,51 @@ abstract class Command {
 
     override fun toString(): String =
         "$name${if (name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"
+}
 
-    object Priority {
-        const val LOWEST = Int.MIN_VALUE
-    }
+/**
+ * An enum that represents what should happen when the conflicting command has a higher priority than this command
+ *
+ * **NOTE**:
+ * A command that gets scheduled that has a higher priority than all other conflicting commands *will
+ * always get scheduled* no matter what.
+ */
+enum class OnHigherConflict {
+    /**
+     * The command won't be attempted to be scheduled later at all.
+     */
+    CANCEL,
+
+    /**
+     * When a conflict happens,
+     * the command will be moved to the command queue to be scheduled or rescheduled later.
+     *
+     * This can be used to implement input buffering in TeleOps
+     * where if one command is currently running
+     * and another is running with equal priority,
+     * it will queue until the other is finished.
+     */
+    QUEUE,
+}
+
+/**
+ * An enum that represents what should happen when the conflicting command has an equal priority to this command
+ *
+ * **NOTE**:
+ * A command that gets scheduled that has a higher priority than all other conflicting commands *will always get
+ * scheduled* no matter what.
+ */
+enum class OnEqualConflict {
+    /**
+     * The conflicting command will be overridden
+     */
+    OVERRIDE,
+
+    /**
+     * When a conflict happens,
+     * the command will be moved to the command queue to be scheduled or rescheduled later
+     */
+    QUEUE,
 }
 
 /**
@@ -136,26 +178,26 @@ fun <T : Command> T.setName(name: String) = configure { this.name = name }
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setPriority(priority: Int) = configure { this.priority = priority }
+fun <T : Command> T.setPriority(priority: Priority) = configure { this.priority = priority }
 
 /**
- * Sets the [Command.conflictResolution] of the [Command].
+ * Sets the [Command.onHigherConflict] of the [Command].
  *
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setConflictResolution(conflictResolution: Command.ConflictResolution) =
-    configure { this.conflictResolution = conflictResolution }
+fun <T : Command> T.setOnHigherConflict(onHigherConflict: OnHigherConflict) =
+    configure { this.onHigherConflict = onHigherConflict }
 
 /**
- * Sets the [Command.equalPriorityResolution] of the [Command].
+ * Sets the [Command.onEqualConflict] of the [Command].
  *
  * **NOTE**: If you need to set multiple methods, consider [configure] instead
  *
  * @return The command with the same type to facilitate chaining
  */
-fun <T : Command> T.setEqualPriorityResolution(equalPriorityResolution: Command.EqualPriorityResolution) =
-    configure { this.equalPriorityResolution = equalPriorityResolution }
+fun <T : Command> T.setOnEqualConflict(onEqualConflict: OnEqualConflict) =
+    configure { this.onEqualConflict = onEqualConflict }
 
 /**
  * Configures a command instance using the specified builder function and returns the configured instance.

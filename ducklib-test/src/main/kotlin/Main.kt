@@ -17,9 +17,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.core.command.commands.*
-import com.escapevelocity.ducklib.core.command.commands.group.ParallelCommandGroup
-import com.escapevelocity.ducklib.core.command.commands.group.SequentialCommandGroup
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.WaitCommand
+import com.escapevelocity.ducklib.core.command.commands.configure
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.Vector2
@@ -68,8 +68,8 @@ fun App() {
             equalPriorityResolution = Command.EqualPriorityResolution.SCHEDULE_IF_NEWER
         }
 
-        val g = c1 then c2 then c3 with c4
-        ParallelCommandGroup(SequentialCommandGroup(c1, c2, c3), c4)
+        //val g = c1 then c2 then c3 with c4
+        //ParallelCommandGroup(SequentialCommandGroup(c1, c2, c3), c4)
 
         c1.addRequirements(ss1)
         c2.addRequirements(ss1)
@@ -101,65 +101,28 @@ fun App() {
     MaterialTheme(typography = Typography(FontFamily.Monospace), colors = MaterialTheme.colors.copy(isLight = false)) {
         Column {
             Row {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
-                        detectTapGestures(onPress = {
-                            trigger1 = true
-                            tryAwaitRelease()
-                            trigger1 = false
-                        })
-                    }) {
-                    Text(trigger1.toString())
-                }
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
-                        detectTapGestures(onPress = {
-                            trigger2 = true
-                            tryAwaitRelease()
-                            trigger2 = false
-                        })
-                    }) {
-                    Text(trigger2.toString())
-                }
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
-                        detectTapGestures(onPress = {
-                            trigger3 = true
-                            tryAwaitRelease()
-                            trigger3 = false
-                        })
-                    }) {
-                    Text(trigger3.toString())
-                }
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
-                        detectTapGestures(onPress = {
-                            trigger4 = true
-                            tryAwaitRelease()
-                            trigger4 = false
-                        })
-                    }) {
-                    Text(trigger4.toString())
-                }
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
-                        detectTapGestures(onPress = {
-                            trigger5 = true
-                            tryAwaitRelease()
-                            trigger5 = false
-                        })
-                    }) {
-                    Text(trigger5.toString())
-                }
+                TriggerButton(trigger1::toString) { trigger1 = it }
+                TriggerButton(trigger2::toString) { trigger2 = it }
+                TriggerButton(trigger3::toString) { trigger3 = it }
+                TriggerButton(trigger4::toString) { trigger4 = it }
+                TriggerButton(trigger5::toString) { trigger5 = it }
             }
             Text(text)
         }
     }
+}
+
+@Composable
+fun TriggerButton(text: () -> String, onPressChanged: (Boolean) -> Unit) = Box(
+    contentAlignment = Alignment.Center,
+    modifier = Modifier.background(Color.Red).defaultMinSize(Dp(50.0F), Dp(50.0F)).pointerInput(Unit) {
+        detectTapGestures(onPress = {
+            onPressChanged(true)
+            tryAwaitRelease()
+            onPressChanged(false)
+        })
+    }) {
+    Text(text())
 }
 
 fun main() = application {

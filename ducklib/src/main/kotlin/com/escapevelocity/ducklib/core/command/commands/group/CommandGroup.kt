@@ -17,7 +17,11 @@ abstract class CommandGroup(vararg commands: Command) : Command() {
      * Add a list of commands to the group
      * @param commands The commands to add
      */
-    fun addCommands(vararg commands: Command) = commands.forEach(this::addCommand)
+    fun addCommands(vararg commands: Command) = commands.forEach {
+        if (it.inGroup) throw IllegalArgumentException("Grouped command $it cannot be regrouped")
+        it.inGroup = true
+        addCommand(it)
+    }
 
     /**
      * Add a single command
@@ -34,7 +38,9 @@ abstract class CommandGroup(vararg commands: Command) : Command() {
     override fun resume() = commands.forEach { it.resume() }
 
     override fun toString(): String =
-        "$name${if(name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()} [${commands.mapIndexed { i, cmd -> "\n${cmd.prefix()}$i: $cmd"}.joinToString("").prependIndent()}\n]"
+        "$name${if (name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()} [${
+            commands.mapIndexed { i, cmd -> "\n${cmd.prefix()}$i: $cmd" }.joinToString("").prependIndent()
+        }\n]"
 
     protected open fun Command.prefix(): String = ""
 }

@@ -1,19 +1,18 @@
 package com.escapevelocity.ducklib.core.geometry
 
-import com.escapevelocity.ducklib.core.geometry.*
-
 data class Vector2(val x: Inches, val y: Inches) {
     enum class Axis {
         X,
         Y,
     }
+
     override fun toString() = "($x, $y)"
 
-    val angle: Radians
+    val angle
         get() = atan2(y, x)
-    val length: Inches
+    val length
         get() = hypot(x, y)
-    val lengthSquared: Double
+    val lengthSquared
         get() = (x * x + y * y).v
     val normalized
         get() = this / length
@@ -29,7 +28,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     fun distanceSquaredTo(other: Vector2) = (other - this).lengthSquared
     fun angleTo(other: Vector2) = (other - this).angle
     fun setLength(length: Inches) = this.normalized * length
-    fun limitLength(length: Inches) = if (this.length > length) this.setLength(length) else this
+    fun limitLength(length: Inches) = if (this.length > length) setLength(length) else this
 
     operator fun plus(right: Vector2) = Vector2(x + right.x, y + right.y)
     operator fun minus(right: Vector2) = Vector2(x - right.x, y - right.y)

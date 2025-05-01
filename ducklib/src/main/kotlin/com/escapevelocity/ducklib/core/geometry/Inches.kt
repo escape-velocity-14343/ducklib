@@ -1,5 +1,8 @@
 package com.escapevelocity.ducklib.core.geometry
 
+import com.escapevelocity.ducklib.core.util.ClosedRangeT
+import com.escapevelocity.ducklib.core.util.OpenRangeT
+
 @JvmInline
 value class Inches(val v: Double) : Comparable<Inches> {
     operator fun plus(right: Inches) = Inches(this.v + right.v)
@@ -18,6 +21,9 @@ value class Inches(val v: Double) : Comparable<Inches> {
 
     override fun toString() = v.toString()
     override fun compareTo(other: Inches): Int = this.v.compareTo(other.v)
+
+    operator fun rangeTo(other: Inches) = ClosedRangeT(this, other)
+    operator fun rangeUntil(other: Inches) = OpenRangeT(this, other)
 
     companion object Factory {
         fun fromMm(mm: Double) = (mm / 25.4).inches

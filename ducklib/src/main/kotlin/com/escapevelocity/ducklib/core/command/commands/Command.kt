@@ -18,7 +18,7 @@ abstract class Command {
     val requirements: Set<Any>
         get() = _requirements
     var inGroup = false
-        protected set
+        internal set
 
     open var name: String = javaClass.simpleName
 

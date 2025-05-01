@@ -1,11 +1,12 @@
 package com.escapevelocity.ducklib.core.geometry
 
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.sin
+import com.escapevelocity.ducklib.core.geometry.*
 
 data class Vector2(val x: Inches, val y: Inches) {
+    enum class Axis {
+        X,
+        Y,
+    }
     override fun toString() = "($x, $y)"
 
     val angle: Radians
@@ -13,7 +14,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     val length: Inches
         get() = hypot(x, y)
     val lengthSquared: Double
-        get() = (x * x + y * y)
+        get() = (x * x + y * y).v
     val normalized
         get() = this / length
     val yx
@@ -38,13 +39,12 @@ data class Vector2(val x: Inches, val y: Inches) {
     operator fun div(right: Inches) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
 
-    operator fun get(index: Int): Inches = when (index) {
-        0 -> x
-        1 -> y
-        else -> throw IndexOutOfBoundsException("Index $index is not a valid axis index for Vector2")
+    operator fun get(index: Axis): Inches = when (index) {
+        Axis.X -> x
+        Axis.Y -> y
     }
 
     companion object Factory {
-        fun fromAngle(angle: Radians, length: Inches = 1.0) = Vector2(cos(angle) * length, sin(angle) * length)
+        fun fromAngle(angle: Radians, length: Inches = 1.0.inches) = Vector2(cos(angle) * length, sin(angle) * length)
     }
 }

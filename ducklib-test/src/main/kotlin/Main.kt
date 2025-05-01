@@ -23,6 +23,9 @@ import com.escapevelocity.ducklib.core.command.commands.group.SequentialCommandG
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.Vector2
+import com.escapevelocity.ducklib.core.geometry.div
+import com.escapevelocity.ducklib.core.geometry.inches
+import com.escapevelocity.ducklib.core.geometry.radians
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 
@@ -37,9 +40,9 @@ fun App() {
     var trigger4 by remember { mutableStateOf(false) }
     var trigger5 by remember { mutableStateOf(false) }
 
-    val v = Vector2(0.5, 1.0)
+    val v = Vector2(0.5.inches, 1.0.inches)
     val v2 = v.yx
-    val v3 = Vector2.fromAngle(PI / 2.0)
+    val v3 = Vector2.fromAngle(PI / 2.0.radians)
 
     remember {
         val ss1 = Test1Subsystem()

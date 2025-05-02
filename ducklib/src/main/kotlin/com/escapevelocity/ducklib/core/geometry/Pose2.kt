@@ -12,7 +12,7 @@ data class Pose2(val position: Vector2, val heading: Radians) {
      *
      * @param other The other [Pose2] to calculate the distance to
      */
-    fun distanceTo(other: Pose2) = Pair(position.distanceTo(other.position), heading.distanceTo(other.heading))
+    fun distanceTo(other: Pose2) = Pair(position.distanceTo(other.position), heading.angleTo(other.heading))
 
     /**
      * Calculates the positional distance from this to [other].

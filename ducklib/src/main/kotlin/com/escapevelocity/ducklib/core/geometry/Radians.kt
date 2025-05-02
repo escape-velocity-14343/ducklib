@@ -3,9 +3,11 @@ package com.escapevelocity.ducklib.core.geometry
 import com.escapevelocity.ducklib.core.math.umod
 import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
+import java.util.Formattable
+import java.util.Formatter
 
 @JvmInline
-value class Radians(val v: Double) : Comparable<Radians> {
+value class Radians(val v: Double) : Comparable<Radians>, Formattable {
     val degrees: Double
         get() = v * 180.0 / kotlin.math.PI
 
@@ -148,10 +150,18 @@ value class Radians(val v: Double) : Comparable<Radians> {
     /**
      * Calculate the **signed** angular difference between this and [other], taking into account angle wrapping
      */
-    fun distanceTo(other: Radians) = (other - this).normalized
+    fun angleTo(other: Radians) = (other - this).normalized
 
     override fun toString() = v.toString()
     override fun compareTo(other: Radians): Int = this.v.compareTo(other.v)
+    override fun formatTo(
+        formatter: Formatter?,
+        flags: Int,
+        width: Int,
+        precision: Int
+    ) {
+        formatter?.format("%.${precision}f (%.${precision}f°)", v, degrees)
+    }
 
     companion object {
         /**

@@ -6,6 +6,8 @@ data class Vector2(val x: Inches, val y: Inches) {
         Y,
     }
 
+    constructor(value: Inches) : this(value, value)
+
     override fun toString() = "($x, $y)"
 
     val angle
@@ -34,8 +36,10 @@ data class Vector2(val x: Inches, val y: Inches) {
     operator fun minus(right: Vector2) = Vector2(x - right.x, y - right.y)
     operator fun times(right: Vector2) = Vector2(x * right.x, y * right.y)
     operator fun times(right: Inches) = Vector2(x * right, y * right)
+    operator fun times(right: Double) = Vector2(x * right, y * right)
     operator fun div(right: Vector2) = Vector2(x / right.x, y / right.y)
     operator fun div(right: Inches) = Vector2(x / right, y / right)
+    operator fun div(right: Double) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
 
     operator fun get(index: Axis): Inches = when (index) {
@@ -44,7 +48,10 @@ data class Vector2(val x: Inches, val y: Inches) {
     }
 
     companion object Factory {
-        val ZERO = Vector2(0.0.inches, 0.0.inches)
+        val ZERO = Vector2(0.0.inches)
+        val ONE = Vector2(1.0.inches)
+        val X = Vector2(1.0.inches, 0.0.inches)
+        val Y = Vector2(0.0.inches, 1.0.inches)
         fun fromAngle(angle: Radians, length: Inches = 1.0.inches) = Vector2(cos(angle) * length, sin(angle) * length)
     }
 }

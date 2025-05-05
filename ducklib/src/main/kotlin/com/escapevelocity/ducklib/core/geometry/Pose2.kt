@@ -3,6 +3,8 @@ package com.escapevelocity.ducklib.core.geometry
 data class Pose2(val position: Vector2, val heading: Radians) {
     constructor(x: Inches, y: Inches, heading: Radians) : this(Vector2(x, y), heading)
 
+    val xyh get() = Triple(position.x, position.y, heading)
+
     operator fun plus(other: Pose2) = Pose2(position + other.position, heading.rotated(other.heading))
     operator fun plus(other: Radians) = Pose2(position, heading.rotated(other))
     operator fun minus(other: Pose2) = Pose2(position - other.position, heading.rotated(-other.heading))
@@ -25,4 +27,8 @@ data class Pose2(val position: Vector2, val heading: Radians) {
     fun distanceTo(other: Vector2) = position.distanceTo(other)
 
     override fun toString() = "($position x $heading)"
+
+    companion object {
+        val ZERO = Pose2(Vector2.ZERO, Radians.ZERO)
+    }
 }

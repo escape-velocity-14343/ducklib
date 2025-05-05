@@ -1,6 +1,16 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.escapevelocity.ducklib.core.command.commands
 
-class LambdaCommand : Command() {
+class LambdaCommand(vararg requirements: Any) : Command() {
+    constructor(vararg requirements: Any, configuration: LambdaCommand.() -> Unit) : this(*requirements) {
+        this.configuration()
+    }
+
+    init {
+        addRequirements(requirements)
+    }
+
     var lmsuspendable: Boolean = super.suspendable
     var lminitialize: () -> Unit = {}
     var lmexecute: () -> Unit = {}

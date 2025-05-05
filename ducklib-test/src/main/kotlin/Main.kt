@@ -6,7 +6,6 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.Typography
@@ -21,34 +20,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPosition.PlatformDefault.x
-import androidx.compose.ui.window.WindowPosition.PlatformDefault.y
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.core.command.commands.OnEqualConflict
-import com.escapevelocity.ducklib.core.command.commands.WaitCommand
-import com.escapevelocity.ducklib.core.command.commands.configure
-import com.escapevelocity.ducklib.core.command.commands.priority
+import com.escapevelocity.ducklib.core.command.commands.*
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.*
 import kotlinx.coroutines.delay
 
 val typography = Typography(defaultFontFamily = FontFamily.Monospace)
-val colors = Colors(
-    primary = Color(0xFF008577),
-    primaryVariant = Color(0xFF00574B),
-    secondary = Color(0xFFB2DFDB),
-    secondaryVariant = Color(0xFF80CBC4),
-    background = Color(0xFFEEEEEE),
-    surface = Color(0xFFFFFFFF),
-    error = Color(0xFFB00020),
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    onError = Color.White,
-    isLight = false
-)
 
 @Composable
 @Preview
@@ -66,29 +45,45 @@ fun SchedulerTestApp() {
         val c1 = WaitCommand(2.0).configure {
             priority = 1.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
+            addRequirements(ss1)
         }
         val c2 = WaitCommand(2.0).configure {
             priority = 1.priority
             onEqualConflict = OnEqualConflict.QUEUE
+            addRequirements(ss1)
         }
         val c3 = WaitCommand(2.0).configure {
             priority = 2.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
+            addRequirements(ss1, ss2)
         }
         val c4 = WaitCommand(2.0).configure {
             priority = 1.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
+            addRequirements(ss2)
         }
-        val c5 = WaitCommand(2.0).configure {
-            priority = 4.priority
-            onEqualConflict = OnEqualConflict.OVERRIDE
-        }
+        val c5 = LambdaCommand {
+            priority = 1.priority
 
-        c1.addRequirements(ss1)
-        c2.addRequirements(ss1)
-        c3.addRequirements(ss1, ss2)
-        c4.addRequirements(ss2)
-        c5.addRequirements(ss1)
+            var startTime = 0L
+            lmsuspendable = true
+            lminitialize = {
+                startTime = System.nanoTime()
+            }
+            lmfinished = { (System.nanoTime() - startTime) / 1e9 > 5.0 }
+            lmend = { println("hi") }
+            addRequirements(ss1)
+        }
+        val lmCommand = LambdaCommand {
+            var state = 0.0
+            lmsuspendable = true
+            lmexecute = {
+                state += 1.0
+            }
+            lmend = {
+                println("finished")
+            }
+        }
 
         ({ trigger1 }).onceOnTrue(c1)
         ({ trigger2 }).onceOnTrue(c2)
@@ -127,14 +122,15 @@ fun SchedulerTestApp() {
 fun GeometryTestApp() {
     var angle1 by remember { mutableStateOf(0.0.radians) }
     var angle2 by remember { mutableStateOf(0.0.radians) }
+
     MaterialTheme(typography = typography) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             RotatingWidget(Modifier.size(200.dp)) {
-                angle1 = it
+                angle1 = round(it, Radians.fromRotations(0.125))
                 angle1
             }
             RotatingWidget(Modifier.size(200.dp)) {
-                angle2 = it
+                angle2 = round(it, Radians.fromRotations(0.125))
                 angle2
             }
             Text("%.1s".format(angle1.angleTo(angle2)))

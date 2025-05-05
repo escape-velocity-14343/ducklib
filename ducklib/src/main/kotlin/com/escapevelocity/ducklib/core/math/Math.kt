@@ -1,5 +1,9 @@
 package com.escapevelocity.ducklib.core.math
 
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.round
+
 /**
  * Calculates the good modulo of two numbers.
  *
@@ -77,3 +81,24 @@ fun umod(dividend: Float, divisor: Float) = ((dividend % divisor) + divisor) % d
  * which is always in the range `[0, divisor)`.
  */
 fun umod(dividend: Double, divisor: Double) = ((dividend % divisor) + divisor) % divisor
+
+/**
+ * Rounds [value] down to the nearest [increment]
+ * @see ceil
+ * @see round
+ */
+fun floor(value: Double, increment: Double) = floor(value / increment) * increment
+
+/**
+ * Rounds [value] up to the nearest [increment]
+ * @see floor
+ * @see round
+ */
+fun ceil(value: Double, increment: Double) = ceil(value / increment) * increment
+
+/**
+ * Rounds [value] up or down to the nearest [increment]
+ * @see floor
+ * @see ceil
+ */
+fun round(value: Double, increment: Double) = round(value / increment) * increment

@@ -1,50 +1,10 @@
-package com.escapevelocity.ducklib.ftc.gamepad
+package com.escapevelocity.ducklib.ftc.extensions
 
 import com.escapevelocity.ducklib.core.geometry.Vector2
+import com.escapevelocity.ducklib.core.geometry.inches
 import com.qualcomm.robotcore.hardware.Gamepad
 
 class GamepadEx(val gamepad: Gamepad) {
-    enum class ButtonInput {
-        DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
-
-        A, B, X, Y,
-
-        CROSS, CIRCLE, SQUARE, TRIANGLE,
-
-        BUMPER_LEFT, BUMPER_RIGHT,
-
-        TOUCHPAD_PRESS, TOUCHPAD_TOUCH, TOUCHPAD_TOUCH_FINGER_2,
-
-        /**
-         * "PS4 Support - PS Button" whatever this means
-         */
-        PLAYSTATION_BUTTON,
-
-        /**
-         * "button guide - often the large button in the middle of the controller. The OS may capture this button before
-         * it is sent to the app; in which case you'll never receive it" so maybe don't use this one?
-         */
-        GUIDE,
-
-        SHARE, OPTIONS,
-
-        STICK_BUTTON_LEFT, STICK_BUTTON_RIGHT,
-    }
-
-    enum class AnalogInput {
-        TRIGGER_LEFT, TRIGGER_RIGHT,
-
-        STICK_X_LEFT, STICK_Y_LEFT,
-
-        STICK_X_RIGHT, STICK_Y_RIGHT,
-
-        TOUCHPAD_X, TOUCHPAD_Y, TOUCHPAD_X_FINGER_2, TOUCHPAD_Y_FINGER_2,
-    }
-
-    enum class VectorInput {
-        STICK_LEFT, STICK_RIGHT, TOUCHPAD, TOUCHPAD_FINGER_2,
-    }
-
     fun button(button: ButtonInput) = { buttonVal(button) }
 
     fun buttonVal(button: ButtonInput) = when (button) {
@@ -88,21 +48,73 @@ class GamepadEx(val gamepad: Gamepad) {
         AnalogInput.TOUCHPAD_Y_FINGER_2 -> (gamepad.touchpad_finger_2_y.toDouble())
     }
 
-    fun vector(input: VectorInput) = { vectorVal(input) }
+    fun vector(input: VectorInput, invertY: Boolean = false) = { vectorVal(input, invertY) }
 
-    fun vectorVal(input: VectorInput) = when (input) {
-        VectorInput.STICK_LEFT -> Vector2(gamepad.left_stick_x.toDouble(), gamepad.left_stick_y.toDouble())
+    fun vectorVal(input: VectorInput, invertY: Boolean = false) = when (input) {
+        VectorInput.STICK_LEFT -> Vector2(
+            gamepad.left_stick_x.toDouble().inches,
+            -gamepad.left_stick_y.toDouble().inches
+        )
 
-        VectorInput.STICK_RIGHT -> Vector2(gamepad.right_stick_x.toDouble(), gamepad.right_stick_y.toDouble())
+        VectorInput.STICK_RIGHT -> Vector2(
+            gamepad.right_stick_x.toDouble().inches,
+            -gamepad.right_stick_y.toDouble().inches
+        )
 
-        VectorInput.TOUCHPAD -> Vector2(gamepad.touchpad_finger_1_x.toDouble(), gamepad.touchpad_finger_1_y.toDouble())
+        VectorInput.TOUCHPAD -> Vector2(
+            gamepad.touchpad_finger_1_x.toDouble().inches,
+            -gamepad.touchpad_finger_1_y.toDouble().inches
+        )
 
         VectorInput.TOUCHPAD_FINGER_2 -> Vector2(
-            gamepad.touchpad_finger_2_x.toDouble(),
-            gamepad.touchpad_finger_2_y.toDouble()
+            gamepad.touchpad_finger_2_x.toDouble().inches,
+            -gamepad.touchpad_finger_2_y.toDouble().inches
         )
     }
 }
 
 fun (() -> Double).boolean(predicate: (Double) -> Boolean = { it > 0.5 }) = { predicate(this()) }
 fun (() -> Vector2).boolean(predicate: (Vector2) -> Boolean = { it.lengthSquared > 0.5 * 0.5 }) = { predicate(this()) }
+
+val Gamepad.ex get() = GamepadEx(this)
+
+enum class ButtonInput {
+    DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
+
+    A, B, X, Y,
+
+    CROSS, CIRCLE, SQUARE, TRIANGLE,
+
+    BUMPER_LEFT, BUMPER_RIGHT,
+
+    TOUCHPAD_PRESS, TOUCHPAD_TOUCH, TOUCHPAD_TOUCH_FINGER_2,
+
+    /**
+     * "PS4 Support - PS Button" whatever this means
+     */
+    PLAYSTATION_BUTTON,
+
+    /**
+     * "button guide - often the large button in the middle of the controller. The OS may capture this button before
+     * it is sent to the app; in which case you'll never receive it" so maybe don't use this one?
+     */
+    GUIDE,
+
+    SHARE, OPTIONS,
+
+    STICK_BUTTON_LEFT, STICK_BUTTON_RIGHT,
+}
+
+enum class AnalogInput {
+    TRIGGER_LEFT, TRIGGER_RIGHT,
+
+    STICK_X_LEFT, STICK_Y_LEFT,
+
+    STICK_X_RIGHT, STICK_Y_RIGHT,
+
+    TOUCHPAD_X, TOUCHPAD_Y, TOUCHPAD_X_FINGER_2, TOUCHPAD_Y_FINGER_2,
+}
+
+enum class VectorInput {
+    STICK_LEFT, STICK_RIGHT, TOUCHPAD, TOUCHPAD_FINGER_2,
+}

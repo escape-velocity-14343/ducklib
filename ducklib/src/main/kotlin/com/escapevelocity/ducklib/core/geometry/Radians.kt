@@ -3,8 +3,7 @@ package com.escapevelocity.ducklib.core.geometry
 import com.escapevelocity.ducklib.core.math.umod
 import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
-import java.util.Formattable
-import java.util.Formatter
+import java.util.*
 
 @JvmInline
 value class Radians(val v: Double) : Comparable<Radians>, Formattable {
@@ -164,6 +163,8 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
     }
 
     companion object {
+        val ZERO = 0.0.radians
+
         /**
          * Half-pi constant in [com.escapevelocity.ducklib.core.geometry.Radians]
          */
@@ -179,7 +180,8 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
          */
         val TAU = kotlin.math.PI.radians * 2.0
 
-        fun fromDegrees(degrees: Double) = (kotlin.math.PI / 180.0 * degrees).radians
+        fun fromDegrees(degrees: Double) = PI / 180.0 * degrees
+        fun fromRotations(rotations: Double) = rotations * TAU
     }
 }
 
@@ -188,8 +190,10 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
  *
  * This doesn't normalize the angle, if you want that use [Radians.normalized] separately
  */
-val Double.radians: Radians
+inline val Double.radians
     get() = Radians(this)
+inline val (() -> Double).radians
+    get() = { this().radians }
 
 /**
  * @see [Radians.plus]
@@ -245,5 +249,45 @@ fun asin(x: Double) = kotlin.math.asin(x).radians
  * @see [kotlin.math.atan]
  */
 fun atan(x: Double) = kotlin.math.atan(x).radians
+
+/**
+ * @see com.escapevelocity.ducklib.core.math.umod
+ */
 fun umod(x: Radians, y: Radians) = Radians(umod(x.v, y.v))
 fun atan2(y: Inches, x: Inches) = kotlin.math.atan2(y.v, x.v).radians
+
+/**
+ * @see kotlin.math.floor
+ */
+fun floor(value: Radians) = kotlin.math.floor(value.v).radians
+
+/**
+ * @see kotlin.math.ceil
+ */
+fun ceil(value: Radians) = kotlin.math.ceil(value.v).radians
+
+/**
+ * @see kotlin.math.round
+ */
+fun round(value: Radians) = kotlin.math.round(value.v).radians
+
+/**
+ * Rounds [value] down to the nearest [increment]
+ * @see ceil
+ * @see round
+ */
+fun floor(value: Radians, increment: Radians) = floor(value / increment) * increment
+
+/**
+ * Rounds [value] up to the nearest [increment]
+ * @see floor
+ * @see round
+ */
+fun ceil(value: Radians, increment: Radians) = ceil(value / increment) * increment
+
+/**
+ * Rounds [value] up or down to the nearest [increment]
+ * @see floor
+ * @see ceil
+ */
+fun round(value: Radians, increment: Radians) = round(value / increment) * increment

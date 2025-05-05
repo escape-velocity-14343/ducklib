@@ -50,7 +50,7 @@ value class Inches(val v: Double) : Comparable<Inches> {
     operator fun rangeTo(other: Inches) = ClosedRangeT(this, other)
     operator fun rangeUntil(other: Inches) = OpenRangeT(this, other)
 
-    companion object Factory {
+    companion object {
         fun fromMm(mm: Double) = (mm / 25.4).inches
         fun fromCm(cm: Double) = (cm / 2.54).inches
         fun fromM(m: Double) = (m / 0.254).inches
@@ -59,14 +59,22 @@ value class Inches(val v: Double) : Comparable<Inches> {
 }
 
 /**
+ * Converts a [Double] to [Inches].
+ */
+inline val Double.inches: Inches
+    get() = Inches(this)
+
+/**
  * Converts a [Number] to [Inches].
  *
  * **NOTE**:
  * This converts the number to a double!
  * If loss of precision occurs, it is NOT MY FAULT.
  */
-val Number.inches: Inches
+inline val Number.inches: Inches
     get() = Inches(this.toDouble())
+val (() -> Double).inches
+    get() = { this().inches }
 
 /**
  * **NOTE**:
@@ -97,3 +105,39 @@ operator fun Number.times(right: Inches) = Inches(this.toDouble() * right.v)
 operator fun Number.div(right: Inches) = Inches(this.toDouble() / right.v)
 
 fun hypot(x: Inches, y: Inches) = Inches(hypot(x.v, y.v))
+
+/**
+ * @see kotlin.math.floor
+ */
+fun floor(value: Inches) = kotlin.math.floor(value.v).inches
+
+/**
+ * @see kotlin.math.ceil
+ */
+fun ceil(value: Inches) = kotlin.math.ceil(value.v).inches
+
+/**
+ * @see kotlin.math.round
+ */
+fun round(value: Inches) = kotlin.math.round(value.v).inches
+
+/**
+ * Rounds [value] down to the nearest [increment]
+ * @see ceil
+ * @see round
+ */
+fun floor(value: Inches, increment: Inches) = floor(value / increment) * increment
+
+/**
+ * Rounds [value] up to the nearest [increment]
+ * @see floor
+ * @see round
+ */
+fun ceil(value: Inches, increment: Inches) = ceil(value / increment) * increment
+
+/**
+ * Rounds [value] up or down to the nearest [increment]
+ * @see floor
+ * @see ceil
+ */
+fun round(value: Inches, increment: Inches) = round(value / increment) * increment

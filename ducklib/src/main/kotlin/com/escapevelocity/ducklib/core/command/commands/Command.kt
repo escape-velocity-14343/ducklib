@@ -207,7 +207,7 @@ fun <T : Command> T.setOnEqualConflict(onEqualConflict: OnEqualConflict) =
  * @sample com.escapevelocity.ducklib.core.samples.inlineCommandConfigurationSample
  * @sample com.escapevelocity.ducklib.core.samples.statementCommandConfigurationSample
  */
-fun <T : Command> T.configure(configuration: T.() -> Unit): T {
+inline fun <T : Command> T.configure(configuration: T.() -> Unit): T {
     this.configuration()
     return this
 }

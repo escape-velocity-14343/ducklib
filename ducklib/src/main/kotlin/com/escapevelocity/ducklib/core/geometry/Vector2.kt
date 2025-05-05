@@ -1,10 +1,6 @@
 package com.escapevelocity.ducklib.core.geometry
 
 data class Vector2(val x: Inches, val y: Inches) {
-    enum class Axis {
-        X,
-        Y,
-    }
 
     constructor(value: Inches) : this(value, value)
 
@@ -42,6 +38,11 @@ data class Vector2(val x: Inches, val y: Inches) {
     operator fun div(right: Double) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
 
+    fun flip(axis: Axis) = when (axis) {
+        Axis.X -> Vector2(-x, +y)
+        Axis.Y -> Vector2(+x, -y)
+    }
+
     operator fun get(index: Axis): Inches = when (index) {
         Axis.X -> x
         Axis.Y -> y
@@ -54,4 +55,9 @@ data class Vector2(val x: Inches, val y: Inches) {
         val Y = Vector2(0.0.inches, 1.0.inches)
         fun fromAngle(angle: Radians, length: Inches = 1.0.inches) = Vector2(cos(angle) * length, sin(angle) * length)
     }
+}
+
+enum class Axis {
+    X,
+    Y,
 }

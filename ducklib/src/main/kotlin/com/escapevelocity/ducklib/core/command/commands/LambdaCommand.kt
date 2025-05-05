@@ -2,13 +2,9 @@
 
 package com.escapevelocity.ducklib.core.command.commands
 
-class LambdaCommand(vararg requirements: Any) : Command() {
-    constructor(vararg requirements: Any, configuration: LambdaCommand.() -> Unit) : this(*requirements) {
+class LambdaCommand(vararg requirements: Any) : RequirementCommand(requirements) {
+    constructor(vararg requirements: Any, configuration: LambdaCommand.() -> Unit) : this(requirements) {
         this.configuration()
-    }
-
-    init {
-        addRequirements(requirements)
     }
 
     var lmsuspendable: Boolean = super.suspendable

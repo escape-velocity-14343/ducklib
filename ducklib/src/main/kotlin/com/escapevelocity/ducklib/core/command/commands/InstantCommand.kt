@@ -1,6 +1,6 @@
 package com.escapevelocity.ducklib.core.command.commands
 
-class InstantCommand(val toRun: () -> Unit): Command() {
+class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : RequirementCommand(requirements) {
     override fun execute() {
         toRun()
     }

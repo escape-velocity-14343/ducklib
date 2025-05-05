@@ -73,7 +73,7 @@ inline val Double.inches: Inches
  */
 inline val Number.inches: Inches
     get() = Inches(this.toDouble())
-val (() -> Double).inches
+val (() -> Double).inchesSupplier
     get() = { this().inches }
 
 /**

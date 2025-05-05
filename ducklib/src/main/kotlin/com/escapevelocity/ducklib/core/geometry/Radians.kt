@@ -192,7 +192,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
  */
 inline val Double.radians
     get() = Radians(this)
-inline val (() -> Double).radians
+inline val (() -> Double).radiansSupplier
     get() = { this().radians }
 
 /**

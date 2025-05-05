@@ -1,15 +1,13 @@
 package com.escapevelocity.ducklib.ftc.samples
 
+import com.escapevelocity.ducklib.core.command.commands.InstantCommand
 import com.escapevelocity.ducklib.core.command.commands.LambdaCommand
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnFalse
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
-import com.escapevelocity.ducklib.core.geometry.Pose2
-import com.escapevelocity.ducklib.core.geometry.Radians
-import com.escapevelocity.ducklib.core.geometry.Vector2
-import com.escapevelocity.ducklib.core.geometry.radians
+import com.escapevelocity.ducklib.core.geometry.*
 import com.escapevelocity.ducklib.ftc.extensions.*
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -27,13 +25,13 @@ class ExampleOpMode : OpMode() {
     override fun init() {
         map.init(hardwareMap)
 
-        driver.button(ButtonInput.A)
-            .onceOnTrue(LambdaCommand(servo) { lminitialize = { servo.position = 0.5 } })
-            .onceOnFalse(LambdaCommand(servo) { lminitialize = { servo.position = 0.0 } })
+        driver[ButtonInput.A]
+            .onceOnTrue(InstantCommand(servo) { servo.position = 0.5 })
+            .onceOnFalse(InstantCommand(servo) { servo.position = 0.0 })
 
         drivetrainSubsystem.driveCommand(
-            driver.vector(VectorInput.STICK_LEFT, invertY = true),
-            driver.analog(AnalogInput.STICK_X_LEFT).radians
+            { driver[VectorInput.STICK_LEFT].flip(Axis.Y) },
+            { driver[AnalogInput.STICK_X_LEFT].radians }
         ).schedule()
     }
 

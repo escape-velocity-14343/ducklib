@@ -5,9 +5,31 @@ import com.escapevelocity.ducklib.core.geometry.inches
 import com.qualcomm.robotcore.hardware.Gamepad
 
 class GamepadEx(val gamepad: Gamepad) {
-    fun button(button: ButtonInput) = { buttonVal(button) }
+    /**
+     * Get a button input supplier.
+     *
+     * **NOTE**:
+     * Returns a supplier, not a value!
+     * If you want a value, use [current]
+     * @param input The [ButtonInput]'s state to produce
+     */
+    operator fun get(input: ButtonInput) = { current(input) }
 
-    fun buttonVal(button: ButtonInput) = when (button) {
+    /**
+     * Gets the current value of an [AnalogInput]
+     *
+     * @param input The [AnalogInput]'s state to get
+     */
+    operator fun get(input: AnalogInput) = current(input)
+
+    /**
+     * Gets the current value of an [VectorInput]
+     *
+     * @param input The [VectorInput]'s state to get
+     */
+    operator fun get(input: VectorInput) = current(input)
+
+    fun current(button: ButtonInput) = when (button) {
         ButtonInput.DPAD_UP -> gamepad.dpad_up
         ButtonInput.DPAD_DOWN -> gamepad.dpad_down
         ButtonInput.DPAD_LEFT -> gamepad.dpad_left
@@ -33,9 +55,7 @@ class GamepadEx(val gamepad: Gamepad) {
         ButtonInput.STICK_BUTTON_RIGHT -> gamepad.right_stick_button
     }
 
-    fun analog(input: AnalogInput) = { analogVal(input) }
-
-    fun analogVal(input: AnalogInput) = when (input) {
+    fun current(input: AnalogInput) = when (input) {
         AnalogInput.TRIGGER_LEFT -> (gamepad.left_trigger.toDouble())
         AnalogInput.TRIGGER_RIGHT -> (gamepad.right_trigger.toDouble())
         AnalogInput.STICK_X_LEFT -> (gamepad.left_stick_x.toDouble())
@@ -48,27 +68,25 @@ class GamepadEx(val gamepad: Gamepad) {
         AnalogInput.TOUCHPAD_Y_FINGER_2 -> (gamepad.touchpad_finger_2_y.toDouble())
     }
 
-    fun vector(input: VectorInput, invertY: Boolean = false) = { vectorVal(input, invertY) }
-
-    fun vectorVal(input: VectorInput, invertY: Boolean = false) = when (input) {
+    fun current(input: VectorInput) = when (input) {
         VectorInput.STICK_LEFT -> Vector2(
             gamepad.left_stick_x.toDouble().inches,
-            -gamepad.left_stick_y.toDouble().inches
+            gamepad.left_stick_y.toDouble().inches
         )
 
         VectorInput.STICK_RIGHT -> Vector2(
             gamepad.right_stick_x.toDouble().inches,
-            -gamepad.right_stick_y.toDouble().inches
+            gamepad.right_stick_y.toDouble().inches
         )
 
         VectorInput.TOUCHPAD -> Vector2(
             gamepad.touchpad_finger_1_x.toDouble().inches,
-            -gamepad.touchpad_finger_1_y.toDouble().inches
+            gamepad.touchpad_finger_1_y.toDouble().inches
         )
 
         VectorInput.TOUCHPAD_FINGER_2 -> Vector2(
             gamepad.touchpad_finger_2_x.toDouble().inches,
-            -gamepad.touchpad_finger_2_y.toDouble().inches
+            gamepad.touchpad_finger_2_y.toDouble().inches
         )
     }
 }

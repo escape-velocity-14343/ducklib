@@ -17,8 +17,10 @@ interface TriggerScheduler {
     fun reset()
 
     /**
-     * Runs [action] when the trigger moves from false to true
+     * Run [action] on the rising edge of the boolean supplier.
+     *
      * @param action The action to run
+     * @return The same boolean supplier for chaining calls
      * @sample com.escapevelocity.ducklib.core.samples.triggerOnceOnSample
      */
     fun <T : () -> Boolean> T.onceOnTrue(action: () -> Unit): T {
@@ -32,6 +34,13 @@ interface TriggerScheduler {
         return this
     }
 
+    /**
+     * Run [action] on the falling edge of the boolean supplier.
+     *
+     * @param action The action to run
+     * @return The same boolean supplier for chaining calls
+     * @sample com.escapevelocity.ducklib.core.samples.triggerOnceOnSample
+     */
     fun <T : () -> Boolean> T.onceOnFalse(action: () -> Unit): T {
         var lastVal = this()
         bind({
@@ -43,9 +52,14 @@ interface TriggerScheduler {
         return this
     }
 
+    /**
+     * Run [risingAction] on the rising edge of the boolean supplier and [fallingAction] on the falling edge.
+     *
+     * @param risingAction The action to run on the rising edge
+     * @param fallingAction The action to run on the falling edge
+     * @return The same boolean supplier for chaining calls
+     * @sample com.escapevelocity.ducklib.core.samples.triggerOnceOnSample
+     */
     fun <T : () -> Boolean> T.whileOnTrue(risingAction: () -> Unit, fallingAction: () -> Unit) =
         onceOnTrue(risingAction).onceOnFalse(fallingAction)
-
-    fun <T : () -> Boolean> T.whileOnFalse(risingAction: () -> Unit, fallingAction: () -> Unit) =
-        onceOnTrue(fallingAction).onceOnFalse(risingAction)
 }

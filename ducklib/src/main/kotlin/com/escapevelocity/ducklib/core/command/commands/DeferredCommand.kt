@@ -1,6 +1,11 @@
 package com.escapevelocity.ducklib.core.command.commands
 
-class DeferredCommand(val commandSupplier: () -> Command, vararg requirements: Any) : Command() {
+/**
+ * Defers command construction until scheduling time.
+ * This is useful when you have dynamically changing parameters,
+ * but you don't want every parameter to use a `() -> T` type.
+ */
+class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Command) : Command() {
     init {
         addRequirements(requirements)
     }
@@ -34,3 +39,5 @@ class DeferredCommand(val commandSupplier: () -> Command, vararg requirements: A
         cmd?.end(interrupted)
     }
 }
+
+fun (() -> Command).deferred(vararg requirements: Any) = DeferredCommand(*requirements, commandSupplier = this)

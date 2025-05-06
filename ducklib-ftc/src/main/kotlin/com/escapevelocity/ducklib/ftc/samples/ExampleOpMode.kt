@@ -1,7 +1,7 @@
 package com.escapevelocity.ducklib.ftc.samples
 
-import com.escapevelocity.ducklib.core.command.commands.InstantCommand
 import com.escapevelocity.ducklib.core.command.commands.LambdaCommand
+import com.escapevelocity.ducklib.core.command.commands.instant
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnFalse
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
@@ -26,8 +26,8 @@ class ExampleOpMode : OpMode() {
         map.init(hardwareMap)
 
         driver[ButtonInput.A]
-            .onceOnTrue(InstantCommand(servo) { servo.position = 0.5 })
-            .onceOnFalse(InstantCommand(servo) { servo.position = 0.0 })
+            .onceOnTrue({ servo.position = 0.5 }.instant(servo))
+            .onceOnFalse({ servo.position = 0.0 }.instant(servo))
 
         drivetrainSubsystem.driveCommand(
             { driver[VectorInput.STICK_LEFT].flip(Axis.Y) },

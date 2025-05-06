@@ -5,3 +5,5 @@ class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : Requirem
         toRun()
     }
 }
+
+fun (() -> Unit).instant(vararg requirements: Any) = InstantCommand(requirements, toRun = this)

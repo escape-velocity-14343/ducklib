@@ -315,24 +315,58 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
             }
         }
 
-        fun <T : () -> Boolean> T.onceOnTrue(command: Command): T {
-            var lastVal = this()
-            bind({
-                val thisVal = this()
-                val ret = thisVal && !lastVal
-                lastVal = thisVal
-                ret
-            }, this) {
-                command.schedule()
-            }
-            return this
-        }
+        /**
+         * Schedule a command on the rising edge of the boolean supplier.
+         *
+         * @param command The command to schedule
+         * @return The same boolean supplier for chaining calls
+         */
+        fun <T : () -> Boolean> T.onceOnTrue(command: Command): T = onceOnTrue({ command.schedule() })
 
+        /**
+         * Evaluate the command supplier then schedule the result on the rising edge of the boolean supplier.
+         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.DeferredCommand],
+         * but it's more flexible.
+         *
+         * @param command The command supplier to evaluate on the rising edge
+         * @return The same boolean supplier for chaining calls
+         */
+        fun <T : () -> Boolean> T.onceOnTrueDefer(command: () -> Command): T = onceOnTrue { command().schedule() }
+
+        /**
+         * Schedule a command on the falling edge of the boolean supplier.
+         *
+         * @param command The command to schedule
+         */
         fun <T : () -> Boolean> T.onceOnFalse(command: Command): T = onceOnFalse { command.schedule() }
 
+        /**
+         * Evaluate the command supplier then schedule the result on the falling edge of the boolean supplier.
+         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.DeferredCommand],
+         * but it's more flexible.
+         *
+         * @param command The command supplier to evaluate on the rising edge
+         * @return The same boolean supplier for chaining calls
+         */
+        fun <T : () -> Boolean> T.onceOnFalseDefer(command: () -> Command): T = onceOnFalse { command().schedule() }
+
+        /**
+         * Schedule a command on the falling edge of the boolean supplier,
+         * then cancel it on the falling edge.
+         *
+         * @param command The command to schedule
+         * @return The same boolean supplier for chaining calls
+         */
         fun <T : () -> Boolean> T.whileOnTrue(command: Command) =
             onceOnTrue { command.schedule() }.onceOnFalse { command.cancel() }
 
+        /**
+         * Schedule a command on the falling edge of the boolean supplier,
+         * then cancel it on the rising edge.
+         *
+         * @param command The command to schedule
+         * @return The same boolean supplier for chaining calls
+         */
         fun <T : () -> Boolean> T.whileOnFalse(command: Command) =
             onceOnTrue { command.cancel() }.onceOnFalse { command.schedule() }
     }

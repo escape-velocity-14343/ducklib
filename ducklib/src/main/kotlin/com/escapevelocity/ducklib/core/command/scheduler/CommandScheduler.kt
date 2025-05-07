@@ -4,8 +4,8 @@ import com.escapevelocity.ducklib.core.command.commands.Command
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 
 /**
- * An interface that defines a command scheduler - a class that allows you to add commands, run added commands, and
- * cancel those commands
+ * An interface that defines a command scheduler -
+ * a class that allows you to add commands, run added commands, and cancel those commands
  */
 interface CommandScheduler {
     /**

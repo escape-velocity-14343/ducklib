@@ -1,5 +1,10 @@
 package com.escapevelocity.ducklib.core.command.scheduler
 
+/**
+ * An interface that defines a trigger scheduler -
+ * a class that allows you to bind `() -> Boolean`s to `() -> Unit`s,
+ * while also handling rising-edge and falling-edge logic.
+ */
 interface TriggerScheduler {
     /**
      * Bind a boolean supplier to an action. When [trigger] is true, the [action] will be run by the [TriggerScheduler]

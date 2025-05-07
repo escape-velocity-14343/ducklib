@@ -1,5 +1,8 @@
 package com.escapevelocity.ducklib.core.geometry
 
+/**
+ * Data container that holds a position and a heading.
+ */
 data class Pose2(val position: Vector2, val heading: Radians) {
     constructor(x: Inches, y: Inches, heading: Radians) : this(Vector2(x, y), heading)
 

@@ -4,6 +4,9 @@ import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
 import kotlin.math.hypot
 
+/**
+ * Represents a spatial length, normally Inches.
+ */
 @JvmInline
 value class Inches(val v: Double) : Comparable<Inches> {
     operator fun plus(right: Inches) = Inches(this.v + right.v)

@@ -5,6 +5,9 @@ import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
 import java.util.*
 
+/**
+ * Represents an angle or arc length in radians, where one full rotation is 2π radians.
+ */
 @JvmInline
 value class Radians(val v: Double) : Comparable<Radians>, Formattable {
     val degrees: Double

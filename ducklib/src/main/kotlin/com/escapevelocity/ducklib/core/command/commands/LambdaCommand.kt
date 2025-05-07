@@ -2,8 +2,14 @@
 
 package com.escapevelocity.ducklib.core.command.commands
 
-open class LambdaCommand(vararg requirements: Any) : RequirementCommand(requirements) {
-    constructor(vararg requirements: Any, configuration: LambdaCommand.() -> Unit) : this(requirements) {
+/**
+ * A command that exposes the lifetime functions like [initialize] and [execute] as lambdas.
+ *
+ * Useful for one-off commands,
+ * or commands that capture outer variables.
+ */
+open class LambdaCommand() : Command() {
+    constructor(configuration: LambdaCommand.() -> Unit) : this() {
         this.configuration()
     }
 

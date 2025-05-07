@@ -1,5 +1,9 @@
 package com.escapevelocity.ducklib.core.geometry
 
+/**
+ * Data container that holds an X and Y position in [Inches] normally,
+ * but sometimes it's just a scalar using an [Inches] wrapper.
+ */
 data class Vector2(val x: Inches, val y: Inches) {
 
     constructor(value: Inches) : this(value, value)

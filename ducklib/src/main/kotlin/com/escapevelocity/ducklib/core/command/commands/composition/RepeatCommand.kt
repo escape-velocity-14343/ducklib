@@ -1,14 +1,18 @@
-package com.escapevelocity.ducklib.core.command.commands
+package com.escapevelocity.ducklib.core.command.commands.composition
 
-class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
+import com.escapevelocity.ducklib.core.command.commands.Command
+
+open class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
     override val suspendable: Boolean
         get() = command.suspendable
 
     var repeatTimes = 0
+    var initializeNext = false
 
     override fun initialize() {
         command.initialize()
         repeatTimes = 0
+        initializeNext = true
     }
 
     override fun execute() {
@@ -17,10 +21,15 @@ class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
             return
         }
 
+        if (initializeNext) {
+            command.initialize()
+            initializeNext = false
+        }
+
         command.execute()
 
         if (command.finished) {
-            command.initialize()
+            command.end(false)
             repeatTimes++
         }
     }
@@ -36,8 +45,8 @@ class RepeatCommand(val command: Command, val times: Int? = null) : Command() {
         command.resume()
     }
 
-    override fun end(interrupted: Boolean) {
-        command.end(interrupted)
+    override fun end(canceled: Boolean) {
+        command.end(canceled)
     }
 }
 

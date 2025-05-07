@@ -1,9 +1,17 @@
-package com.escapevelocity.ducklib.core.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.composition.group
 
 import com.escapevelocity.ducklib.core.command.commands.Command
 import com.escapevelocity.ducklib.core.util.containsAny
 import java.security.InvalidParameterException
 
+/**
+ * Runs the given commands all at the same time and finishes when all the commands are finished.
+ *
+ * Commands can't share requirements, unlike [SequentialCommandGroup].
+ *
+ * @param commands The commands to run in parallel
+ * @sample [com.escapevelocity.ducklib.core.samples.parallelCommandGroupSample]
+ */
 open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*commands) {
 
     protected var _commands: LinkedHashMap<Command, Boolean>? = null
@@ -51,7 +59,8 @@ open class ParallelCommandGroup(vararg commands: Command) : CommandGroup(*comman
         addRequirements(command.requirements)
     }
 
-    override fun end(interrupted: Boolean) = commands.forEach { it.end(interrupted) }
+    override fun end(canceled: Boolean) =
+        _commands!!.forEach { (command, finished) -> command.end(canceled || !finished) }
 
     override fun Command.prefix() = if (_commands!![this] == false) ">" else " "
 }

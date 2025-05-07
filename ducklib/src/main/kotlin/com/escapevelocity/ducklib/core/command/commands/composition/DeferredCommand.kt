@@ -1,15 +1,19 @@
-package com.escapevelocity.ducklib.core.command.commands
+package com.escapevelocity.ducklib.core.command.commands.composition
+
+import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.commands.RequirementCommand
 
 /**
  * Defers command construction until scheduling time.
  * This is useful when you have dynamically changing parameters,
  * but you don't want every parameter to use a `() -> T` type.
+ *
+ * @param requirements The requirements of the command.
+ * This should be the same as the requirements of the command [commandSupplier] will produce.
+ * @param commandSupplier The command supplier to be evaluated at initialization time.
  */
-class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Command) : Command() {
-    init {
-        addRequirements(requirements)
-    }
-
+open class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Command) :
+    RequirementCommand(requirements) {
     private var cmd: Command? = null
 
     override val suspendable: Boolean
@@ -35,8 +39,8 @@ class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Comma
         cmd?.resume()
     }
 
-    override fun end(interrupted: Boolean) {
-        cmd?.end(interrupted)
+    override fun end(canceled: Boolean) {
+        cmd?.end(canceled)
     }
 }
 

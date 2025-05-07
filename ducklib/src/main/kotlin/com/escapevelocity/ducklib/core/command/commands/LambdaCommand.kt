@@ -2,7 +2,7 @@
 
 package com.escapevelocity.ducklib.core.command.commands
 
-class LambdaCommand(vararg requirements: Any) : RequirementCommand(requirements) {
+open class LambdaCommand(vararg requirements: Any) : RequirementCommand(requirements) {
     constructor(vararg requirements: Any, configuration: LambdaCommand.() -> Unit) : this(requirements) {
         this.configuration()
     }
@@ -37,8 +37,8 @@ class LambdaCommand(vararg requirements: Any) : RequirementCommand(requirements)
         lmresume()
     }
 
-    override fun end(interrupted: Boolean) {
-        lmend(interrupted)
+    override fun end(canceled: Boolean) {
+        lmend(canceled)
     }
 
     fun setSuspendable(suspendable: Boolean) {

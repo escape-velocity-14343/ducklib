@@ -325,7 +325,7 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
 
         /**
          * Evaluate the command supplier then schedule the result on the rising edge of the boolean supplier.
-         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.DeferredCommand],
+         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.composition.DeferredCommand],
          * but it's more flexible.
          *
          * @param command The command supplier to evaluate on the rising edge
@@ -341,8 +341,8 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
         fun <T : () -> Boolean> T.onceOnFalse(command: Command): T = onceOnFalse { command.schedule() }
 
         /**
-         * Evaluate the command supplier then schedule the result on the falling edge of the boolean supplier.
-         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.DeferredCommand],
+         * Evaluate the command supplier, then schedule the result on the falling edge of the boolean supplier.
+         * This is similar to a [com.escapevelocity.ducklib.core.command.commands.composition.DeferredCommand],
          * but it's more flexible.
          *
          * @param command The command supplier to evaluate on the rising edge

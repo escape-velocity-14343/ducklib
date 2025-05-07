@@ -1,3 +1,4 @@
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,7 +26,10 @@ import com.escapevelocity.ducklib.core.command.commands.*
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.*
+import com.escapevelocity.ducklib.core.util.races
+import com.escapevelocity.ducklib.core.util.with
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 val typography = Typography(defaultFontFamily = FontFamily.Monospace)
 
@@ -42,26 +46,22 @@ fun SchedulerTestApp() {
     remember {
         val ss1 = Test1Subsystem()
         val ss2 = Test2Subsystem()
-        val c1 = WaitCommand(2.0).configure {
+        val c1 = WaitCommand(2.seconds).configure {
             priority = 1.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
             addRequirements(ss1)
         }
-        val c2 = WaitCommand(2.0).configure {
+        val c2 = WaitCommand(2.seconds).configure {
             priority = 1.priority
             onEqualConflict = OnEqualConflict.QUEUE
             addRequirements(ss1)
         }
-        val c3 = WaitCommand(2.0).configure {
+        val c3 = WaitCommand(2.seconds).configure {
             priority = 2.priority
             onEqualConflict = OnEqualConflict.OVERRIDE
             addRequirements(ss1, ss2)
         }
-        val c4 = WaitCommand(2.0).configure {
-            priority = 1.priority
-            onEqualConflict = OnEqualConflict.OVERRIDE
-            addRequirements(ss2)
-        }
+        val c4 = WaitCommand(2.seconds) races WaitCommand(1.seconds) with WaitCommand(1.5.seconds)
         val c5 = LambdaCommand {
             priority = 1.priority
 
@@ -186,7 +186,7 @@ fun main() = application {
         SchedulerTestApp()
     }
 
-    Window(onCloseRequest = ::exitApplication) {
-        GeometryTestApp()
-    }
+    //Window(onCloseRequest = ::exitApplication) {
+    //    GeometryTestApp()
+    //}
 }

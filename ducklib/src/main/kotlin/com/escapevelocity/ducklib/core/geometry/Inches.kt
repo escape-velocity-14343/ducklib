@@ -44,7 +44,7 @@ value class Inches(val v: Double) : Comparable<Inches> {
     operator fun inc() = Inches(this.v + 1)
     operator fun dec() = Inches(this.v - 1)
 
-    override fun toString() = v.toString()
+    override fun toString() = "$v\""
     override fun compareTo(other: Inches): Int = this.v.compareTo(other.v)
 
     operator fun rangeTo(other: Inches) = ClosedRangeT(this, other)

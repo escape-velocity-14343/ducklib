@@ -151,7 +151,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      */
     fun angleTo(other: Radians) = (other - this).normalized
 
-    override fun toString() = v.toString()
+    override fun toString() = "%.3s".format(this)
     override fun compareTo(other: Radians): Int = this.v.compareTo(other.v)
     override fun formatTo(
         formatter: Formatter?,

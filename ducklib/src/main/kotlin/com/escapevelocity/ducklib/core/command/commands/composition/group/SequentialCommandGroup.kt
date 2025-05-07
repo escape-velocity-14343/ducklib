@@ -1,8 +1,15 @@
-package com.escapevelocity.ducklib.core.command.commands.group
+package com.escapevelocity.ducklib.core.command.commands.composition.group
 
 import com.escapevelocity.ducklib.core.command.commands.Command
 
-class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) {
+/**
+ * Runs the given commands one at a time in the same order they're added.
+ *
+ * Commands *can* share requirements, unlike [ParallelCommandGroup], given that they each run separately.
+ *
+ * @sample [com.escapevelocity.ducklib.core.samples.sequentialCommandGroupSample]
+ */
+open class SequentialCommandGroup(vararg commands: Command) : CommandGroup(*commands) {
     private var _commands: ArrayList<Command>? = null
         get() {
             if (field == null) {
@@ -49,5 +56,6 @@ class SequentialCommandGroup(vararg commands: Command): CommandGroup(*commands) 
     override val finished
         get() = currentCommand >= _commands!!.size
 
-    override fun Command.prefix(): String = if(currentCommand < _commands!!.size && this == _commands!![currentCommand]) ">" else " "
+    override fun Command.prefix(): String =
+        if (currentCommand < _commands!!.size && this == _commands!![currentCommand]) ">" else " "
 }

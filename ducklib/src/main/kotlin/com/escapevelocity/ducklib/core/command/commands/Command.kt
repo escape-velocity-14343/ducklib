@@ -10,6 +10,11 @@ abstract class Command {
     var inGroup = false
         internal set
 
+    /**
+     * The name of the command.
+     * Used in stringification,
+     * so if you want nice string representations consider setting these in a [configure] block.
+     */
     open var name: String = javaClass.simpleName
 
     /**
@@ -31,8 +36,9 @@ abstract class Command {
      * Whether this command is suspendable or not.
      *
      * A suspendable command will get suspended if another conflicting command gets scheduled. As a result, [run] will
-     * no longer get called. [suspend] will be called once when the command is suspended, and [resume] will be called
-     * once when the command is ready to be resumed again.
+     * no longer get called.
+     * When the command is suspended [suspend] will be called,
+     * and [resume] will be called once when the command is ready to be run again.
      */
     open val suspendable: Boolean = true
 
@@ -86,13 +92,19 @@ abstract class Command {
     open fun initialize() {}
 
     /**
-     * Called every time [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.run] is called while the command is active
+     * Called every time [com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler.run] is called
+     * while the command is active
      */
     open fun execute() {}
 
     /**
-     * Checked every time [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.run] is called, after [Command.execute]. Commands are guaranteed to run
-     * [Command.execute] once, even if this method returns `true`
+     * Checked every time [com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler.run] is called,
+     * after [Command.execute].
+     * Commands are guaranteed to run
+     * [Command.execute] once, even if this method returns `true`.
+     *
+     * By default, commands will only run [execute] once,
+     * however, this may vary depending on the specific command.
      */
     open val finished = true
 
@@ -111,9 +123,10 @@ abstract class Command {
 
     /**
      * Called when the command is finished and the command scheduler is about to deschedule the command
-     * @param interrupted If the command was interrupted, such as by calling [com.escapevelocity.ducklib.command.scheduler.CommandScheduler.cancel]
+     * @param canceled If the command was interrupted,
+     * such as by calling [com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler.cancel]
      */
-    open fun end(interrupted: Boolean) {}
+    open fun end(canceled: Boolean) {}
 
     override fun toString(): String =
         "$name${if (name == javaClass.simpleName) "" else " (${javaClass.simpleName})"}@${this.b16Hash()}"

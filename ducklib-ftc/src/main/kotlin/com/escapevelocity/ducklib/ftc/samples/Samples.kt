@@ -9,16 +9,15 @@ import com.escapevelocity.ducklib.ftc.extensions.ex
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
+import kotlin.time.Duration.Companion.seconds
 
 fun gamepadSample(gamepad: Gamepad, slideSubsystem: SlideSubsystem) {
     // construct an extended gamepad
     val gp = gamepad.ex
 
-    gp.button(ButtonInput.STICK_BUTTON_LEFT).onceOnTrue {
-        println("hi")
-    }
+    gp[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue { println("hi") }
 
-    gp.button(ButtonInput.STICK_BUTTON_LEFT).onceOnTrue(WaitCommand(5.0))
+    gp[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue(WaitCommand(5.seconds))
 }
 
 fun triggerSample(slideSubsystem: SlideSubsystem) {

@@ -1,6 +1,17 @@
 package com.escapevelocity.ducklib.core.command.commands
 
-class WaitCommand(private val seconds: Double, private val trackSuspensionTime: Boolean = true) : Command() {
+import com.escapevelocity.ducklib.core.command.commands.composition.TimeoutCommand
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+
+/**
+ * Waits for a given duration while doing nothing, then finishes.
+ *
+ * @param duration How long it will wait for
+ * @param trackSuspensionTime Whether the [TimeoutCommand] will subtract from the total time the amount of time
+ * suspended
+ */
+open class WaitCommand(private val duration: Duration, private val trackSuspensionTime: Boolean = true) : Command() {
     private var timer = -1L
     private var suspensionTimer = -1L
     private var totalSuspensionTime = 0L
@@ -14,7 +25,7 @@ class WaitCommand(private val seconds: Double, private val trackSuspensionTime: 
         totalSuspensionTime = 0L
     }
 
-    override fun end(interrupted: Boolean) {
+    override fun end(canceled: Boolean) {
         timer = -1L
     }
 
@@ -30,9 +41,9 @@ class WaitCommand(private val seconds: Double, private val trackSuspensionTime: 
     }
 
     override val finished
-        get() = totalTimer > seconds
+        get() = totalTimer > duration.toDouble(DurationUnit.SECONDS)
 
 
     override fun toString(): String = super.toString() +
-            if (timer > 0) " (%.3f / %.3f)".format(totalTimer, seconds) else ""
+            if (timer > 0) " (%.3f / %.3f)".format(totalTimer, duration.toDouble(DurationUnit.SECONDS)) else ""
 }

@@ -17,8 +17,10 @@ import kotlin.reflect.cast
  * @sample com.escapevelocity.ducklib.ftc.samples.deferredHardwareMapSample
  */
 class HardwareMapEx() {
-    private val properties = ArrayList<HardwareMapProperty<*>>()
+    val properties = ArrayList<HardwareMapProperty<*>>()
+    val deferredProperties = ArrayList<DeferredProperty<*>>()
     var map: HardwareMap? = null
+        private set
 
     /**
      * Gets a device and casts it to type [T].
@@ -45,7 +47,8 @@ class HardwareMapEx() {
 
     fun init(map: HardwareMap) {
         this.map = map;
-        for (property in properties) property.init()
+        properties.forEach(HardwareMapProperty<*>::init)
+        deferredProperties.forEach(DeferredProperty<*>::init)
     }
 
     /**
@@ -60,8 +63,9 @@ class HardwareMapEx() {
         }
 
         var device: T? = null
-        operator fun getValue(thisRef: Any?, property: KProperty<*>): T = clazz.cast(device!!)
-        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {}
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): T =
+            clazz.cast(device ?: error("Hardware map must be initialized before access"))
+
         fun init() {
             device = device ?: when (name) {
                 is String -> clazz.cast(map[name])
@@ -76,23 +80,47 @@ class HardwareMapEx() {
         }
     }
 
+    class DeferredProperty<T>(val supplier: () -> T) {
+        var actionResult: T? = null
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): T =
+            actionResult ?: error("Hardware map must be initialized before access")
+
+        fun init() {
+            actionResult = supplier()
+        }
+    }
+
     /**
-     * Constructs a [HardwareMapProperty] variable delegate from the given [T] and [name]
+     * Constructs a [HardwareMapProperty] variable delegate from the given [T] and [name].
+     * Variables this applies to must be read-only.
      *
      * **NOTE**:
      * Since this is an inline function with reified type parameters, it may not behave as expected in all situations!
      * @sample com.escapevelocity.ducklib.ftc.samples.deferredHardwareMapSample
      */
-    inline fun <reified T : HardwareDevice> deferred(name: String) =
-        HardwareMapProperty.create<T>(name, this)
+    inline fun <reified T : HardwareDevice> deferred(name: String): HardwareMapProperty<T> {
+        val prop = HardwareMapProperty.create<T>(name, this)
+        properties.add(prop)
+        return prop
+    }
 
     /**
      * Constructs a [HardwareMapProperty] variable delegate from the given [T] and [serialNumber]
+     * Variables this applies to must be read-only.
      *
      * **NOTE**:
      * Since this is an inline function with reified type parameters, it may not behave as expected in all situations!
      * @sample com.escapevelocity.ducklib.ftc.samples.deferredHardwareMapSample
      */
-    inline fun <reified T : HardwareDevice> deferred(serialNumber: SerialNumber) =
-        HardwareMapProperty.create<T>(serialNumber, this)
+    inline fun <reified T : HardwareDevice> deferred(serialNumber: SerialNumber): HardwareMapProperty<T> {
+        val prop = HardwareMapProperty.create<T>(serialNumber, this)
+        properties.add(prop)
+        return prop
+    }
+
+    inline fun <reified T> deferred(noinline supplier: () -> T): DeferredProperty<T> {
+        val prop = DeferredProperty(supplier)
+        deferredProperties.add(prop)
+        return prop
+    }
 }

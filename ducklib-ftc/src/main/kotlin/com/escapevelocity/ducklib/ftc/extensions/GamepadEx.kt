@@ -4,97 +4,96 @@ import com.escapevelocity.ducklib.core.geometry.Vector2
 import com.escapevelocity.ducklib.core.geometry.inches
 import com.qualcomm.robotcore.hardware.Gamepad
 
-class GamepadEx(val gamepad: Gamepad) {
-    /**
-     * Get a button input supplier.
-     *
-     * **NOTE**:
-     * Returns a supplier, not a value!
-     * If you want a value, use [current]
-     * @param input The [ButtonInput]'s state to produce
-     */
-    operator fun get(input: ButtonInput) = { current(input) }
+/**
+ * Get a button input supplier.
+ *
+ * **NOTE**:
+ * Returns a supplier, not a value!
+ * If you want a value, use [current]
+ * @param input The [ButtonInput]'s state to produce
+ * @sample com.escapevelocity.ducklib.ftc.samples.gamepadSample
+ */
+operator fun Gamepad.get(input: ButtonInput) = { current(input) }
 
-    /**
-     * Gets the current value of an [AnalogInput]
-     *
-     * @param input The [AnalogInput]'s state to get
-     */
-    operator fun get(input: AnalogInput) = current(input)
+/**
+ * Gets the current value of an [AnalogInput]
+ *
+ * @param input The [AnalogInput]'s state to get
+ * @sample com.escapevelocity.ducklib.ftc.samples.gamepadSample
+ */
+operator fun Gamepad.get(input: AnalogInput) = current(input)
 
-    /**
-     * Gets the current value of an [VectorInput]
-     *
-     * @param input The [VectorInput]'s state to get
-     */
-    operator fun get(input: VectorInput) = current(input)
+/**
+ * Gets the current value of an [VectorInput]
+ *
+ * @param input The [VectorInput]'s state to get
+ * @sample com.escapevelocity.ducklib.ftc.samples.gamepadSample
+ */
+operator fun Gamepad.get(input: VectorInput) = current(input)
 
-    fun current(button: ButtonInput) = when (button) {
-        ButtonInput.DPAD_UP -> gamepad.dpad_up
-        ButtonInput.DPAD_DOWN -> gamepad.dpad_down
-        ButtonInput.DPAD_LEFT -> gamepad.dpad_left
-        ButtonInput.DPAD_RIGHT -> gamepad.dpad_right
-        ButtonInput.A -> gamepad.a
-        ButtonInput.B -> gamepad.b
-        ButtonInput.X -> gamepad.x
-        ButtonInput.Y -> gamepad.y
-        ButtonInput.CROSS -> gamepad.cross
-        ButtonInput.CIRCLE -> gamepad.circle
-        ButtonInput.SQUARE -> gamepad.square
-        ButtonInput.TRIANGLE -> gamepad.triangle
-        ButtonInput.BUMPER_LEFT -> gamepad.left_bumper
-        ButtonInput.BUMPER_RIGHT -> gamepad.right_bumper
-        ButtonInput.TOUCHPAD_PRESS -> gamepad.touchpad
-        ButtonInput.TOUCHPAD_TOUCH -> gamepad.touchpad_finger_1
-        ButtonInput.TOUCHPAD_TOUCH_FINGER_2 -> gamepad.touchpad_finger_2
-        ButtonInput.PLAYSTATION_BUTTON -> gamepad.ps
-        ButtonInput.GUIDE -> gamepad.guide
-        ButtonInput.SHARE -> gamepad.share
-        ButtonInput.OPTIONS -> gamepad.options
-        ButtonInput.STICK_BUTTON_LEFT -> gamepad.left_stick_button
-        ButtonInput.STICK_BUTTON_RIGHT -> gamepad.right_stick_button
-    }
+fun Gamepad.current(input: ButtonInput) = when (input) {
+    ButtonInput.DPAD_UP -> dpad_up
+    ButtonInput.DPAD_DOWN -> dpad_down
+    ButtonInput.DPAD_LEFT -> dpad_left
+    ButtonInput.DPAD_RIGHT -> dpad_right
+    ButtonInput.A -> a
+    ButtonInput.B -> b
+    ButtonInput.X -> x
+    ButtonInput.Y -> y
+    ButtonInput.CROSS -> cross
+    ButtonInput.CIRCLE -> circle
+    ButtonInput.SQUARE -> square
+    ButtonInput.TRIANGLE -> triangle
+    ButtonInput.BUMPER_LEFT -> left_bumper
+    ButtonInput.BUMPER_RIGHT -> right_bumper
+    ButtonInput.TOUCHPAD_PRESS -> touchpad
+    ButtonInput.TOUCHPAD_TOUCH -> touchpad_finger_1
+    ButtonInput.TOUCHPAD_TOUCH_FINGER_2 -> touchpad_finger_2
+    ButtonInput.PLAYSTATION_BUTTON -> ps
+    ButtonInput.GUIDE -> guide
+    ButtonInput.SHARE -> share
+    ButtonInput.OPTIONS -> options
+    ButtonInput.STICK_BUTTON_LEFT -> left_stick_button
+    ButtonInput.STICK_BUTTON_RIGHT -> right_stick_button
+}
 
-    fun current(input: AnalogInput) = when (input) {
-        AnalogInput.TRIGGER_LEFT -> (gamepad.left_trigger.toDouble())
-        AnalogInput.TRIGGER_RIGHT -> (gamepad.right_trigger.toDouble())
-        AnalogInput.STICK_X_LEFT -> (gamepad.left_stick_x.toDouble())
-        AnalogInput.STICK_Y_LEFT -> (gamepad.left_stick_y.toDouble())
-        AnalogInput.STICK_X_RIGHT -> (gamepad.right_stick_x.toDouble())
-        AnalogInput.STICK_Y_RIGHT -> (gamepad.right_stick_y.toDouble())
-        AnalogInput.TOUCHPAD_X -> (gamepad.touchpad_finger_1_x.toDouble())
-        AnalogInput.TOUCHPAD_Y -> (gamepad.touchpad_finger_1_y.toDouble())
-        AnalogInput.TOUCHPAD_X_FINGER_2 -> (gamepad.touchpad_finger_2_x.toDouble())
-        AnalogInput.TOUCHPAD_Y_FINGER_2 -> (gamepad.touchpad_finger_2_y.toDouble())
-    }
+fun Gamepad.current(input: AnalogInput) = when (input) {
+    AnalogInput.TRIGGER_LEFT -> (left_trigger.toDouble())
+    AnalogInput.TRIGGER_RIGHT -> (right_trigger.toDouble())
+    AnalogInput.STICK_X_LEFT -> (left_stick_x.toDouble())
+    AnalogInput.STICK_Y_LEFT -> (left_stick_y.toDouble())
+    AnalogInput.STICK_X_RIGHT -> (right_stick_x.toDouble())
+    AnalogInput.STICK_Y_RIGHT -> (right_stick_y.toDouble())
+    AnalogInput.TOUCHPAD_X -> (touchpad_finger_1_x.toDouble())
+    AnalogInput.TOUCHPAD_Y -> (touchpad_finger_1_y.toDouble())
+    AnalogInput.TOUCHPAD_X_FINGER_2 -> (touchpad_finger_2_x.toDouble())
+    AnalogInput.TOUCHPAD_Y_FINGER_2 -> (touchpad_finger_2_y.toDouble())
+}
 
-    fun current(input: VectorInput) = when (input) {
-        VectorInput.STICK_LEFT -> Vector2(
-            gamepad.left_stick_x.toDouble().inches,
-            gamepad.left_stick_y.toDouble().inches
-        )
+fun Gamepad.current(input: VectorInput) = when (input) {
+    VectorInput.STICK_LEFT -> Vector2(
+        left_stick_x.toDouble().inches,
+        left_stick_y.toDouble().inches
+    )
 
-        VectorInput.STICK_RIGHT -> Vector2(
-            gamepad.right_stick_x.toDouble().inches,
-            gamepad.right_stick_y.toDouble().inches
-        )
+    VectorInput.STICK_RIGHT -> Vector2(
+        right_stick_x.toDouble().inches,
+        right_stick_y.toDouble().inches
+    )
 
-        VectorInput.TOUCHPAD -> Vector2(
-            gamepad.touchpad_finger_1_x.toDouble().inches,
-            gamepad.touchpad_finger_1_y.toDouble().inches
-        )
+    VectorInput.TOUCHPAD -> Vector2(
+        touchpad_finger_1_x.toDouble().inches,
+        touchpad_finger_1_y.toDouble().inches
+    )
 
-        VectorInput.TOUCHPAD_FINGER_2 -> Vector2(
-            gamepad.touchpad_finger_2_x.toDouble().inches,
-            gamepad.touchpad_finger_2_y.toDouble().inches
-        )
-    }
+    VectorInput.TOUCHPAD_FINGER_2 -> Vector2(
+        touchpad_finger_2_x.toDouble().inches,
+        touchpad_finger_2_y.toDouble().inches
+    )
 }
 
 fun (() -> Double).boolean(predicate: (Double) -> Boolean = { it > 0.5 }) = { predicate(this()) }
 fun (() -> Vector2).boolean(predicate: (Vector2) -> Boolean = { it.lengthSquared > 0.5 * 0.5 }) = { predicate(this()) }
-
-val Gamepad.ex get() = GamepadEx(this)
 
 enum class ButtonInput {
     DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
@@ -134,5 +133,6 @@ enum class AnalogInput {
 }
 
 enum class VectorInput {
-    STICK_LEFT, STICK_RIGHT, TOUCHPAD, TOUCHPAD_FINGER_2,
+    STICK_LEFT, STICK_RIGHT,
+    TOUCHPAD, TOUCHPAD_FINGER_2,
 }

@@ -5,19 +5,15 @@ import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companio
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.ftc.extensions.ButtonInput
 import com.escapevelocity.ducklib.ftc.extensions.HardwareMapEx
-import com.escapevelocity.ducklib.ftc.extensions.ex
+import com.escapevelocity.ducklib.ftc.extensions.get
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import kotlin.time.Duration.Companion.seconds
 
 fun gamepadSample(gamepad: Gamepad, slideSubsystem: SlideSubsystem) {
-    // construct an extended gamepad
-    val gp = gamepad.ex
-
-    gp[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue { println("hi") }
-
-    gp[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue(WaitCommand(5.seconds))
+    gamepad[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue { println("hi") }
+    gamepad[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue(WaitCommand(5.seconds))
 }
 
 fun triggerSample(slideSubsystem: SlideSubsystem) {

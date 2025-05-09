@@ -7,7 +7,7 @@ package com.escapevelocity.ducklib.core.command.commands
  *
  * For more customizability, consider [LambdaCommand].
  */
-class LoopCommand(vararg requirements: Any, val loop: () -> Unit) : RequirementCommand(requirements) {
+class LoopCommand(vararg requirements: Any, val loop: () -> Unit) : NoOpCommand(requirements) {
     override fun execute() {
         loop()
     }

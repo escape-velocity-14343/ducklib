@@ -5,9 +5,9 @@ import com.escapevelocity.ducklib.core.util.b16Hash
 abstract class Command {
 
     private val _requirements: MutableSet<Any> = HashSet()
-    val requirements: Set<Any>
+    open val requirements: Set<Any>
         get() = _requirements
-    var inGroup = false
+    open var composed = false
         internal set
 
     /**
@@ -20,17 +20,17 @@ abstract class Command {
     /**
      * Sets which action to take when the conflicting command has higher priority to this one.
      */
-    var onHigherConflict = OnHigherConflict.QUEUE
+    open var onHigherConflict = OnHigherConflict.QUEUE
 
     /**
      * Sets which action to take when the conflicting command has equal priority to this one.
      */
-    var onEqualConflict = OnEqualConflict.OVERRIDE
+    open var onEqualConflict = OnEqualConflict.OVERRIDE
 
     /**
      * The priority of this command. Higher-priority commands will be scheduled over lower-priority ones.
      */
-    var priority = Priority.LOWEST
+    open var priority = Priority.LOWEST
 
     /**
      * Whether this command is suspendable or not.

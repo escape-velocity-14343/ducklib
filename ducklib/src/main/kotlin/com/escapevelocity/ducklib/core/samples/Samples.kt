@@ -1,6 +1,7 @@
 package com.escapevelocity.ducklib.core.samples
 
 import com.escapevelocity.ducklib.core.command.commands.*
+import com.escapevelocity.ducklib.core.command.commands.composition.WhenCommand
 import com.escapevelocity.ducklib.core.command.commands.composition.group.DeadlineCommandGroup
 import com.escapevelocity.ducklib.core.command.commands.composition.group.ParallelCommandGroup
 import com.escapevelocity.ducklib.core.command.commands.composition.group.RaceCommandGroup
@@ -10,6 +11,7 @@ import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companio
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.whileOnTrue
 import com.escapevelocity.ducklib.core.util.*
+import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
 fun inlineCommandConfigurationSample() {
@@ -174,4 +176,19 @@ fun raceCommandGroupSample(command1: Command, command2: Command, command3: Comma
 
     // vv NOT RECOMMENDED BUT TECHNICALLY WORKS vv
     (command1 races command2 races command3)
+}
+
+fun whenCommandSample() {
+    // When this command gets initialized, it runs the selector lambda and chooses a command to run.
+    WhenCommand { Random.nextInt(0, 3) }.configure {
+        this[0] = { println("0") }.instant()
+        this[1] = { println("1") }.instant()
+        this[2] = { println("1") }.instant()
+    }
+    // alternatively
+    WhenCommand(
+        0 to { println("0") }.instant(),
+        1 to { println("1") }.instant(),
+        2 to { println("2") }.instant(),
+    ) { Random.nextInt(0, 3) }
 }

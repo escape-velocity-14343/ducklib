@@ -1,7 +1,6 @@
 package com.escapevelocity.ducklib.core.command.commands.composition
 
 import com.escapevelocity.ducklib.core.command.commands.Command
-import com.escapevelocity.ducklib.core.command.commands.RequirementCommand
 
 /**
  * Composes [command] to repeat for [times] times.
@@ -9,15 +8,12 @@ import com.escapevelocity.ducklib.core.command.commands.RequirementCommand
  * @param times How many times to repeat.
  * For repeating infinite times, set to null (the default).
  */
-open class RepeatCommand(val command: Command, val times: Int? = null) : RequirementCommand(command) {
-    override val suspendable: Boolean
-        get() = command.suspendable
-
+open class RepeatCommand(val command: Command, val times: Int? = null) : CompositionCommand(command) {
     var repeatTimes = 0
     var initializeNext = false
 
     override fun initialize() {
-        command.initialize()
+        super.initialize()
         repeatTimes = 0
         initializeNext = true
     }
@@ -33,7 +29,7 @@ open class RepeatCommand(val command: Command, val times: Int? = null) : Require
             initializeNext = false
         }
 
-        command.execute()
+        super.execute()
 
         if (command.finished) {
             command.end(false)
@@ -43,18 +39,6 @@ open class RepeatCommand(val command: Command, val times: Int? = null) : Require
 
     override val finished: Boolean
         get() = times != null && repeatTimes >= times
-
-    override fun suspend() {
-        command.suspend()
-    }
-
-    override fun resume() {
-        command.resume()
-    }
-
-    override fun end(canceled: Boolean) {
-        command.end(canceled)
-    }
 }
 
 /**

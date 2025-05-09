@@ -40,7 +40,7 @@ open class DuckyScheduler {
         private val lastTriggerNanos = HashMap<TriggeredAction, Long?>()
 
         override fun scheduleCommand(command: Command) {
-            if (command.inGroup) throw kotlin.IllegalArgumentException("Grouped command $command cannot be scheduled by itself")
+            if (command.composed) throw kotlin.IllegalArgumentException("Grouped command $command cannot be scheduled by itself")
 
             if (deferLock) {
                 defer {

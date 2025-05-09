@@ -27,8 +27,8 @@ abstract class CommandGroup(vararg commands: Command) : Command() {
      * @param commands The commands to add
      */
     fun addCommands(vararg commands: Command) = commands.forEach {
-        if (it.inGroup) throw IllegalArgumentException("Grouped command $it cannot be regrouped")
-        it.inGroup = true
+        if (it.composed) throw IllegalArgumentException("Grouped command $it cannot be regrouped")
+        it.composed = true
         addCommand(it)
     }
 

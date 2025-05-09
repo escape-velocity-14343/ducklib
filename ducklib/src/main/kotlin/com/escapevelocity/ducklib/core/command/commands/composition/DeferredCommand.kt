@@ -1,7 +1,7 @@
 package com.escapevelocity.ducklib.core.command.commands.composition
 
 import com.escapevelocity.ducklib.core.command.commands.Command
-import com.escapevelocity.ducklib.core.command.commands.RequirementCommand
+import com.escapevelocity.ducklib.core.command.commands.NoOpCommand
 
 /**
  * Defers command construction until scheduling time.
@@ -13,7 +13,7 @@ import com.escapevelocity.ducklib.core.command.commands.RequirementCommand
  * @param commandSupplier The command supplier to be evaluated at initialization time.
  */
 open class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Command) :
-    RequirementCommand(requirements) {
+    NoOpCommand(requirements) {
     private var cmd: Command? = null
 
     override val suspendable: Boolean

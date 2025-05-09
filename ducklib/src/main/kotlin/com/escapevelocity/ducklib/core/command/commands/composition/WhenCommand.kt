@@ -52,7 +52,7 @@ class WhenCommand<TKey>(vararg commands: Pair<TKey, Command>, private val select
     override fun toString() = "${super.toString()} [\n${
         _commands.entries
             .joinToString(separator = "\n") { (state, command) ->
-                "${if (command == runningCommand) " > " else " "}$state: $command"
+                "${if (command == runningCommand) ">" else " "}$state: $command"
             }
             .prependIndent()
     }\n]"

@@ -52,5 +52,5 @@ open class TimeoutCommand(
     override val finished
         get() = super.finished || commandFinished
 
-    override fun toString(): String = super.toString() + " [$command]"
+    override fun toString(): String = "${super.toString()} [\n${command.toString().prependIndent()}\n]"
 }

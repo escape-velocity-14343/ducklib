@@ -35,7 +35,7 @@ class IfElseCommand(
         get() = "[\n${
             commands
                 .joinToString(separator = "\n") { command ->
-                    "${if (command == runningCommand) " > " else " "}$command"
+                    "${if (command == runningCommand) ">" else " "}$command"
                 }.prependIndent()
         }\n]"
 }

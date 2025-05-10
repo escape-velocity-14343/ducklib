@@ -45,6 +45,10 @@ open class RepeatCommand(val command: Command, val times: Int? = null) : Composi
  * Composes this command inside a [RepeatCommand].
  *
  * @param times How many times to repeat.
- * For repeating infinite times, set to null (the default).
  */
-fun Command.repeat(times: Int? = null) = RepeatCommand(this, times)
+fun Command.repeat(times: Int) = RepeatCommand(this, times)
+
+/**
+ * Composes this command inside a [RepeatCommand] that runs forever.
+ */
+fun Command.forever() = RepeatCommand(this)

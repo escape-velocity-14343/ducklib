@@ -178,13 +178,20 @@ fun raceCommandGroupSample(command1: Command, command2: Command, command3: Comma
     (command1 races command2 races command3)
 }
 
+enum class State {
+    STATE_1,
+    STATE_2,
+    STATE_3,
+}
+
 fun whenCommandSample() {
     // When this command gets initialized, it runs the selector lambda and chooses a command to run.
-    WhenCommand { Random.nextInt(0, 3) }.configure {
-        this[0] = { println("0") }.instant()
-        this[1] = { println("1") }.instant()
-        this[2] = { println("1") }.instant()
+    WhenCommand { State.entries[Random.nextInt(0, 3)] }.configure {
+        this[State.STATE_1] = { println("0") }.instant()
+        this[State.STATE_2] = { println("1") }.instant()
+        this[State.STATE_3] = { println("1") }.instant()
     }
+
     // alternatively
     WhenCommand(
         0 to { println("0") }.instant(),

@@ -321,10 +321,10 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
          * @param command The command to schedule
          * @return The same boolean supplier for chaining calls
          */
-        fun <T : () -> Boolean> T.onceOnTrue(command: Command): T = onceOnTrue({ command.schedule() })
+        fun <T : () -> Boolean> T.onceOnTrue(command: Command): T = onceOnTrue { command.schedule() }
 
         /**
-         * Evaluate the command supplier then schedule the result on the rising edge of the boolean supplier.
+         * Evaluate the command supplier, then schedule the result on the rising edge of the boolean supplier.
          * This is similar to a [com.escapevelocity.ducklib.core.command.commands.composition.DeferredCommand],
          * but it's more flexible.
          *

@@ -9,12 +9,12 @@ import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companio
 import com.escapevelocity.ducklib.core.command.subsystem.Subsystem
 import com.escapevelocity.ducklib.core.geometry.*
 import com.escapevelocity.ducklib.ftc.extensions.*
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.Servo
 
-class ExampleOpMode : OpMode() {
+class ExampleOpMode : LinearOpMode() {
     // **NOTE**: No HardwareMap actually exists, so this is sort of like an "empty wrapper"
     val map = HardwareMapEx()
 
@@ -24,7 +24,7 @@ class ExampleOpMode : OpMode() {
     // defer construction of DrivetrainSubsystem object until the HardwareMapEx is initialized
     val drivetrainSubsystem by map.deferred { DrivetrainSubsystem(map) }
 
-    override fun init() {
+    override fun runOpMode() {
         // initializing the HardwareMapEx also initializes all deferred fields like `servo`
         map.init(hardwareMap)
 
@@ -51,12 +51,16 @@ class ExampleOpMode : OpMode() {
             }
             lmfinished = { false }
         }.schedule()
-    }
 
-    override fun loop() {
-        DuckyScheduler.run()
-        telemetry.addLine(DuckyScheduler.toString())
-        // telemetry.update() not required in OpMode-derived classes
+        waitForStart()
+
+        while (!isStopRequested) {
+            DuckyScheduler.run()
+            telemetry.addLine(DuckyScheduler.toString())
+            telemetry.update()
+        }
+
+        DuckyScheduler.reset()
     }
 }
 
@@ -74,5 +78,6 @@ class DrivetrainSubsystem(map: HardwareMapEx) : Subsystem() {
         brMotor.power = x.v - y.v + h.v
     }
 
-    fun drive(translationPower: Vector2, headingPower: Radians) = drive(Pose2(translationPower, headingPower))
+    fun drive(translationPower: Vector2, headingPower: Radians) =
+        drive(Pose2(translationPower, headingPower))
 }

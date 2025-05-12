@@ -9,10 +9,13 @@ import com.escapevelocity.ducklib.core.util.containsAny
 import java.util.*
 
 /**
- * The default ducklib scheduler. Does both the jobs of [CommandScheduler] and [TriggerScheduler]
+ * The default ducklib scheduler.
+ * Does both the jobs of [CommandScheduler] and [TriggerScheduler].
+ *
+ * If you want thread safety for some reason,
+ * give each thread a new instance of DuckyScheduler and use it inside a [with] block.
  */
-open class DuckyScheduler {
-    companion object : CommandScheduler, TriggerScheduler {
+open class DuckyScheduler : CommandScheduler, TriggerScheduler {
         override val hasCommands
             get() = scheduledCommands.isNotEmpty()
         override val commands: Collection<Command>
@@ -36,11 +39,11 @@ open class DuckyScheduler {
         private val deferredActions = ArrayList<() -> Unit>()
 
         private val triggers = ArrayList<TriggeredAction>()
-        private val lastTriggerValues = HashMap<TriggeredAction, Boolean?>()
-        private val lastTriggerNanos = HashMap<TriggeredAction, Long?>()
+    internal val lastTriggerValues = HashMap<TriggeredAction, Boolean?>()
+    internal val lastTriggerNanos = HashMap<TriggeredAction, Long?>()
 
         override fun scheduleCommand(command: Command) {
-            if (command.composed) throw kotlin.IllegalArgumentException("Grouped command $command cannot be scheduled by itself")
+            if (command.composed) throw kotlin.IllegalArgumentException("Composed command $command cannot be scheduled by itself")
 
             if (deferLock) {
                 defer {
@@ -369,5 +372,7 @@ ${queuedCommands.mapIndexed { i, cmd -> "$i (${cmd.priority}): $cmd" }.joinToStr
          */
         fun <T : () -> Boolean> T.whileOnFalse(command: Command) =
             onceOnTrue { command.cancel() }.onceOnFalse { command.schedule() }
+
+    companion object : DuckyScheduler() {
     }
 }

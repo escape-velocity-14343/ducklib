@@ -15,7 +15,7 @@ open class RepeatCommand(val command: Command, val times: Int? = null) : Composi
     override fun initialize() {
         super.initialize()
         repeatTimes = 0
-        initializeNext = true
+        initializeNext = false
     }
 
     override fun execute() {
@@ -34,6 +34,7 @@ open class RepeatCommand(val command: Command, val times: Int? = null) : Composi
         if (command.finished) {
             command.end(false)
             repeatTimes++
+            initializeNext = true
         }
     }
 

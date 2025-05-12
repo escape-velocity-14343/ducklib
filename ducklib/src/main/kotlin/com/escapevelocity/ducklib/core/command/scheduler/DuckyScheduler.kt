@@ -58,23 +58,24 @@ open class DuckyScheduler : CommandScheduler, TriggerScheduler {
                 return
             }
 
-            if (!handleConflicts(command)) {
-                when (command.onHigherConflict) {
-                    OnHigherConflict.CANCEL -> defer {
-                        queuedCommands.remove(command)
-                        firstScheduleAttemptTime.remove(command)
-                    }
-
-                    OnHigherConflict.QUEUE -> defer {
-                        if (command !in queuedCommands) queuedCommands.add(command)
-                    }
-                }
-
+            if (handleConflicts(command)) {
+                // it could handle the conflicts!
+                initOrResumeCommand(command)
+                defer { queuedCommands.remove(command) }
                 return
             }
 
-            initOrResumeCommand(command)
-            defer { queuedCommands.remove(command) }
+            // it could not. 😢
+            when (command.onHigherConflict) {
+                OnHigherConflict.CANCEL -> defer {
+                    queuedCommands.remove(command)
+                    firstScheduleAttemptTime.remove(command)
+                }
+
+                OnHigherConflict.QUEUE -> defer {
+                    if (command !in queuedCommands) queuedCommands.add(command)
+                }
+            }
         }
 
         /**

@@ -14,6 +14,11 @@ package com.escapevelocity.ducklib.core.command.commands
 value class Priority(val priority: Int) : Comparable<Priority> {
     override fun compareTo(other: Priority) = priority.compareTo(other.priority)
 
+    operator fun plus(other: Priority) = Priority(priority + other.priority)
+    operator fun minus(other: Priority) = Priority(priority - other.priority)
+    operator fun inc() = Priority(priority + 1)
+    operator fun dec() = Priority(priority - 1)
+
     companion object {
         val LOWEST = Int.MIN_VALUE.priority
     }

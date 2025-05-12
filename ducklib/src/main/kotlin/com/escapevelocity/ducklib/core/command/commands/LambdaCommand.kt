@@ -43,7 +43,7 @@ open class LambdaCommand() : Command() {
      * By default, commands will only run [execute] once,
      * however, this may vary depending on the specific command.
      */
-    var lmfinished: () -> Boolean = { false }
+    var lmfinished: () -> Boolean = { true }
 
     /**
      * Called when the command scheduler suspends this command.

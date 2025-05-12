@@ -19,6 +19,7 @@ class WhenCommand<TKey>(vararg commands: Pair<TKey, Command>, private val select
     operator fun get(key: TKey): Command? = _commands[key]
     operator fun set(key: TKey, value: Command) {
         _commands[key] = value
+        value.composed = true
         addRequirements(value.requirements)
     }
 
@@ -26,7 +27,7 @@ class WhenCommand<TKey>(vararg commands: Pair<TKey, Command>, private val select
 
     override fun initialize() {
         val state = selector()
-        runningCommand = _commands[selector()] ?: error("State $state was not found in the command list")
+        runningCommand = _commands[state] ?: error("State $state was not found in the command list")
         runningCommand.initialize()
     }
 

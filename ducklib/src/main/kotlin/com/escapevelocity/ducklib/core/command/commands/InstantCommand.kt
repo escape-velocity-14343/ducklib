@@ -4,7 +4,7 @@ package com.escapevelocity.ducklib.core.command.commands
  * A command that runs [toRun] once the first time the command is executed,
  * and finishes instantly.
  */
-class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : NoOpCommand(requirements) {
+class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : NoOpCommand(*requirements) {
     var hasRun = false
     override fun initialize() {
         hasRun = false
@@ -22,4 +22,4 @@ class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : NoOpComm
  *
  * @param requirements The requirements to require
  */
-fun (() -> Unit).instant(vararg requirements: Any) = InstantCommand(requirements, toRun = this)
+fun (() -> Unit).instant(vararg requirements: Any) = InstantCommand(*requirements, toRun = this)

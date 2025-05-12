@@ -2,6 +2,7 @@ package com.escapevelocity.ducklib.core.command.commands.composition
 
 import com.escapevelocity.ducklib.core.command.commands.Command
 import com.escapevelocity.ducklib.core.command.commands.Priority
+import kotlin.collections.flatten
 
 /**
  * A utility class that accepts any number of commands.
@@ -25,7 +26,7 @@ abstract class CompositionCommand(protected vararg val commands: Command) : Comm
         commands.forEach { it.composed = true }
     }
 
-    override val requirements: Set<Any> = commands.map { it.requirements }.toSet()
+    override val requirements: Set<Any> = commands.flatMap { it.requirements }.toSet()
     override var priority: Priority = commands.maxOf { it.priority }
     override val suspendable: Boolean = commands.all { it.suspendable }
 

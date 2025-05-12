@@ -8,6 +8,6 @@ package com.escapevelocity.ducklib.core.command.commands
 open class NoOpCommand(vararg requirements: Any) : Command() {
     constructor() : this(*emptyArray<Any>())
     init {
-        addRequirements(requirements)
+        addRequirements(*requirements)
     }
 }

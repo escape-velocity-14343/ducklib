@@ -50,6 +50,12 @@ abstract class Command {
      * @param requirements The objects to be required
      */
     fun addRequirements(vararg requirements: Any) {
+        if (requirements.any { it is Collection<*> }) {
+            println("$requirements element was a collection type -- did you forget to spread the elements?")
+        }
+        else if (requirements.any { it is Array<*> }) {
+            println("$requirements element was an array type -- did you forget to spread the elements?")
+        }
         _requirements.addAll(requirements)
     }
 

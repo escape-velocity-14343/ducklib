@@ -104,4 +104,18 @@ class SchedulerTest {
             assertEquals(3, a)
         }
     }
+
+    @Test
+    fun testActionTrigger() {
+        with(DuckyScheduler()) {
+            var t = false
+            var a = 0
+            ({ t }).onceOnTrue { a += 1 }
+            run()
+            t = true
+            run()
+            run()
+            assertEquals(1, a)
+        }
+    }
 }

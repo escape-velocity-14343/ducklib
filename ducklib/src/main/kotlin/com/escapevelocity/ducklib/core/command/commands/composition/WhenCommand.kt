@@ -1,14 +1,20 @@
 package com.escapevelocity.ducklib.core.command.commands.composition
 
 import com.escapevelocity.ducklib.core.command.commands.Command
+import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.commands
 
 /**
  * Selects between the commands provided in [commands] using the result from [selector].
  *
  * @sample com.escapevelocity.ducklib.core.samples.whenCommandSample
  */
-class WhenCommand<TKey>(vararg commands: Pair<TKey, Command>, private val selector: () -> TKey) : Command() {
+class WhenCommand<TKey>(
+    vararg commands: Pair<TKey, Command>,
+    var default: Command? = null,
+    private val selector: () -> TKey
+) : Command() {
     private val _commands: MutableMap<TKey, Command> = mutableMapOf()
+    private lateinit var runningCommand: Command
 
     init {
         _commands.putAll(commands)
@@ -23,11 +29,10 @@ class WhenCommand<TKey>(vararg commands: Pair<TKey, Command>, private val select
         addRequirements(value.requirements)
     }
 
-    lateinit var runningCommand: Command
-
     override fun initialize() {
         val state = selector()
-        runningCommand = _commands[state] ?: error("State $state was not found in the command list")
+        runningCommand = _commands[state] ?: default
+                ?: error("State $state was not found in the command list, and no default was set")
         runningCommand.initialize()
     }
 

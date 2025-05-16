@@ -198,4 +198,21 @@ fun whenCommandSample() {
         1 to { println("1") }.instant(),
         2 to { println("2") }.instant(),
     ) { Random.nextInt(0, 3) }
+
+    // You can also set the default command to run if no other command matched
+    // When this command gets initialized, it runs the selector lambda and chooses a command to run.
+    WhenCommand { State.entries[Random.nextInt(0, 3)] }.configure {
+        this[State.STATE_1] = { println("0") }.instant()
+        this[State.STATE_2] = { println("1") }.instant()
+        this[State.STATE_3] = { println("1") }.instant()
+        default = { println("default") }.instant()
+    }
+
+    // alternatively
+    WhenCommand(
+        0 to { println("0") }.instant(),
+        1 to { println("1") }.instant(),
+        2 to { println("2") }.instant(),
+        default = { println("default") }.instant()
+    ) { Random.nextInt(0, 3) }
 }

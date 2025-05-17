@@ -26,9 +26,8 @@ jobs:
           python-version: 3.9
       - run: pip install \
             mkdocs-material
-      - run: cd docs/ducklib
       - run: ls
-      - run: mkdocs gh-deploy -f "$PWD/docs/ducklib/mkdocs.yml" --force
+      - run: mkdocs gh-deploy -f "$PWD/$(find . -name mkdocs.yml)" --force
  
   deploy_mkdocs:
     needs: build_mkdocs

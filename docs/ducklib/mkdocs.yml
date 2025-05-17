@@ -1,4 +1,6 @@
 site_name: ducklib Documentation
+repo_url: https://github.com/escape-velocity-14343/ducklib
+site_url: https://escape-velocity-14343.github.io/ducklib
 
 
 theme:

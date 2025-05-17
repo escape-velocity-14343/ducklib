@@ -28,7 +28,7 @@ jobs:
             mkdocs-material
       - run: cd docs/ducklib
       - run: ls
-      - run: mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy -f "$PWD/docs/ducklib/mkdocs.yml" --force
  
   deploy_mkdocs:
     needs: build_mkdocs

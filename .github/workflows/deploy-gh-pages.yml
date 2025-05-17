@@ -27,7 +27,7 @@ jobs:
       - run: pip install \
             mkdocs-material
       - run: find . -name mkdocs.yml
-      - run: cd docs/ducklib/ && mkdocs gh-deploy --force
+      - run: cd docs/ducklib/ && mkdocs gh-deploy --config-file ./mkdocs.yml --force
  
   deploy_mkdocs:
     needs: build_mkdocs

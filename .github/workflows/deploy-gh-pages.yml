@@ -26,8 +26,8 @@ jobs:
           python-version: 3.9
       - run: pip install \
             mkdocs-material
-      - run: ls
-      - run: mkdocs gh-deploy -f "$PWD/$(find . -name mkdocs.yml)" --force
+      - run: find . -name mkdocs.yml
+      - run: mkdocs gh-deploy -f "$(find . -name mkdocs.yml)" --force
  
   deploy_mkdocs:
     needs: build_mkdocs

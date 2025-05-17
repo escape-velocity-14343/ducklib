@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/Scheduler/conflicts/">
+        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/FTC/hardware_map/">
       
       
-        <link rel="prev" href="../../FTC/hardware_map/">
+        <link rel="prev" href="../gamepad/">
       
       
-        <link rel="next" href="../introduction/">
+        <link rel="next" href="../../Scheduler/conflicts/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Conflict resolution - ducklib Documentation</title>
+        <title>Hardware map extensions - ducklib Documentation</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conflict-resolution" class="md-skip">
+        <a href="#hardware-map-extensions" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conflict resolution
+              Hardware map extensions
             
           </span>
         </div>
@@ -458,18 +458,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -485,7 +487,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             FTC
@@ -499,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../FTC/gamepad/" class="md-nav__link">
+      <a href="../gamepad/" class="md-nav__link">
         
   
   
@@ -514,76 +516,6 @@
   
 
               
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../FTC/hardware_map/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Hardware map extensions
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Scheduler
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            Scheduler
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -606,7 +538,7 @@
   
   
   <span class="md-ellipsis">
-    Conflict resolution
+    Hardware map extensions
     
   </span>
   
@@ -619,7 +551,7 @@
   
   
   <span class="md-ellipsis">
-    Conflict resolution
+    Hardware map extensions
     
   </span>
   
@@ -642,54 +574,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      Key features
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-1-no-conflicts" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 1: no conflicts
+      Usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-1-conflicts-but-cmd2-has-higher-priority" class="md-nav__link">
+  <a href="#standard-usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 1: conflicts, but cmd2 has higher priority
+      Standard usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-2-conflicts-but-cmd2-has-lower-priority" class="md-nav__link">
+  <a href="#deferred-hardware-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 2: conflicts, but cmd2 has lower priority
+      Deferred hardware references
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-3-conflicts-but-they-have-equal-priority" class="md-nav__link">
+  <a href="#deferred-initialization" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 3: conflicts, but they have equal priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Recap
+      Deferred initialization
     </span>
   </a>
   
@@ -704,6 +627,51 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Scheduler
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Scheduler
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -711,7 +679,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../introduction/" class="md-nav__link">
+      <a href="../../Scheduler/conflicts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conflict resolution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Scheduler/introduction/" class="md-nav__link">
         
   
   
@@ -829,54 +820,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      Key features
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-1-no-conflicts" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 1: no conflicts
+      Usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-1-conflicts-but-cmd2-has-higher-priority" class="md-nav__link">
+  <a href="#standard-usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 1: conflicts, but cmd2 has higher priority
+      Standard usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-2-conflicts-but-cmd2-has-lower-priority" class="md-nav__link">
+  <a href="#deferred-hardware-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 2: conflicts, but cmd2 has lower priority
+      Deferred hardware references
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#situation-3-conflicts-but-they-have-equal-priority" class="md-nav__link">
+  <a href="#deferred-initialization" class="md-nav__link">
     <span class="md-ellipsis">
-      Situation 3: conflicts, but they have equal priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Recap
+      Deferred initialization
     </span>
   </a>
   
@@ -901,82 +883,111 @@
   
 
 
-<h1 id="conflict-resolution">Conflict resolution</h1>
-<h2 id="overview">Overview</h2>
-<p>Conflict resolution in FTCLib, NextFTC, and similar libraries is very basic.
-ducklib introduces a rich priority system,
-allowing for easy implementations of input buffering,
-default commands,
-and more.</p>
-<p>To set the <code>priority</code> or <code>OnHigherConflict</code> or <code>OnEqualConflict</code> properties of a command,
-check out the <a href="../../Commands/introduction/#configuration">command configuration page</a>.
-TL;DR:</p>
-<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NoOpCommand</span><span class="p">().</span><span class="na">configure</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">priority</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">onEqualConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnEqualConflict</span><span class="p">.</span><span class="na">QUEUE</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">onHigherConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnHigherConflict</span><span class="p">.</span><span class="na">CANCEL</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// or</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NoOpCommand</span><span class="p">()</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">.</span><span class="na">setPriority</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">priority</span><span class="p">)</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnEqualConflict</span><span class="p">(</span><span class="n">OnEqualConflict</span><span class="p">.</span><span class="na">QUEUE</span><span class="p">)</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnHigherConflict</span><span class="p">(</span><span class="n">OnHigherConflict</span><span class="p">.</span><span class="na">CANCEL</span><span class="p">)</span>
+<h1 id="hardware-map-extensions">Hardware map extensions</h1>
+<h2 id="key-features">Key features</h2>
+<p>ducklib includes a hardware map extension class to make using the hardware map a little easier.
+The main pain points that can be (and are) resolved with Kotlin are as follows</p>
+<ul>
+<li>Having to pass in a class instance, like <code class="language-java highlight"><span class="n">hardwareMap</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">Servo</span><span class="p">::</span><span class="kd">class</span><span class="err">,</span> <span class="err">&quot;</span><span class="nc">servo</span><span class="s">&quot;)</span></code></li>
+<li>No type inference</li>
+<li>Hardware access classes not being able to be final, since they get set in <code>initialize</code></li>
+</ul>
+<p>ducklib's <code>HardwareMapEx</code> class solves all of these problems.</p>
+<h2 id="usage">Usage</h2>
+<p>Create a variable named whatever you want at the OpMode-class-level:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">class</span><span class="w"> </span><span class="nc">MyOpMode</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">LinearOpMode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HardwareMapEx</span><span class="p">()</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="c1">// etc.</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
 </span></code></pre></div>
-<h2 id="situation-1-no-conflicts">Situation 1: no conflicts</h2>
-<p>Say you have a command, <code>cmd1</code>, that requires <code>subsystem1</code>.
-Now, you try to schedule another command, <code>cmd2</code>, that requires <code>subsystem2</code>.
-Since neither of their requirements overlap,
-everything goes smoothly, and both commands are scheduled.</p>
-<h2 id="situation-1-conflicts-but-cmd2-has-higher-priority">Situation 1: conflicts, but <code>cmd2</code> has higher priority</h2>
-<p>Now, <code>cmd2</code> requires <code>subsystem1</code>.
-Their requirements overlap, so we have a conflict that we need to resolve.</p>
-<p>The first step is to compare their priorities.
-In this case, <code>cmd2</code> has a higher priority than <code>cmd1</code>.
-This means that no matter what, <code>cmd2</code> is going to run.
-To do this, <code>cmd1</code> will have to be suspended or canceled,
-so its <a href="../../Commands/introduction/#suspend-and-resume"><code>suspend</code></a> function will get called to aid in a smooth handoff,
-and <code>cmd2</code> will take over control.
-When <code>cmd2</code> finishes,
-assuming <code>cmd1</code> got suspended and not canceled,
-<code>cmd1</code> will get resumed and rescheduled.</p>
-<p>What determines whether a command is suspendable or not is the <code>suspendable</code> property on <code>Command</code>, and is set by the command.</p>
-<h2 id="situation-2-conflicts-but-cmd2-has-lower-priority">Situation 2: conflicts, but <code>cmd2</code> has lower priority</h2>
-<p>Again, the first step is to compare their priorities.
-In this case, <code>cmd2</code> has a lower priority than <code>cmd1</code>.
-This means that no matter what, <code>cmd1</code> is going to finish running.</p>
-<p><code>cmd2</code> has two choices:
-it can give up,
-or it can get queued for later scheduling.
-By default the latter is chosen,
-although you can set it with one one of the <a href="../../Commands/introduction/#configuration">configuration functions</a>.</p>
-<h2 id="situation-3-conflicts-but-they-have-equal-priority">Situation 3: conflicts, but they have equal priority</h2>
-<p><code>cmd1</code> can't wait,
-and <code>cmd2</code> can't wait,
-so now what happens is determined by the user with one of the configuration functions.
-They can either make <code>cmd2</code> cancel <code>cmd1</code> with <code>OnEqualConflict.OVERRIDE</code>,
-or make it queue with <code>OnEqualConflict.QUEUE</code>.</p>
-<h2 id="recap">Recap</h2>
-<p>Basically, the flow is this:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>       has conflicts?
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>     /               \
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    no                yes
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    |                    \
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>schedule it!               this command priority higher, lower, or equal?
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                 _________/                          |                    \_____________
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                /                                    |                                   \
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            higher                                 equal                               lower
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>              |                                      |                                   |
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>              |                           what is OnEqualConfict?                what is OnHigherConflict?
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>              |                              /               \                    /                   \
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>              |                          OVERRIDE           QUEUE               QUEUE               CANCEL
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>              |                    _____/                     |              ___/                     |
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    is conflict suspendable?  ____/                     try again later ___/                      stop trying
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    /                 \
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  yes                  no
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>   |                   |
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>suspend it         cancel it
+<details>
+    <summary>Why can't it be wrapped in the initializer?</summary>
+        This is because it doesn't get fully set until the `OpMode` is initialized.
+        Technically there are ways around that but it works fine without it,
+        which you'll see in a bit.
+</details>
+
+<p>Now, no <code>HardwareMap</code> instance has been wrapped yet,
+and this is intentional.
+If you're familiar to <code>lateinit var</code>s in Kotlin,
+it's kind of similar to that.</p>
+<p>To fully initialize the map, call <code>init</code>:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">runOpMode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">map</span><span class="p">.</span><span class="na">init</span><span class="p">(</span><span class="n">hardwareMap</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
 </span></code></pre></div>
-(this will become an image soon)</p>
+<h2 id="standard-usage">Standard usage</h2>
+<p>Like the normal <code>HardwareMap</code>, <code>HardwareMapEx</code> supports get methods:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="p">:</span><span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">Servo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;servo&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>However, note how you don't need to pass a <code class="language-kotlin highlight"><span class="n">Servo</span><span class="o">::</span><span class="kd">class</span></code> instance to <code class="language-kotlin highlight"><span class="n">map</span><span class="p">.</span><span class="na">get</span></code>.
+This is because that function uses a reified type parameter, significantly simplifying the code.
+This also means you get some type inference:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">Servo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;servo&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>or</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="p">:</span><span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="o">[</span><span class="s">&quot;servo&quot;</span><span class="o">]</span>
+</span></code></pre></div>
+<p>but not</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="o">[</span><span class="s">&quot;servo&quot;</span><span class="o">]</span>
+</span></code></pre></div>
+<p>since then no types are defined.
+Personally, I prefer the second option since it more clearly communicates the type of the variable,
+and it also allows you to use the more idiomatic subscripting operator.</p>
+<h2 id="deferred-hardware-references">Deferred hardware references</h2>
+<p>Since <code>map</code> isn't initialized until <code>runOpMode</code>,
+it makes it somewhat problematic to set references.
+For example, in Java you'd have to do</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">Servo</span><span class="w"> </span><span class="n">servo</span><span class="p">;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nd">@Override</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">runOpMode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">servo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hardwareMap</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">Servo</span><span class="p">::</span><span class="kd">class</span><span class="err">,</span> <span class="err">&quot;</span><span class="nc">servo</span><span class="s">&quot;);</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s">}</span>
+</span></code></pre></div>
+<p>However, this moves initialization far from the ~~center of rotation~~ variable declaration,
+which makes the code less readable.
+That's why <code>HardwareMapEx</code> supports hardware-read delegated values:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="p">:</span><span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">deferred</span><span class="p">(</span><span class="s">&quot;servo&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The improvement here is that the types are closer together and only declared once,
+and the hardware name of the servo is closer to the declaration of the variable.
+This makes the code more readable overall,
+since you have to hunt around for usages less.
+But, you may ask, how does it know what the object is?</p>
+<p>The Servo instance isn't actually configured until <code>map</code> is initialized with <code>init</code>!
+When you call <code>map.init(hardwareMap)</code>,
+it actually does two things</p>
+<ol>
+<li>set the internal reference hardware map to the passed hardware map</li>
+<li><strong>initialize all deferred properties</strong></li>
+</ol>
+<p>Accessing a hardware map-delegated property before it's initialized <em>will</em> result in an exception!
+Don't try to!</p>
+<h2 id="deferred-initialization">Deferred initialization</h2>
+<blockquote>
+<p>"But then",</p>
+</blockquote>
+<p>you may ask,</p>
+<blockquote>
+<p>"how can you keep instancing of subsystems close to the declaration as well?
+This:</p>
+</blockquote>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="p">:</span><span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">deferred</span><span class="p">(</span><span class="s">&quot;servo&quot;</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">val</span><span class="w"> </span><span class="nv">subsystem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ServoSubsystem</span><span class="p">(</span><span class="n">servo</span><span class="p">)</span><span class="w"> </span><span class="c1">// exception 🤾!</span>
+</span></code></pre></div>
+<blockquote>
+<p>won't work because it's accessing the hardware-referencing variable before it's declared."</p>
+</blockquote>
+<p>ducklib has thought of that too.
+Simply use the overload that accepts a <code>() -&gt; T</code> instead of the normal hardware access overload like so:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">servo</span><span class="p">:</span><span class="w"> </span><span class="n">Servo</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">deferred</span><span class="p">(</span><span class="s">&quot;servo&quot;</span><span class="p">)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kd">val</span><span class="w"> </span><span class="nv">subsystem</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">deferred</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ServoSubsystem</span><span class="p">(</span><span class="n">servo</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<p>Note how all the types are inferred,
+keeping the code clean and concise.</p>
 
 
 

@@ -108,3 +108,50 @@ val cmd = WaitCommand(5.seconds) deadlines { println("duck") }.loop()
 Also, `DeadlineCommandGroup`s may seem very similar to `RaceCommandGroup` but they are not the same.
 `RaceCommandGroup` ends when *any* of the commands end,
 but `DeadlineCommandGroup` only ends when the *deadline* command ends.
+
+## Infix operators
+
+Command groups also have some utility infix operators that make your command groups read more like English.
+They are as follows:
+
+* `then`: SequentialCommandGroup
+* `with`: ParallelCommandGroup
+* `races`: RaceCommandGroup
+* `deadlines`: DeadlineCommandGroup
+* `and`: Adds the command on the right to the command group on the left
+
+Like all Kotlin infix operators,
+they all have the same precedence and are left-associative.
+This means that
+
+```kotlin
+cmd1 then cmd2 with cmd3 and cmd4 deadlines cmd5
+```
+
+is parsed as
+
+```kotlin
+(((cmd1 then cmd2) with cmd3) and cmd4) deadlines cmd5
+```
+
+and no other way.
+
+`then`, `with`, and `races` will automatically check if the command on the left is a group of the right type,
+and if it is, it adds the command on the right instead of creating nested groups.
+However, this doesn't work with DeadlineCommandGroup because the command on the left is always the deadline command,
+so you have to use `and` with that one.
+
+In my opinion,
+`and` makes the code easier to read,
+so I suggest using it.
+For example, this:
+
+```kotlin
+cmd1 with cmd2 and cmd3 and cmd3
+```
+
+is more readable than
+
+```kotlin
+cmd1 with cmd2 with cmd3 with cmd4
+```

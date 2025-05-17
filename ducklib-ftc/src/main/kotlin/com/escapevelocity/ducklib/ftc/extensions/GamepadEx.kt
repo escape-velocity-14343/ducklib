@@ -92,8 +92,10 @@ fun Gamepad.current(input: VectorInput) = when (input) {
     )
 }
 
-fun (() -> Double).boolean(predicate: (Double) -> Boolean = { it > 0.5 }) = { predicate(this()) }
-fun (() -> Vector2).boolean(predicate: (Vector2) -> Boolean = { it.lengthSquared > 0.5 * 0.5 }) = { predicate(this()) }
+@JvmName("booleanDouble")
+fun (() -> Double).bool(predicate: (Double) -> Boolean = { it > 0.5 }) = { predicate(this()) }
+@JvmName("booleanVector")
+fun (() -> Vector2).bool(predicate: (Vector2) -> Boolean = { it.lengthSquared > 0.5 * 0.5 }) = { predicate(this()) }
 
 enum class ButtonInput {
     DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,

@@ -72,24 +72,24 @@ or make it queue with `OnEqualConflict.QUEUE`.
 ## Recap
 
 Basically, the flow is this:
+
+```mermaid
+graph TB
+  Start(Command wants to get scheduled) --> HasConflicts
+  HasConflicts{Has conflicts?} -->|Yes| ConflictPriority{Conflicting command's priority higher, lower or equal?}
+  ConflictPriority -->|Higher| HigherConflict{What is <code>OnHigherConflict</code>?}
+  Queue(Queue for rescheduling attempt next tick)
+  HigherConflict -->|CANCEL| HigherConflictEnd(Stop trying, cancel scheduling)
+  HigherConflict -->|QUEUE| Queue
+  ConflictPriority -->|Equal| EqualConflict{What is <code>OnEqualConflict</code>?}
+  EqualConflict -->|QUEUE| Queue
+  ConflictPriority -->|Lower| SuspendOrCancel
+  SuspendOrCancel{Is conflict suspendable?}
+  SuspendOrCancelSuspendable(Suspend the conflict) --> ScheduleCommand
+  SuspendOrCancelUnsuspendable(Cancel the conflict) --> ScheduleCommand
+  SuspendOrCancel -->|Yes| SuspendOrCancelSuspendable
+  SuspendOrCancel -->|No| SuspendOrCancelUnsuspendable
+  EqualConflict -->|OVERRIDE| SuspendOrCancel
+  ScheduleCommand(Command gets scheduled)
+  Queue -.->|after one tick| Start
 ```
-       has conflicts?
-     /               \
-    no                yes
-    |                    \
-schedule it!               this command priority higher, lower, or equal?
-                 _________/                          |                    \_____________
-                /                                    |                                   \
-            higher                                 equal                               lower
-              |                                      |                                   |
-              |                           what is OnEqualConfict?                what is OnHigherConflict?
-              |                              /               \                    /                   \
-              |                          OVERRIDE           QUEUE               QUEUE               CANCEL
-              |                    _____/                     |              ___/                     |
-    is conflict suspendable?  ____/                     try again later ___/                      stop trying
-    /                 \
-  yes                  no
-   |                   |
-suspend it         cancel it
-```
-(this will become an image soon)

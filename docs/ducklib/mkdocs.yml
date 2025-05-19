@@ -2,7 +2,6 @@ site_name: ducklib
 repo_url: https://github.com/escape-velocity-14343/ducklib
 site_url: https://escape-velocity-14343.github.io/ducklib
 
-
 theme:
     logo: assets/icon.svg
     favicon: assets/icon.png
@@ -10,14 +9,14 @@ theme:
     palette:
         - scheme: default
           toggle:
-            icon: material/brightness-7
-            name: Switch to dark mode
+              icon: material/brightness-7
+              name: Switch to dark mode
           primary: amber
           accent: deep orange
         - scheme: slate
           toggle:
-            icon: material/brightness-4
-            name: Switch to light mode
+              icon: material/brightness-4
+              name: Switch to light mode
           primary: amber
           accent: deep orange
 
@@ -28,20 +27,23 @@ theme:
         - navigation.indexes
         - toc.integrate
 
-
 extra_css:
     - stylesheets/custom_css.css
 
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences
-  - toc:
-      permalink: true
+    - pymdownx.highlight:
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences:
+          custom_fences:
+              - name: mermaid
+                class: mermaid
+                format: !!python/name:pymdownx.superfences.fence_code_format
+    - toc:
+          permalink: true
 
 validation:
     links:

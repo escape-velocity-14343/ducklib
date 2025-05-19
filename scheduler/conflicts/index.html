@@ -881,27 +881,25 @@ so now what happens is determined by the user with one of the configuration func
 They can either make <code>cmd2</code> cancel <code>cmd1</code> with <code>OnEqualConflict.OVERRIDE</code>,
 or make it queue with <code>OnEqualConflict.QUEUE</code>.</p>
 <h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
-<p>Basically, the flow is this:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>       has conflicts?
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>     /               \
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    no                yes
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    |                    \
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>schedule it!               this command priority higher, lower, or equal?
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                 _________/                          |                    \_____________
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                /                                    |                                   \
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            higher                                 equal                               lower
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>              |                                      |                                   |
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>              |                           what is OnEqualConfict?                what is OnHigherConflict?
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>              |                              /               \                    /                   \
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>              |                          OVERRIDE           QUEUE               QUEUE               CANCEL
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>              |                    _____/                     |              ___/                     |
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    is conflict suspendable?  ____/                     try again later ___/                      stop trying
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    /                 \
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  yes                  no
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>   |                   |
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>suspend it         cancel it
-</span></code></pre></div>
-(this will become an image soon)</p>
+<p>Basically, the flow is this:</p>
+<pre class="mermaid"><code>graph TB
+  Start(Command wants to get scheduled) --&gt; HasConflicts
+  HasConflicts{Has conflicts?} --&gt;|Yes| ConflictPriority{Conflicting command's priority higher, lower or equal?}
+  ConflictPriority --&gt;|Higher| HigherConflict{What is &lt;code&gt;OnHigherConflict&lt;/code&gt;?}
+  Queue(Queue for rescheduling attempt next tick)
+  HigherConflict --&gt;|CANCEL| HigherConflictEnd(Stop trying, cancel scheduling)
+  HigherConflict --&gt;|QUEUE| Queue
+  ConflictPriority --&gt;|Equal| EqualConflict{What is &lt;code&gt;OnEqualConflict&lt;/code&gt;?}
+  EqualConflict --&gt;|QUEUE| Queue
+  ConflictPriority --&gt;|Lower| SuspendOrCancel
+  SuspendOrCancel{Is conflict suspendable?}
+  SuspendOrCancelSuspendable(Suspend the conflict) --&gt; ScheduleCommand
+  SuspendOrCancelUnsuspendable(Cancel the conflict) --&gt; ScheduleCommand
+  SuspendOrCancel --&gt;|Yes| SuspendOrCancelSuspendable
+  SuspendOrCancel --&gt;|No| SuspendOrCancelUnsuspendable
+  EqualConflict --&gt;|OVERRIDE| SuspendOrCancel
+  ScheduleCommand(Command gets scheduled)
+  Queue -.-&gt;|after one tick| Start</code></pre>
 
 
 

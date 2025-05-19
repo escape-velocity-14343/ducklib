@@ -14,7 +14,7 @@ allowing you to focus more on what you *want* and now how you do it.
 ## Quick links
 
 * [installation](/installation.md)
-* [commands](/Commands/introduction.md)
-* [gamepads](/FTC/gamepad.md)
-* [hardware maps (aka how to avoid NPEs)](/FTC/hardware_map.md)
+* [commands](/commands/index.md)
+* [gamepads](/ftc/gamepad.md)
+* [hardware maps (aka how to avoid NPEs)](/ftc/hardware_map.md)
 * [Example TeleOp](/example_teleop.md)

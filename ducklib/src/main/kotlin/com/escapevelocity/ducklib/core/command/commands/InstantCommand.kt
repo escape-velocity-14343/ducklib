@@ -3,6 +3,8 @@ package com.escapevelocity.ducklib.core.command.commands
 /**
  * A command that runs [toRun] once the first time the command is executed,
  * and finishes instantly.
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#instantcommand)
  */
 class InstantCommand(vararg requirements: Any, val toRun: () -> Unit) : NoOpCommand(*requirements) {
     var hasRun = false

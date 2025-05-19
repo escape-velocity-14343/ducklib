@@ -9,7 +9,7 @@ default commands,
 and more.
 
 To set the `priority` or `OnHigherConflict` or `OnEqualConflict` properties of a command,
-check out the [command configuration page](/Commands/introduction.md#configuration).
+check out the [command configuration page](/commands/index.md#configuration).
 TL;DR:
 
 ```kotlin
@@ -41,7 +41,7 @@ The first step is to compare their priorities.
 In this case, `cmd2` has a higher priority than `cmd1`.
 This means that no matter what, `cmd2` is going to run.
 To do this, `cmd1` will have to be suspended or canceled,
-so its [`suspend`](/Commands/introduction.md#suspend-and-resume) function will get called to aid in a smooth handoff,
+so its [`suspend`](/commands/index.md#suspend-and-resume) function will get called to aid in a smooth handoff,
 and `cmd2` will take over control.
 When `cmd2` finishes,
 assuming `cmd1` got suspended and not canceled,
@@ -59,7 +59,7 @@ This means that no matter what, `cmd1` is going to finish running.
 it can give up,
 or it can get queued for later scheduling.
 By default the latter is chosen,
-although you can set it with one one of the [configuration functions](/Commands/introduction.md#configuration).
+although you can set it with one one of the [configuration functions](/commands/index.md#configuration).
 
 ## Situation 3: conflicts, but they have equal priority
 

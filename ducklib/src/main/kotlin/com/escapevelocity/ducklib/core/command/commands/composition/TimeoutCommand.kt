@@ -7,6 +7,7 @@ import kotlin.time.Duration
 /**
  * Runs the composed command and ends if it times out, or the command finishes.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#timeoutcommand)
  * @param command The command to compose
  * @param duration How long it will wait for
  * @param trackSuspensionTime Whether the [TimeoutCommand] will subtract from the total time the amount of time

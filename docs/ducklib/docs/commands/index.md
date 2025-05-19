@@ -1,4 +1,4 @@
-# Introduction
+# Commands
 
 ## Overview
 
@@ -37,8 +37,8 @@ More info on [command groups](groups.md)
 Commands are extremely flexible because each one represents a single unit of work,
 and they can be composed in groups to make entire autonomi.
 
-Commands are run by the [command scheduler](/Scheduler/introduction.md).
-Commands can also optionally have a set of [requirements and a priority](/Scheduler/conflicts.md).
+Commands are run by the [command scheduler](/scheduler/index.md).
+Commands can also optionally have a set of [requirements and a priority](/scheduler/conflicts.md).
 
 ## Lifetime functions
 
@@ -68,7 +68,7 @@ This is not the deepest thing in the world.
 
 These get called when the command scheduler suspends a command and resumes it, respectively.
 Suspension can happen for a variety of reasons,
-which are documented [here](/Scheduler/conflicts.md).
+which are documented [here](/scheduler/conflicts.md).
 
 ### `end`
 
@@ -78,7 +78,7 @@ that means another command interrupted this one.
 
 ### Conflict resolution stuff
 
-For more info about the conflict resolution system, read [conflicts](/Scheduler/conflicts.md).
+For more info about the conflict resolution system, read [conflicts](/scheduler/conflicts.md).
 
 ## Configuration
 

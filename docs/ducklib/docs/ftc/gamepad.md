@@ -13,7 +13,7 @@ You can bind an action to a button like this:
 gamepad1[ButtonInput.TRIANGLE].onceOnTrue(cmd)
 ```
 
-Now, if you've read the [triggers](/Triggers/introduction.md) page,
+Now, if you've read the [triggers](/trigger/index.md) page,
 you should know that triggers in ducklib are just `() -> Boolean`-typed functions.
 This means that `#!kotlin gamepad1[ButtonInput.TRIANGLE]` is actually returning a lambda,
 which means you can store it in a variable,

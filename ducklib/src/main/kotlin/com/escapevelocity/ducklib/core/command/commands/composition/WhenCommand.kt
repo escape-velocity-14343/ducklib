@@ -6,6 +6,7 @@ import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companio
 /**
  * Selects between the commands provided in [commands] using the result from [selector].
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#ifcommand-ifelsecommand-and-whencommand)
  * @sample com.escapevelocity.ducklib.core.samples.whenCommandSample
  */
 class WhenCommand<TKey>(

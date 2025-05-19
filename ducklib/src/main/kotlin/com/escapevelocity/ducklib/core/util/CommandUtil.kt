@@ -11,6 +11,7 @@ import kotlin.time.Duration
  * If you want to group multiple commands in the group,
  * chain `with` (e.g. `a with b with c`), use [and], or use the non-infix operator that accepts varargs.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to race with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -21,6 +22,7 @@ infix fun Command.races(right: Command) = grouped(right) { RaceCommandGroup(this
  * If you want to group multiple commands in the group,
  * chain `with` (e.g. `a with b with c`), use [and], or use the non-infix operator that accepts varargs.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command(s) to race with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -32,6 +34,7 @@ fun Command.races(vararg right: Command) = grouped(*right) { RaceCommandGroup(th
  * If you want to group multiple commands in the deadline group,
  * use [and] or the non-infix operator that accepts varargs.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command(s) to race with
  * @sample com.escapevelocity.ducklib.core.samples.deadlineCommandGroupSample
  */
@@ -42,6 +45,7 @@ infix fun Command.deadlines(right: Command) = DeadlineCommandGroup(this, right)
  * Here, `this` is the deadline and [right] is the rest of the group.
  * If you want to group multiple commands in the deadline group, use [and].
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command(s) to race with
  * @sample com.escapevelocity.ducklib.core.samples.deadlineCommandGroupSample
  */
@@ -56,6 +60,7 @@ fun Command.deadlines(vararg right: Command) = DeadlineCommandGroup(this, *right
  * If the receiver command is a ParallelCommandGroup,
  * this will add it to the existing command group instead of composing it inside a new command group.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to parallel with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -69,6 +74,7 @@ infix fun Command.with(right: Command) =
  * If the receiver command is a ParallelCommandGroup,
  * this will add it to the existing command group instead of composing it inside a new command group.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to parallel with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -84,6 +90,7 @@ fun Command.with(vararg right: Command) =
  * If the receiver command is a [SequentialCommandGroup],
  * this will add it to the existing command group instead of composing it inside a new command group.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to sequential with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -99,6 +106,7 @@ infix fun Command.then(right: Command) =
  * If the receiver command is a [SequentialCommandGroup],
  * this will add it to the existing command group instead of composing it inside a new command group.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to sequential with
  * @sample com.escapevelocity.ducklib.core.samples.raceCommandGroupSample
  */
@@ -108,6 +116,7 @@ fun Command.then(vararg right: Command) =
 /**
  * Adds a set of commands to a [CommandGroup].
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The command to append to the group
  */
 infix fun CommandGroup.and(right: Command) = configure { addCommands(right) }
@@ -115,6 +124,7 @@ infix fun CommandGroup.and(right: Command) = configure { addCommands(right) }
 /**
  * Adds a set of commands to a [CommandGroup].
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#infix-operators)
  * @param right The commands to append to the group
  */
 fun CommandGroup.and(vararg right: Command) = configure { addCommands(*right) }

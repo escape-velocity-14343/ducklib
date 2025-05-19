@@ -2,6 +2,14 @@ package com.escapevelocity.ducklib.core.command.commands
 
 import com.escapevelocity.ducklib.core.util.b16Hash
 
+/**
+ * A command represents a unit of action,
+ * whether that's a single atomic action or an action composed of many.
+ * They are run by the [com.escapevelocity.ducklib.core.command.scheduler.CommandScheduler],
+ * which also resolves conflicts in requirements between to-schedule and scheduled commands.
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/introduction)
+ */
 abstract class Command {
 
     private val _requirements: MutableSet<Any> = HashSet()

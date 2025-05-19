@@ -7,6 +7,7 @@ import com.escapevelocity.ducklib.core.command.commands.Command
  *
  * Commands *can* share requirements, unlike [ParallelCommandGroup]
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#racecommandgroup)
  * @param commands The commands to run in parallel
  * @sample [com.escapevelocity.ducklib.core.samples.raceCommandGroupSample]
  */

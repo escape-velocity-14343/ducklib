@@ -11,6 +11,8 @@ import com.escapevelocity.ducklib.core.command.commands.NoOpCommand
  * @param requirements The requirements of the command.
  * This should be the same as the requirements of the command [commandSupplier] will produce.
  * @param commandSupplier The command supplier to be evaluated at initialization time.
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#deferredcommand)
  */
 open class DeferredCommand(vararg requirements: Any, val commandSupplier: () -> Command) :
     NoOpCommand(requirements) {

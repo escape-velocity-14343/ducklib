@@ -5,7 +5,7 @@ There are two types of schedulers in ducklib,
 
 ## `TriggerScheduler`
 
-The `TriggerScheduler` handles running actions on a [trigger](/Triggers/introduction.md)'s rising edge and falling edge.
+The `TriggerScheduler` handles running actions on a [trigger](/trigger/index.md)'s rising edge and falling edge.
 This can be used to bind actions to gamepad inputs,
 state changes,
 and similar things.
@@ -21,8 +21,8 @@ Here, a command is created inline and bound to a trigger.
 
 ## `CommandScheduler`
 
-The `CommandScheduler` handles running [commands](/Commands/introduction.md),
-and gracefully handling [requirement conflicts](/Scheduler/conflicts.md) as they arise.
+The `CommandScheduler` handles running [commands](/commands/index.md),
+and gracefully handling [requirement conflicts](/scheduler/conflicts.md) as they arise.
 
 ## `DuckyScheduler`
 

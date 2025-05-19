@@ -6,6 +6,8 @@ package com.escapevelocity.ducklib.core.command.commands
  * however this can be configured with [Command.suspendable].
  *
  * For more customizability, consider [LambdaCommand].
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#loopcommand)
  */
 class LoopCommand(vararg requirements: Any, val loop: () -> Unit) : NoOpCommand(requirements) {
     override fun execute() {

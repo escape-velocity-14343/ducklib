@@ -141,8 +141,8 @@ class CommandTest {
             val cmd = DeferredCommand {
                 LambdaCommand {
                     var a = 0
-                    lminitialize = { a += 1 }
-                    lmend = { assertEquals(1, a) }
+                    initialize = { a += 1 }
+                    end = { assertEquals(1, a) }
                 }
             }
             cmd.schedule()
@@ -158,8 +158,8 @@ class CommandTest {
         with(DuckyScheduler()) {
             val cmd = LambdaCommand {
                 var a = 0
-                lminitialize = { a += 1 }
-                lmend = { assertEquals(1, a) }
+                initialize = { a += 1 }
+                end = { assertEquals(1, a) }
             }
             cmd.schedule()
             // doesn't fail because a is 1

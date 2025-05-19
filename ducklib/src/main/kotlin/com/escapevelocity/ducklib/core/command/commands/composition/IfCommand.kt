@@ -4,6 +4,8 @@ import com.escapevelocity.ducklib.core.command.commands.Command
 
 /**
  * Runs [command] if [shouldRun] is true, otherwise it doesn't do anything.
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#ifcommand-ifelsecommand-and-whencommand)
  */
 class IfCommand(private val shouldRun: () -> Boolean, private val command: Command) : CompositionCommand(command) {
     var runningCommand: Command? = null

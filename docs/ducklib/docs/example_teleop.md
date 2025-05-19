@@ -44,17 +44,19 @@ class ExampleOpMode : LinearOpMode() {
         // use a lambda command here
         // so we can capture the driver pad directly without having to pass in a DoubleSupplier
         LambdaCommand {
-            // add the requirements of the drivetrain subsystem
-            // so that other commands that share that will suspend this command
-            addRequirements(drivetrainSubsystem)
-            lmexecute = {
+            execute = {
                 // driver gamepad references don't need suppliers since it's wrapped in a lambda
                 drivetrainSubsystem.drive(
                     driver[VectorInput.STICK_LEFT].flip(Axis.Y),
                     driver[AnalogInput.STICK_X_LEFT].radians
                 )
             }
-            lmfinished = { false }
+            finished = { false }
+            config = {
+                // add the requirements of the drivetrain subsystem
+                // so that other commands that share that will suspend this command
+                addRequirements(drivetrainSubsystem)
+            }
         }.schedule()
 
         waitForStart()

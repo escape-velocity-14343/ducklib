@@ -8,6 +8,7 @@ package com.escapevelocity.ducklib.core.command.commands
  *
  * A higher integer value corresponds to a higher priority.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/scheduler/conflicts/#timeoutcommand)
  * @property priority The integer representation of the priority level.
  */
 @JvmInline

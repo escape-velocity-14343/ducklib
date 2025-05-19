@@ -6,7 +6,7 @@ ducklib comes with a number of commands built in as basic utilities.
 
 ### `InstantCommand`
 
-It runs a lambda once in [`execute`](/Commands/introduction.md#execute) and then stops.
+It runs a lambda once in [`execute`](/commands/index.md#execute) and then stops.
 
 Example usage:
 
@@ -88,18 +88,43 @@ For example, a driving command that captures a subsystem reference and gamepad i
 
 ```kotlin
 LambdaCommand {
-    // add the requirements of the drivetrain subsystem
-    // so that other commands that share that will suspend this command
-    addRequirements(drivetrainSubsystem)
-    lmexecute = {
+    execute = {
         // driver gamepad references don't need suppliers since it's wrapped in a lambda
         drivetrainSubsystem.drive(
             driver[VectorInput.STICK_LEFT].flip(Axis.Y),
             driver[AnalogInput.STICK_X_LEFT].radians
         )
     }
-    lmfinished = { false }
+    finished = { false }
+    config = {
+        // add the requirements of the drivetrain subsystem
+        // so that other commands that share that will suspend this command
+        addRequirements(drivetrainSubsystem)
+    }
 }.schedule()
+```
+
+Note the `config = {`.
+This is needed because,
+for improved naming,
+when you call the `LambdaCommand(configuration)` constructor,
+the configuration lambda's receiver object is actually of the type `LambdaCommandBuilder` which aliases some of the properties of `LambdaCommand`.
+This is because the function-typed variables are prefixed with `lm-` to avoid name overlaps in `LambdaCommand`.
+However, this means that you can't configure the `Command`-specific properties like requirements and priority in the lambda.
+To fix this, simply put those inside of `config`,
+which will get called with the receiver of the constructed `LambdaCommand`:
+
+```kotlin
+LambdaCommand {
+    // LambdaCommandBuilder - aliased names
+    finished = { true }
+    config = {
+        // LambdaCommand - non-aliased names.
+        // Note that this runs *after* the rest of the configuration is copied over.
+        priority = 5.priority
+        addRequirements(ss1)
+    }
+}
 ```
 
 You can also capture state inside of the configuration lambda,
@@ -108,9 +133,9 @@ removing the need for a `StatefulLambda` [like Mercurial has](https://docs.dairy
 ```kotlin
 LambdaCommand {
     var i = 0
-    lminitialize = { i = 0 }
-    lmexecute = { i += 1 }
-    lmfinished = { i >= 5 }
+    initialize = { i = 0 }
+    execute = { i += 1 }
+    finished = { i >= 5 }
 }
 ```
 
@@ -119,7 +144,7 @@ Composition commands *compose* a set of commands,
 inheriting most of their functionality while overriding specific actions.
 
 ### `DeferredCommand`
-`DeferredCommand` defers command construction (through `commandSupplier`) until [initialization](/Commands/introduction.md#initialize) time.
+`DeferredCommand` defers command construction (through `commandSupplier`) until [initialization](/commands/index.md#initialize) time.
 It's useful when you're making a command that has dynamically changing values,
 such as a path generator.
 
@@ -139,7 +164,7 @@ since that will compute the wait time once and use that every time it's schedule
 
 ### `IfCommand`, `IfElseCommand`, and `WhenCommand`
 `IfCommand` runs a command if,
-at [initialization](/Commands/introduction.md#initialize) time,
+at [initialization](/commands/index.md#initialize) time,
 the provided supplier returns `true`.
 
 Example usage:
@@ -152,7 +177,7 @@ if the command is run something will extend,
 otherwise nothing will happen.
 
 `IfElseCommand` runs a command if,
-at [initialization](/Commands/introduction.md#initialize) time,
+at [initialization](/commands/index.md#initialize) time,
 the provided supplier returns `true`,
 otherwise it runs the other command.
 
@@ -176,7 +201,7 @@ val cmd = WhenCommand { state }.configure {
     default = retract()
 }
 ```
-*For more information on the `configure` method, see [configure](/Commands/introduction.md#configuration)*
+*For more information on the `configure` method, see [configure](/commands/index.md#configuration)*
 
 It also has an alternative syntax:
 

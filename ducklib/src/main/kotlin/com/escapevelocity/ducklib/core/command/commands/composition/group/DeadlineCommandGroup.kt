@@ -6,6 +6,7 @@ import com.escapevelocity.ducklib.core.command.commands.Command
  * Runs the given commands in parallel and finishes when the "deadline" command finishes,
  * interrupting the rest of the commands.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#deadlinecommandgroup)
  * @param deadlineCommand The deadline command
  * @param commands The commands to run in parallel
  * @sample [com.escapevelocity.ducklib.core.samples.deadlineCommandGroupSample]

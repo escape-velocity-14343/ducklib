@@ -9,6 +9,7 @@ import java.security.InvalidParameterException
  *
  * Commands can't share requirements, unlike [SequentialCommandGroup].
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#parallelcommandgroup)
  * @param commands The commands to run in parallel
  * @sample [com.escapevelocity.ducklib.core.samples.parallelCommandGroupSample]
  */

@@ -10,6 +10,7 @@ import com.escapevelocity.ducklib.core.util.b16Hash
  * verifying that all commands are ungrouped,
  * and stringification.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups)
  * @sample [com.escapevelocity.ducklib.core.samples.commandGroupSample]
  */
 abstract class CommandGroup(vararg commands: Command) : Command() {

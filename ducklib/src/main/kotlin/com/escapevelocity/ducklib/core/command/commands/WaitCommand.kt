@@ -7,6 +7,7 @@ import kotlin.time.DurationUnit
 /**
  * Waits for a given duration while doing nothing, then finishes.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#waitcommand)
  * @param duration How long it will wait for
  * @param trackSuspensionTime Whether the [TimeoutCommand] will subtract from the total time the amount of time
  * suspended

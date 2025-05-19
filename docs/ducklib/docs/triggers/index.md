@@ -8,7 +8,7 @@ No need to wrap them in a class, just use them as-is.
 
 ## Binding actions and commands
 
-Binding actions (`#!kotlin () -> Unit`-typed functions) to triggers involves using the [`TriggerScheduler`](/Scheduler/introduction.md#triggerscheduler)'s various binding functions.
+Binding actions (`#!kotlin () -> Unit`-typed functions) to triggers involves using the [`TriggerScheduler`](/scheduler/index.md#triggerscheduler)'s various binding functions.
 ### `onceOnTrue`/`onceOnFalse`
 
 These functions will run the action or schedule the command on the rising and falling edge of the supplier respectively.
@@ -33,6 +33,6 @@ If you want it to do the opposite, invert the trigger:
 
 All the command-accepting `onceOn*` and `whileOnTrue` have deferred variants.
 These delay construction of the command until trigger time.
-This has some advantage over [`DeferredCommand`](/Commands/builtin.md#deferredcommand).
+This has some advantage over [`DeferredCommand`](/commands/builtin.md#deferredcommand).
 It's a more complete solution that doesn't require copying the requirements exactly,
 because the command construction happens *before* command initialization.

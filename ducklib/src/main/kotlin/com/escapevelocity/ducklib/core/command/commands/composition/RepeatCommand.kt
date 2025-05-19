@@ -5,6 +5,7 @@ import com.escapevelocity.ducklib.core.command.commands.Command
 /**
  * Composes [command] to repeat for [times] times.
  *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#repeatcommand)
  * @param times How many times to repeat.
  * For repeating infinite times, set to null (the default).
  */

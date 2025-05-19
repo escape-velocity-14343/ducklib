@@ -1,4 +1,3 @@
-
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -63,24 +62,26 @@ fun SchedulerTestApp() {
         }
         val c4 = WaitCommand(2.seconds) races WaitCommand(1.seconds) with WaitCommand(1.5.seconds)
         val c5 = LambdaCommand {
-            priority = 1.priority
 
             var startTime = 0L
-            lmsuspendable = true
-            lminitialize = {
+            suspendable = true
+            initialize = {
                 startTime = System.nanoTime()
             }
-            lmfinished = { (System.nanoTime() - startTime) / 1e9 > 5.0 }
-            lmend = { println("hi") }
-            addRequirements(ss1)
+            finished = { (System.nanoTime() - startTime) / 1e9 > 5.0 }
+            end = { println("hi") }
+            config = {
+                priority = 1.priority
+                addRequirements(ss1)
+            }
         }
         val lmCommand = LambdaCommand {
             var state = 0.0
-            lmsuspendable = true
-            lmexecute = {
+            suspendable = true
+            execute = {
                 state += 1.0
             }
-            lmend = {
+            end = {
                 println("finished")
             }
         }

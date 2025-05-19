@@ -4,6 +4,8 @@ import com.escapevelocity.ducklib.core.command.commands.Command
 
 /**
  * Runs a [trueCommand] if [shouldRun] returns true, otherwise it runs [falseCommand].
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/groups/#ifcommand-ifelsecommand-and-whencommand)
  */
 class IfElseCommand(
     private val shouldRun: () -> Boolean, private val trueCommand: Command, private val falseCommand: Command

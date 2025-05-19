@@ -20,6 +20,8 @@ import kotlin.collections.flatten
  * **NOTE**:
  * This does not override [finished]!
  * Implement that yourself.
+ *
+ * [Online documentation](https://escape-velocity-14343.github.io/ducklib/commands/builtin/#compositions)
  */
 abstract class CompositionCommand(protected vararg val commands: Command) : Command() {
     init {

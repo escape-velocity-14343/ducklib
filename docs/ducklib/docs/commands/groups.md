@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Command groups are a special type of [composing command](/Commands/builtin.md#compositions) that group together commands in useful ways.
+Command groups are a special type of [composing command](/commands/builtin.md#compositions) that group together commands in useful ways.
 
 ## `SequentialCommandGroup`
 

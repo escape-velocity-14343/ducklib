@@ -8,21 +8,21 @@
       
       
       
-        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/Scheduler/conflicts/">
+        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/scheduler/conflicts/">
       
       
-        <link rel="prev" href="../../FTC/hardware_map/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../introduction/">
+        <link rel="next" href="../../triggers/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
-        <title>Conflict resolution - ducklib Documentation</title>
+        <title>Conflict resolution - ducklib</title>
       
     
     
@@ -67,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -92,10 +92,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ducklib Documentation" class="md-header__button md-logo" aria-label="ducklib Documentation" data-md-component="logo">
+    <a href="../.." title="ducklib" class="md-header__button md-logo" aria-label="ducklib" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../../assets/icon.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +105,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            ducklib Documentation
+            ducklib
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -125,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -135,7 +134,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -226,15 +225,16 @@
 
 
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ducklib Documentation" class="md-nav__button md-logo" aria-label="ducklib Documentation" data-md-component="logo">
-      
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ducklib" class="md-nav__button md-logo" aria-label="ducklib" data-md-component="logo">
+      
+  <img src="../../assets/icon.svg" alt="logo">
 
     </a>
-    ducklib Documentation
+    ducklib
   </label>
   
     <div class="md-nav__source">
@@ -325,18 +325,36 @@
   
     
     
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../commands/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -345,8 +363,14 @@
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
@@ -356,13 +380,15 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../Commands/builtin/" class="md-nav__link">
+      <a href="../../commands/builtin/" class="md-nav__link">
         
   
   
@@ -385,7 +411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Commands/custom/" class="md-nav__link">
+      <a href="../../commands/custom/" class="md-nav__link">
         
   
   
@@ -408,35 +434,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Commands/groups/" class="md-nav__link">
+      <a href="../../commands/groups/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     Command groups
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Commands/introduction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Introduction
     
   </span>
   
@@ -462,22 +465,33 @@
   
     
     
+      
+        
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
-    FTC
+    Ftc
     
   </span>
   
@@ -488,7 +502,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            FTC
+            Ftc
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -499,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../FTC/gamepad/" class="md-nav__link">
+      <a href="../../ftc/gamepad/" class="md-nav__link">
         
   
   
@@ -522,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../FTC/hardware_map/" class="md-nav__link">
+      <a href="../../ftc/hardware_map/" class="md-nav__link">
         
   
   
@@ -555,18 +569,32 @@
   
     
     
+      
+        
+          
+        
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -575,8 +603,14 @@
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
@@ -584,6 +618,8 @@
             Scheduler
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -704,29 +740,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../introduction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Schedulers
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -742,18 +755,30 @@
   
     
     
+      
+        
+          
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../triggers/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -762,8 +787,9 @@
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -772,27 +798,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Triggers/introduction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Triggers
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -809,86 +814,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-1-no-conflicts" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 1: no conflicts
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-1-conflicts-but-cmd2-has-higher-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 1: conflicts, but cmd2 has higher priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-2-conflicts-but-cmd2-has-lower-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 2: conflicts, but cmd2 has lower priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-3-conflicts-but-they-have-equal-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 3: conflicts, but they have equal priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Recap
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           
             <div class="md-content" data-md-component="content">
@@ -901,15 +826,15 @@
   
 
 
-<h1 id="conflict-resolution">Conflict resolution</h1>
-<h2 id="overview">Overview</h2>
+<h1 id="conflict-resolution">Conflict resolution<a class="headerlink" href="#conflict-resolution" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Conflict resolution in FTCLib, NextFTC, and similar libraries is very basic.
 ducklib introduces a rich priority system,
 allowing for easy implementations of input buffering,
 default commands,
 and more.</p>
 <p>To set the <code>priority</code> or <code>OnHigherConflict</code> or <code>OnEqualConflict</code> properties of a command,
-check out the <a href="../../Commands/introduction/#configuration">command configuration page</a>.
+check out the <a href="../../commands/#configuration">command configuration page</a>.
 TL;DR:</p>
 <div class="language-kotlin highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NoOpCommand</span><span class="p">().</span><span class="na">configure</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">priority</span>
@@ -922,25 +847,25 @@ TL;DR:</p>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnEqualConflict</span><span class="p">(</span><span class="n">OnEqualConflict</span><span class="p">.</span><span class="na">QUEUE</span><span class="p">)</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnHigherConflict</span><span class="p">(</span><span class="n">OnHigherConflict</span><span class="p">.</span><span class="na">CANCEL</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="situation-1-no-conflicts">Situation 1: no conflicts</h2>
+<h2 id="situation-1-no-conflicts">Situation 1: no conflicts<a class="headerlink" href="#situation-1-no-conflicts" title="Permanent link">&para;</a></h2>
 <p>Say you have a command, <code>cmd1</code>, that requires <code>subsystem1</code>.
 Now, you try to schedule another command, <code>cmd2</code>, that requires <code>subsystem2</code>.
 Since neither of their requirements overlap,
 everything goes smoothly, and both commands are scheduled.</p>
-<h2 id="situation-1-conflicts-but-cmd2-has-higher-priority">Situation 1: conflicts, but <code>cmd2</code> has higher priority</h2>
+<h2 id="situation-1-conflicts-but-cmd2-has-higher-priority">Situation 1: conflicts, but <code>cmd2</code> has higher priority<a class="headerlink" href="#situation-1-conflicts-but-cmd2-has-higher-priority" title="Permanent link">&para;</a></h2>
 <p>Now, <code>cmd2</code> requires <code>subsystem1</code>.
 Their requirements overlap, so we have a conflict that we need to resolve.</p>
 <p>The first step is to compare their priorities.
 In this case, <code>cmd2</code> has a higher priority than <code>cmd1</code>.
 This means that no matter what, <code>cmd2</code> is going to run.
 To do this, <code>cmd1</code> will have to be suspended or canceled,
-so its <a href="../../Commands/introduction/#suspend-and-resume"><code>suspend</code></a> function will get called to aid in a smooth handoff,
+so its <a href="../../commands/#suspend-and-resume"><code>suspend</code></a> function will get called to aid in a smooth handoff,
 and <code>cmd2</code> will take over control.
 When <code>cmd2</code> finishes,
 assuming <code>cmd1</code> got suspended and not canceled,
 <code>cmd1</code> will get resumed and rescheduled.</p>
 <p>What determines whether a command is suspendable or not is the <code>suspendable</code> property on <code>Command</code>, and is set by the command.</p>
-<h2 id="situation-2-conflicts-but-cmd2-has-lower-priority">Situation 2: conflicts, but <code>cmd2</code> has lower priority</h2>
+<h2 id="situation-2-conflicts-but-cmd2-has-lower-priority">Situation 2: conflicts, but <code>cmd2</code> has lower priority<a class="headerlink" href="#situation-2-conflicts-but-cmd2-has-lower-priority" title="Permanent link">&para;</a></h2>
 <p>Again, the first step is to compare their priorities.
 In this case, <code>cmd2</code> has a lower priority than <code>cmd1</code>.
 This means that no matter what, <code>cmd1</code> is going to finish running.</p>
@@ -948,14 +873,14 @@ This means that no matter what, <code>cmd1</code> is going to finish running.</p
 it can give up,
 or it can get queued for later scheduling.
 By default the latter is chosen,
-although you can set it with one one of the <a href="../../Commands/introduction/#configuration">configuration functions</a>.</p>
-<h2 id="situation-3-conflicts-but-they-have-equal-priority">Situation 3: conflicts, but they have equal priority</h2>
+although you can set it with one one of the <a href="../../commands/#configuration">configuration functions</a>.</p>
+<h2 id="situation-3-conflicts-but-they-have-equal-priority">Situation 3: conflicts, but they have equal priority<a class="headerlink" href="#situation-3-conflicts-but-they-have-equal-priority" title="Permanent link">&para;</a></h2>
 <p><code>cmd1</code> can't wait,
 and <code>cmd2</code> can't wait,
 so now what happens is determined by the user with one of the configuration functions.
 They can either make <code>cmd2</code> cancel <code>cmd1</code> with <code>OnEqualConflict.OVERRIDE</code>,
 or make it queue with <code>OnEqualConflict.QUEUE</code>.</p>
-<h2 id="recap">Recap</h2>
+<h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
 <p>Basically, the flow is this:
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>       has conflicts?
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>     /               \
@@ -1022,10 +947,12 @@ or make it queue with <code>OnEqualConflict.QUEUE</code>.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.indexes", "toc.integrate"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>

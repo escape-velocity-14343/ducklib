@@ -13,8 +13,8 @@ allowing you to focus more on what you *want* and now how you do it.
 
 ## Quick links
 
-* [installation](https://escape-velocity-14343.github.io/ducklib/installation.md)
-* [commands](https://escape-velocity-14343.github.io/ducklib/commands/index.md)
-* [gamepads](https://escape-velocity-14343.github.io/ducklib/ftc/gamepad.md)
-* [hardware maps (aka how to avoid NPEs)](https://escape-velocity-14343.github.io/ducklib/ftc/hardware_map.md)
-* [Example TeleOp](https://escape-velocity-14343.github.io/ducklib/example_teleop.md)
+* [installation](https://escape-velocity-14343.github.io/ducklib/installation)
+* [commands](https://escape-velocity-14343.github.io/ducklib/commands/index)
+* [gamepads](https://escape-velocity-14343.github.io/ducklib/ftc/gamepad)
+* [hardware maps (aka how to avoid NPEs)](https://escape-velocity-14343.github.io/ducklib/ftc/hardware_map)
+* [Example TeleOp](https://escape-velocity-14343.github.io/ducklib/example_teleop)

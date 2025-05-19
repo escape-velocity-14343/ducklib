@@ -43,6 +43,12 @@ We're going to be using `includeBuild` to include a dependency to another projec
 
 ## Step 3: Add projects to `FtcRobotController`
 
+**NOTE**:
+If you clone [the quickstart](https://github.com/escape-velocity-14343/ducklib-quickstart) instead of the normal FtcRobotController
+(this is assuming I keep it up to date)
+you won't need to do this,
+since it already has the gradle files modified correctly.
+
 Now, open the `settings.gradle` file in `FtcRobotController`.
 You should have something like this by default:
 

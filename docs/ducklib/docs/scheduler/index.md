@@ -5,7 +5,7 @@ There are two types of schedulers in ducklib,
 
 ## `TriggerScheduler`
 
-The `TriggerScheduler` handles running actions on a [trigger](/trigger/index.md)'s rising edge and falling edge.
+The `TriggerScheduler` handles running actions on a [trigger](/triggers/index.md)'s rising edge and falling edge.
 This can be used to bind actions to gamepad inputs,
 state changes,
 and similar things.

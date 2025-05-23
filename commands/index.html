@@ -336,8 +336,6 @@
       
         
       
-        
-      
     
     
     
@@ -396,29 +394,6 @@
   
   <span class="md-ellipsis">
     Built-in commands
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="custom/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Custom commands
     
   </span>
   
@@ -743,7 +718,7 @@ More info on <a href="builtin/">built-in commands</a></p>
 <p>A user-made command that drives the robot around:</p>
 <p><div class="language-kotlin highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriveCommand</span><span class="p">(</span><span class="n">mecanum</span><span class="p">,</span><span class="w"> </span><span class="n">Vector2</span><span class="p">(</span><span class="m">3.</span><span class="n">inches</span><span class="p">,</span><span class="w"> </span><span class="m">5.</span><span class="n">inches</span><span class="p">))</span>
 </span></code></pre></div>
-More info on <a href="custom/">custom commands</a></p>
+More info on <a href="custom.md">custom commands</a></p>
 <p>A command that runs all of those commands in sequence</p>
 <p><div class="language-kotlin highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SequentialCommandGroup</span><span class="p">(</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">WaitCommand</span><span class="p">(</span><span class="m">2.0</span><span class="p">.</span><span class="na">seconds</span><span class="p">),</span>

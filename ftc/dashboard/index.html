@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/scheduler/conflicts/">
+        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/ftc/dashboard/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../../commands/groups/">
       
       
-        <link rel="next" href="../../triggers/">
+        <link rel="next" href="../gamepad/">
       
       
       <link rel="icon" href="../../assets/icon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Conflict resolution - ducklib</title>
+        <title>FTC Dashboard integration - ducklib</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conflict-resolution" class="md-skip">
+        <a href="#ftc-dashboard-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conflict resolution
+              FTC Dashboard integration
             
           </span>
         </div>
@@ -436,8 +436,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -456,11 +458,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -476,7 +478,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Ftc
@@ -487,10 +489,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../ftc/dashboard/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    FTC Dashboard integration
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -501,6 +525,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard properties
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -513,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ftc/gamepad/" class="md-nav__link">
+      <a href="../gamepad/" class="md-nav__link">
         
   
   
@@ -536,7 +589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ftc/hardware_map/" class="md-nav__link">
+      <a href="../hardware_map/" class="md-nav__link">
         
   
   
@@ -563,8 +616,6 @@
       
   
   
-    
-  
   
   
     
@@ -585,15 +636,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../scheduler/" class="md-nav__link ">
               
   
   
@@ -612,7 +663,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Scheduler
@@ -625,32 +676,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Conflict resolution
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../scheduler/conflicts/" class="md-nav__link">
         
   
   
@@ -661,80 +690,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-1-no-conflicts" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 1: no conflicts
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-1-conflicts-but-cmd2-has-higher-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 1: conflicts, but cmd2 has higher priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-2-conflicts-but-cmd2-has-lower-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 2: conflicts, but cmd2 has lower priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#situation-3-conflicts-but-they-have-equal-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Situation 3: conflicts, but they have equal priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Recap
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -826,80 +781,35 @@
   
 
 
-<h1 id="conflict-resolution">Conflict resolution<a class="headerlink" href="#conflict-resolution" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Conflict resolution in FTCLib, NextFTC, and similar libraries is very basic.
-ducklib introduces a rich priority system,
-allowing for easy implementations of input buffering,
-default commands,
-and more.</p>
-<p>To set the <code>priority</code> or <code>OnHigherConflict</code> or <code>OnEqualConflict</code> properties of a command,
-check out the <a href="../../commands/#configuration">command configuration page</a>.
-TL;DR:</p>
-<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NoOpCommand</span><span class="p">().</span><span class="na">configure</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">priority</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">onEqualConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnEqualConflict</span><span class="p">.</span><span class="na">QUEUE</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">onHigherConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnHigherConflict</span><span class="p">.</span><span class="na">CANCEL</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// or</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NoOpCommand</span><span class="p">()</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">.</span><span class="na">setPriority</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">priority</span><span class="p">)</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnEqualConflict</span><span class="p">(</span><span class="n">OnEqualConflict</span><span class="p">.</span><span class="na">QUEUE</span><span class="p">)</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">.</span><span class="na">setOnHigherConflict</span><span class="p">(</span><span class="n">OnHigherConflict</span><span class="p">.</span><span class="na">CANCEL</span><span class="p">)</span>
+<h1 id="ftc-dashboard-integration">FTC Dashboard integration<a class="headerlink" href="#ftc-dashboard-integration" title="Permanent link">&para;</a></h1>
+<p>If <a href="https://github.com/acmerobotics/ftc-dashboard">FTC dashboard</a> is installed,
+you can use the FTC dashboard extensions.</p>
+<h2 id="dashboard-properties">Dashboard properties<a class="headerlink" href="#dashboard-properties" title="Permanent link">&para;</a></h2>
+<p>Instead of using <code>@Config</code>, 
+ducklib includes support for a dashboard-<a href="https://kotlinlang.org/docs/delegated-properties.html">delegated property</a>.
+The syntax is like this:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">dashProperty</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DashboardEx</span><span class="o">[</span><span class="s">&quot;category/dashProperty&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="o">]</span>
 </span></code></pre></div>
-<h2 id="situation-1-no-conflicts">Situation 1: no conflicts<a class="headerlink" href="#situation-1-no-conflicts" title="Permanent link">&para;</a></h2>
-<p>Say you have a command, <code>cmd1</code>, that requires <code>subsystem1</code>.
-Now, you try to schedule another command, <code>cmd2</code>, that requires <code>subsystem2</code>.
-Since neither of their requirements overlap,
-everything goes smoothly, and both commands are scheduled.</p>
-<h2 id="situation-1-conflicts-but-cmd2-has-higher-priority">Situation 1: conflicts, but <code>cmd2</code> has higher priority<a class="headerlink" href="#situation-1-conflicts-but-cmd2-has-higher-priority" title="Permanent link">&para;</a></h2>
-<p>Now, <code>cmd2</code> requires <code>subsystem1</code>.
-Their requirements overlap, so we have a conflict that we need to resolve.</p>
-<p>The first step is to compare their priorities.
-In this case, <code>cmd2</code> has a higher priority than <code>cmd1</code>.
-This means that no matter what, <code>cmd2</code> is going to run.
-To do this, <code>cmd1</code> will have to be suspended or canceled,
-so its <a href="../../commands/#suspend-and-resume"><code>suspend</code></a> function will get called to aid in a smooth handoff,
-and <code>cmd2</code> will take over control.
-When <code>cmd2</code> finishes,
-assuming <code>cmd1</code> got suspended and not canceled,
-<code>cmd1</code> will get resumed and rescheduled.</p>
-<p>What determines whether a command is suspendable or not is the <code>suspendable</code> property on <code>Command</code>, and is set by the command.</p>
-<h2 id="situation-2-conflicts-but-cmd2-has-lower-priority">Situation 2: conflicts, but <code>cmd2</code> has lower priority<a class="headerlink" href="#situation-2-conflicts-but-cmd2-has-lower-priority" title="Permanent link">&para;</a></h2>
-<p>Again, the first step is to compare their priorities.
-In this case, <code>cmd2</code> has a lower priority than <code>cmd1</code>.
-This means that no matter what, <code>cmd1</code> is going to finish running.</p>
-<p><code>cmd2</code> has two choices:
-it can give up,
-or it can get queued for later scheduling.
-By default the latter is chosen,
-although you can set it with one one of the <a href="../../commands/#configuration">configuration functions</a>.</p>
-<h2 id="situation-3-conflicts-but-they-have-equal-priority">Situation 3: conflicts, but they have equal priority<a class="headerlink" href="#situation-3-conflicts-but-they-have-equal-priority" title="Permanent link">&para;</a></h2>
-<p><code>cmd1</code> can't wait,
-and <code>cmd2</code> can't wait,
-so now what happens is determined by the user with one of the configuration functions.
-They can either make <code>cmd2</code> cancel <code>cmd1</code> with <code>OnEqualConflict.OVERRIDE</code>,
-or make it queue with <code>OnEqualConflict.QUEUE</code>.</p>
-<h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
-<p>Basically, the flow is this:</p>
-<pre class="mermaid"><code>graph TB
-  Start(Command wants to get scheduled) --&gt; HasConflicts
-  HasConflicts{Has conflicts?} --&gt;|Yes| ConflictPriority{Conflicting command's priority higher, lower or equal?}
-  ConflictPriority --&gt;|Higher| HigherConflict{What is &lt;code&gt;OnHigherConflict&lt;/code&gt;?}
-  Queue(Queue for rescheduling attempt next tick)
-  HigherConflict --&gt;|CANCEL| HigherConflictEnd(Stop trying, cancel scheduling)
-  HigherConflict --&gt;|QUEUE| Queue
-  ConflictPriority --&gt;|Equal| EqualConflict{What is &lt;code&gt;OnEqualConflict&lt;/code&gt;?}
-  EqualConflict --&gt;|QUEUE| Queue
-  ConflictPriority --&gt;|Lower| SuspendOrCancel
-  SuspendOrCancel{Is conflict suspendable?}
-  SuspendOrCancelSuspendable(Suspend the conflict) --&gt; ScheduleCommand
-  SuspendOrCancelUnsuspendable(Cancel the conflict) --&gt; ScheduleCommand
-  SuspendOrCancel --&gt;|Yes| SuspendOrCancelSuspendable
-  SuspendOrCancel --&gt;|No| SuspendOrCancelUnsuspendable
-  EqualConflict --&gt;|OVERRIDE| SuspendOrCancel
-  ScheduleCommand(Command gets scheduled)
-  Queue -.-&gt;|after one tick| Start</code></pre>
+<p>where the first parameter is the name and the second is the initial value for the property.
+If no category is specified,
+the property will go in the category "Config".</p>
+<p>When you change the value in FTC Dashboard ((local ip address)[192.168.43.1:8080/dash])
+it will update the value:</p>
+<div class="language-kotlin highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">package</span><span class="w"> </span><span class="nn">org.firstinspires.ftc.teamcode.opmode</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">import</span><span class="w"> </span><span class="nn">com.escapevelocity.ducklib.ftc.extensions.DashboardEx</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">import</span><span class="w"> </span><span class="nn">com.qualcomm.robotcore.eventloop.opmode.OpMode</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">import</span><span class="w"> </span><span class="nn">com.qualcomm.robotcore.eventloop.opmode.TeleOp</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nd">@TeleOp</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kd">class</span><span class="w"> </span><span class="nc">CustomOpMode</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">OpMode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dashConstant</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DashboardEx</span><span class="o">[</span><span class="s">&quot;category/dashConstant&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">0.0</span><span class="o">]</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">telemetry</span><span class="p">.</span><span class="na">addData</span><span class="p">(</span><span class="s">&quot;dashboard&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dashConstant</span><span class="p">)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">}</span>
+</span></code></pre></div>
 
 
 

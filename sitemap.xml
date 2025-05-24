@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/example_teleop/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/installation/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/commands/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/commands/builtin/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/commands/groups/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
+    </url>
+    <url>
+         <loc>https://escape-velocity-14343.github.io/ducklib/ftc/dashboard/</loc>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/ftc/gamepad/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/ftc/hardware_map/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/scheduler/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/scheduler/conflicts/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
     <url>
          <loc>https://escape-velocity-14343.github.io/ducklib/triggers/</loc>
-         <lastmod>2025-05-23</lastmod>
+         <lastmod>2025-05-24</lastmod>
     </url>
 </urlset>

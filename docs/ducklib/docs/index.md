@@ -18,3 +18,9 @@ allowing you to focus more on what you *want* and now how you do it.
 * [gamepads](/ftc/gamepad.md)
 * [hardware maps (aka how to avoid NPEs)](/ftc/hardware_map.md)
 * [Example TeleOp](/example_teleop.md)
+
+## extra stuff
+
+If your opmodes aren't showing up,
+try making them OpMode-derived instead of LinearOpModes.
+I don't know why this fixes it but it sure does fix it.

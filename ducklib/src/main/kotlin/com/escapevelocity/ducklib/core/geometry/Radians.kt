@@ -10,13 +10,13 @@ import java.util.*
  */
 @JvmInline
 value class Radians(val v: Double) : Comparable<Radians>, Formattable {
-    val degrees: Double
+    val degrees
         get() = v * 180.0 / kotlin.math.PI
 
     /**
-     * Returns the equivalent angle normalized in the range `[-PI, PI)`.
+     * Returns the equivalent angle normalized in the range [-[PI], [PI]).
      */
-    val normalized: Radians
+    val normalized
         get() = umod(v - PI, TAU) - PI
 
     /**

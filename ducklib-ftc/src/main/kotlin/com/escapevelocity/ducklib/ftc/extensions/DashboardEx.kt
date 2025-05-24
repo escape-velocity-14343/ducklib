@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.ValueProvider
 import com.escapevelocity.ducklib.core.util.ValDelegate
 import kotlin.reflect.KProperty
-import kotlin.reflect.cast
 
 object DashboardEx {
     val dash
@@ -38,11 +37,11 @@ object DashboardEx {
         )
 
         return object : ValDelegate<T> {
-            override operator fun getValue(thisRef: Any?, property: KProperty<*>): T =
-                T::class.cast(getProperty())
+            override operator fun getValue(thisRef: Any?, property: KProperty<*>) = dashProperty
 
             // ?????
-            private fun getProperty() = variables[property]
+            private inline val dashProperty
+                get() = variables[property] as T
         }
     }
 

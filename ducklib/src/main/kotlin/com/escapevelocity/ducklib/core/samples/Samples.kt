@@ -14,7 +14,7 @@ import com.escapevelocity.ducklib.core.util.*
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
-fun inlineCommandConfigurationSample() {
+private fun inlineCommandConfigurationSample() {
     val cmd = WaitCommand(5.seconds).configure {
         priority = Priority.LOWEST
         name = "MyWaitCommand"
@@ -23,7 +23,7 @@ fun inlineCommandConfigurationSample() {
     }
 }
 
-fun statementCommandConfigurationSample() {
+private fun statementCommandConfigurationSample() {
     val cmd = WaitCommand(5.seconds)
     cmd.configure {
         priority = Priority.LOWEST
@@ -33,14 +33,14 @@ fun statementCommandConfigurationSample() {
     }
 }
 
-fun implicitCommandSchedulerSample() {
+private fun implicitCommandSchedulerSample() {
     val cmd = WaitCommand(5.seconds)
 
     // schedule implicitly links to DuckyScheduler's companion object
     cmd.schedule()
 }
 
-fun explicitCommandSchedulerSample(cs: CommandScheduler) {
+private fun explicitCommandSchedulerSample(cs: CommandScheduler) {
     val cmd = WaitCommand(5.seconds)
     with(cs) {
         // schedule links to `cs` object
@@ -48,7 +48,7 @@ fun explicitCommandSchedulerSample(cs: CommandScheduler) {
     }
 }
 
-fun triggerOnceOnSample(boolean1: Boolean, booleanSupplier: () -> Boolean) {
+private fun triggerOnceOnSample(boolean1: Boolean, booleanSupplier: () -> Boolean) {
     // In ducklib triggers are just `() -> Boolean`-typed functions.
     ({ boolean1 }).onceOnTrue { println("hi") }
     ({ boolean1 }).onceOnTrue(WaitCommand(5.seconds))
@@ -57,13 +57,13 @@ fun triggerOnceOnSample(boolean1: Boolean, booleanSupplier: () -> Boolean) {
     booleanSupplier.onceOnTrue { println("hi") }
 }
 
-fun triggerWhileOnSample(boolean1: Boolean) {
+private fun triggerWhileOnSample(boolean1: Boolean) {
     // In ducklib triggers are just `() -> Boolean`-typed functions.
     ({ boolean1 }).whileOnTrue({ println("rising edge") }) { println("falling edge") }
     ({ boolean1 }).whileOnTrue(WaitCommand(5.seconds))
 }
 
-fun triggerCombinationSample(
+private fun triggerCombinationSample(
     boolean1: Boolean,
     boolean2: Boolean,
     booleanSupplier1: () -> Boolean,
@@ -77,14 +77,14 @@ fun triggerCombinationSample(
     (booleanSupplier1 and booleanSupplier2) // etc.
 }
 
-fun triggerInversionSample(boolean1: Boolean) {
+private fun triggerInversionSample(boolean1: Boolean) {
     val boolean1trigger = ({ boolean1 })
 
     // this will activate on falling edge instead of rising now
     (!boolean1trigger).onceOnTrue { println("hi") }
 }
 
-fun commandGroupSample(command1: Command, command2: Command, command3: Command, command4: Command) {
+private fun commandGroupSample(command1: Command, command2: Command, command3: Command, command4: Command) {
     // A command group groups commands (shocker)
 
     // Parallel command groups run many commands all at the same time.
@@ -107,7 +107,7 @@ fun commandGroupSample(command1: Command, command2: Command, command3: Command, 
     (command1 deadlines command2 and command3 and command4).schedule()
 }
 
-fun parallelCommandGroupSample(command1: Command, command2: Command, command3: Command) {
+private fun parallelCommandGroupSample(command1: Command, command2: Command, command3: Command) {
     // 3 ways of making commands run in parallel
     // 1: construct a ParallelCommandGroup (not recommended)
     ParallelCommandGroup(command1, command2).schedule()
@@ -127,7 +127,7 @@ fun parallelCommandGroupSample(command1: Command, command2: Command, command3: C
     // it will actually end up being equivalent to 1
 }
 
-fun sequentialCommandGroupSample(command1: Command, command2: Command, command3: Command) {
+private fun sequentialCommandGroupSample(command1: Command, command2: Command, command3: Command) {
     // 3 ways of making commands run in sequence
     // 1: construct a SequentialCommandGroup (not recommended)
     SequentialCommandGroup(command1, command2, command3).schedule()
@@ -145,7 +145,7 @@ fun sequentialCommandGroupSample(command1: Command, command2: Command, command3:
     // it will actually end up being equivalent to 1
 }
 
-fun deadlineCommandGroupSample(command1: Command, command2: Command, command3: Command) {
+private fun deadlineCommandGroupSample(command1: Command, command2: Command, command3: Command) {
     // 1: construct a DeadlineCommandGroup (ehh)
     DeadlineCommandGroup(command1, command2).schedule()
     DeadlineCommandGroup(command1, command2, command3).schedule()
@@ -163,7 +163,7 @@ fun deadlineCommandGroupSample(command1: Command, command2: Command, command3: C
     // which is *technically* equivalent but not really.
 }
 
-fun raceCommandGroupSample(command1: Command, command2: Command, command3: Command) {
+private fun raceCommandGroupSample(command1: Command, command2: Command, command3: Command) {
     // 1: construct a RaceCommandGroup (ehh)
     RaceCommandGroup(command1, command2).schedule()
     RaceCommandGroup(command1, command2, command3).schedule()
@@ -178,13 +178,13 @@ fun raceCommandGroupSample(command1: Command, command2: Command, command3: Comma
     (command1 races command2 races command3)
 }
 
-enum class State {
+private enum class State {
     STATE_1,
     STATE_2,
     STATE_3,
 }
 
-fun whenCommandSample() {
+private fun whenCommandSample() {
     // When this command gets initialized, it runs the selector lambda and chooses a command to run.
     WhenCommand { State.entries[Random.nextInt(0, 3)] }.configure {
         this[State.STATE_1] = { println("0") }.instant()

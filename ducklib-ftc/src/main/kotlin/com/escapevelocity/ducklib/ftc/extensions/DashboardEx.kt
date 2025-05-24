@@ -25,7 +25,7 @@ object DashboardEx {
         val (category, name) = convertProperty(property)
         variables[property] = initial
         // add the config variable to the thing
-        dash.addConfigVariable<T>(
+        dash.addConfigVariable(
             category, name,
             object : ValueProvider<T> {
                 override fun get() = variables[property] as T
@@ -49,17 +49,17 @@ object DashboardEx {
      * Removes all the config variables from the Dashboard and from the variable storage map.
      */
     fun removeConfigVariables() {
-        variables.entries
-            .map { (name, _) -> convertProperty(name) }
-            .forEach { (category, name) ->
-                dash.removeConfigVariable(category, name)
-            }
+        //variables.entries
+        //    .map { (name, _) -> convertProperty(name) }
+        //    .forEach { (category, name) ->
+        //        dash.removeConfigVariable(category, name)
+        //    }
         variables.clear()
     }
 
     fun convertProperty(property: String): Pair<String, String> {
         val propertySplit = property.split("/")
-        return (propertySplit.getOrNull(0) ?: "Config") to propertySplit.last()
+        return (if('/' in property) propertySplit[0] else "Config") to propertySplit.last()
     }
 
     override fun toString() =

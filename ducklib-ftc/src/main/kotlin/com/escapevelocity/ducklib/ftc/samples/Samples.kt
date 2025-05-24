@@ -11,18 +11,18 @@ import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import kotlin.time.Duration.Companion.seconds
 
-fun gamepadSample(gamepad: Gamepad, slideSubsystem: SlideSubsystem) {
+private fun gamepadSample(gamepad: Gamepad, slideSubsystem: SlideSubsystem) {
     gamepad[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue { println("hi") }
     gamepad[ButtonInput.STICK_BUTTON_LEFT].onceOnTrue(WaitCommand(5.seconds))
 }
 
-fun triggerSample(slideSubsystem: SlideSubsystem) {
+private fun triggerSample(slideSubsystem: SlideSubsystem) {
     slideSubsystem.retracted.onceOnTrue { println("slides are retracted") }
     // or
     ({ slideSubsystem.retractedVal }).onceOnTrue { println("slides are retracted") }
 }
 
-class SlideSubsystem : Subsystem() {
+private class SlideSubsystem : Subsystem() {
     val retracted
         get() = { extendedInches < 5.0 }
 
@@ -36,7 +36,7 @@ class SlideSubsystem : Subsystem() {
     }
 }
 
-fun deferredHardwareMapSample(hardwareMap: HardwareMap) {
+private fun deferredHardwareMapSample(hardwareMap: HardwareMap) {
     val map = HardwareMapEx()
     val motor: DcMotor by map.deferred("hi")
 
@@ -45,7 +45,7 @@ fun deferredHardwareMapSample(hardwareMap: HardwareMap) {
     motor.power = 0.5
 }
 
-fun hardwareMapSample(hardwareMap: HardwareMap) {
+private fun hardwareMapSample(hardwareMap: HardwareMap) {
     // construct an extended hardware map
     val map = HardwareMapEx()
     map.init(hardwareMap)

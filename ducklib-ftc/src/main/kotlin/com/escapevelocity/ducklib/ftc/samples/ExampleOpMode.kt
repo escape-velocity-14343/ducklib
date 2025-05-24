@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.Servo
 
-class ExampleOpMode : LinearOpMode() {
+private class ExampleOpMode : LinearOpMode() {
     // **NOTE**: No HardwareMap actually exists, so this is sort of like an "empty wrapper"
     val map = HardwareMapEx()
 
@@ -66,7 +66,7 @@ class ExampleOpMode : LinearOpMode() {
     }
 }
 
-class DrivetrainSubsystem(map: HardwareMapEx) : Subsystem() {
+private class DrivetrainSubsystem(map: HardwareMapEx) : Subsystem() {
     val flMotor: DcMotor by map.deferred("flMotor")
     val frMotor: DcMotor by map.deferred("frMotor")
     val blMotor: DcMotor by map.deferred("blMotor")

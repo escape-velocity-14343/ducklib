@@ -2,7 +2,7 @@ package com.escapevelocity.ducklib.ftc.extensions
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.ValueProvider
-import com.escapevelocity.ducklib.core.util.ValDelegate
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 object DashboardEx {
@@ -21,7 +21,7 @@ object DashboardEx {
      * ```
      * The return type will be inferred from the initial type.
      */
-    inline operator fun <reified T : Any> get(property: String, initial: T): ValDelegate<T> {
+    inline operator fun <reified T : Any> get(property: String, initial: T): ReadOnlyProperty<Any?, T> {
         val (category, name) = convertProperty(property)
         variables[property] = initial
         // add the config variable to the thing
@@ -36,7 +36,7 @@ object DashboardEx {
             }
         )
 
-        return object : ValDelegate<T> {
+        return object : ReadOnlyProperty<Any?, T> {
             override operator fun getValue(thisRef: Any?, property: KProperty<*>) = dashProperty
 
             // ?????

@@ -1,10 +1,9 @@
 package com.escapevelocity.ducklib.ftc.extensions
 
-import android.util.Log
-import com.escapevelocity.ducklib.core.util.ValDelegate
 import com.qualcomm.robotcore.hardware.HardwareDevice
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.util.SerialNumber
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
@@ -46,7 +45,6 @@ class HardwareMapEx() {
         nonNullMap.get(T::class.java, serialNumber)
 
     fun init(map: HardwareMap) {
-        Log.i("HardwareMapEx", "Initializing hardware map")
         this.map = map;
         initActions.forEach { it() }
     }
@@ -62,10 +60,9 @@ class HardwareMapEx() {
     inline fun <reified T : HardwareDevice> deferred(
         name: String,
         crossinline config: T.() -> Unit = {},
-    ): ValDelegate<T> {
+    ): ReadOnlyProperty<Any?, T> {
         var value: T? = null
         val initAction = {
-            Log.i("HardwareMapEx", "Initializing device $name")
             value = (nonNullMap.get(name) ?: error("Couldn't find hardware device with name \"$name\"")) as? T
                 ?: error("Hardware device with name \"$name\" is not of type ${T::class.simpleName}")
             value.config()
@@ -75,7 +72,7 @@ class HardwareMapEx() {
         } else {
             initAction()
         }
-        return object : ValDelegate<T> {
+        return object : ReadOnlyProperty<Any?, T> {
             override fun getValue(thisRef: Any?, property: KProperty<*>) =
                 value ?: error("Can't get hardware device before initialization")
         }
@@ -92,10 +89,9 @@ class HardwareMapEx() {
     inline fun <reified T : HardwareDevice> deferred(
         serialNumber: SerialNumber,
         crossinline config: T.() -> Unit = {},
-    ): ValDelegate<T> {
+    ): ReadOnlyProperty<Any?, T> {
         var value: T? = null
         val initAction = {
-            Log.i("HardwareMapEx", "Initializing device $serialNumber")
             value = (nonNullMap.get(T::class.java, serialNumber)
                 ?: error("Couldn't find hardware device with serial number \"$serialNumber\"")) as? T
                 ?: error("Hardware device with serial number \"$serialNumber\" is not of type ${T::class.simpleName}")
@@ -106,16 +102,15 @@ class HardwareMapEx() {
         } else {
             initAction()
         }
-        return object : ValDelegate<T> {
+        return object : ReadOnlyProperty<Any?, T> {
             override fun getValue(thisRef: Any?, property: KProperty<*>) =
                 value ?: error("Can't get hardware device before initialization")
         }
     }
 
-    inline fun <reified T> deferred(noinline supplier: () -> T): ValDelegate<T> {
+    inline fun <reified T> deferred(noinline supplier: () -> T): ReadOnlyProperty<Any?, T> {
         var value: T? = null
         val initAction = {
-            Log.i("HardwareMapEx", "Initializing constructor $supplier")
             value = supplier()
         }
         if (map == null) {
@@ -123,7 +118,7 @@ class HardwareMapEx() {
         } else {
             initAction()
         }
-        return object : ValDelegate<T> {
+        return object : ReadOnlyProperty<Any?, T> {
             override fun getValue(thisRef: Any?, property: KProperty<*>) =
                 value ?: error("Can't construct $supplier before initialization")
         }

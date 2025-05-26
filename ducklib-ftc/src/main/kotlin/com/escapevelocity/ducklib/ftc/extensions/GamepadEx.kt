@@ -72,28 +72,25 @@ fun Gamepad.current(input: AnalogInput) = when (input) {
 
 fun Gamepad.current(input: VectorInput) = when (input) {
     VectorInput.STICK_LEFT -> Vector2(
-        left_stick_x.toDouble().inches,
-        left_stick_y.toDouble().inches
+        left_stick_x.toDouble().inches, left_stick_y.toDouble().inches
     )
 
     VectorInput.STICK_RIGHT -> Vector2(
-        right_stick_x.toDouble().inches,
-        right_stick_y.toDouble().inches
+        right_stick_x.toDouble().inches, right_stick_y.toDouble().inches
     )
 
     VectorInput.TOUCHPAD -> Vector2(
-        touchpad_finger_1_x.toDouble().inches,
-        touchpad_finger_1_y.toDouble().inches
+        touchpad_finger_1_x.toDouble().inches, touchpad_finger_1_y.toDouble().inches
     )
 
     VectorInput.TOUCHPAD_FINGER_2 -> Vector2(
-        touchpad_finger_2_x.toDouble().inches,
-        touchpad_finger_2_y.toDouble().inches
+        touchpad_finger_2_x.toDouble().inches, touchpad_finger_2_y.toDouble().inches
     )
 }
 
 @JvmName("booleanDouble")
 fun (() -> Double).bool(predicate: (Double) -> Boolean = { it > 0.5 }) = { predicate(this()) }
+
 @JvmName("booleanVector")
 fun (() -> Vector2).bool(predicate: (Vector2) -> Boolean = { it.lengthSquared > 0.5 * 0.5 }) = { predicate(this()) }
 
@@ -135,6 +132,5 @@ enum class AnalogInput {
 }
 
 enum class VectorInput {
-    STICK_LEFT, STICK_RIGHT,
-    TOUCHPAD, TOUCHPAD_FINGER_2,
+    STICK_LEFT, STICK_RIGHT, TOUCHPAD, TOUCHPAD_FINGER_2,
 }

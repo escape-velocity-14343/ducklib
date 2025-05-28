@@ -1,8 +1,12 @@
 package com.escapevelocity.ducklib.core.math
 
+import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.math.pow
 import kotlin.math.round
+import kotlin.math.sign
 
 /**
  * Calculates the good modulo of two numbers.
@@ -102,3 +106,5 @@ fun ceil(value: Double, increment: Double) = ceil(value / increment) * increment
  * @see ceil
  */
 fun round(value: Double, increment: Double) = round(value / increment) * increment
+
+fun Double.signedPow(exponent: Double) = this.absoluteValue.pow(exponent) * this.sign

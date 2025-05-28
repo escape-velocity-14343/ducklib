@@ -22,6 +22,9 @@ dependencies {
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
     implementation("com.escapevelocity.ducklib:core")
+    //implementation("libs.vico.compose")
+    //implementation("libs.vico.compose.m3")
+    //implementation("libs.vico.compose.multiplatform")
 }
 
 compose.desktop {

@@ -22,22 +22,14 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.escapevelocity.ducklib.control.Differentiator
-import com.escapevelocity.ducklib.control.Integrator
-import com.escapevelocity.ducklib.control.Limiter
-import com.escapevelocity.ducklib.control.P
-import com.escapevelocity.ducklib.control.PID
-import com.escapevelocity.ducklib.control.PIDController
+import com.escapevelocity.ducklib.control.*
 import com.escapevelocity.ducklib.core.command.commands.*
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.onceOnTrue
 import com.escapevelocity.ducklib.core.geometry.*
-import com.escapevelocity.ducklib.core.util.pipe
 import com.escapevelocity.ducklib.core.util.races
 import com.escapevelocity.ducklib.core.util.with
 import kotlinx.coroutines.delay
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.time.Duration.Companion.seconds
 
 val typography = Typography(defaultFontFamily = FontFamily.Monospace)
@@ -154,41 +146,22 @@ fun GeometryTestApp() {
 fun ControlTestApp() {
     var v by remember { mutableStateOf(0.0) }
     var x by remember { mutableStateOf(0.0) }
-    val pipeline = { x } pipe PIDController(PID(0.125, 0.0, 0.00)) { v } pipe derivativeLimiter(0.01)
-    val pipeline2 = Differentiator()
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(6L)
-            x += pipeline()
-            println(pipeline2(x))
-        }
-    }
+    var lastNs by remember { mutableStateOf(System.nanoTime()) }
+    val pipeline = SquIDController(PID(5.0, 0.0, 0.0)) { v } pipe limiter(-0.8, 0.8) pipe derivativeLimiter(3.0)
     MaterialTheme(typography = typography) {
         Column {
             Slider(v.toFloat(), onValueChange = { v = it.toDouble() }, modifier = Modifier.fillMaxWidth())
             Canvas(modifier = Modifier.fillMaxWidth().height(10.dp)) {
                 drawCircle(Color.Black, radius = 5.dp.toPx(), Offset(v.toFloat() * size.width, size.height / 2))
+                val timeNs = System.nanoTime()
+                val dt = (timeNs - lastNs) * 1e-9
+                lastNs = timeNs
+                x += pipeline(x) * dt
             }
             Canvas(modifier = Modifier.fillMaxWidth().height(10.dp)) {
                 drawCircle(Color.Black, radius = 5.dp.toPx(), Offset(x.toFloat() * size.width, size.height / 2))
             }
         }
-    }
-}
-
-fun derivativeLimiter(limit: Double): (Double) -> Double {
-    var lastNs = 0L
-    var last: Double? = null
-    return { velocity ->
-        val thisNs = System.nanoTime()
-        val dt = (thisNs - lastNs) * 1e-9
-        lastNs = thisNs
-        if (last == null) {
-            last = velocity
-        }
-        val x = min(max(velocity, last!! - limit * dt), last!! + limit * dt)
-        last = x
-        x
     }
 }
 

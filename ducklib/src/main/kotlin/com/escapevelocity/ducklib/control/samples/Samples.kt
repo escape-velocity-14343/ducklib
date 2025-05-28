@@ -22,6 +22,6 @@ private fun pipelineSample() {
     pid.instant().forever.schedule()
 }
 
-private val motorPos: Double = 0.0
+private const val motorPos: Double = 0.0
 private var motorPower: Double = 0.0
 private var setpoint: Double = 0.0

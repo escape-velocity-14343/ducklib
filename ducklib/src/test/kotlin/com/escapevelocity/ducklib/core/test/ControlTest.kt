@@ -1,8 +1,8 @@
 package com.escapevelocity.ducklib.core.test
 
-import com.escapevelocity.ducklib.control.Differentiator
-import com.escapevelocity.ducklib.control.Integrator
-import com.escapevelocity.ducklib.core.util.pipe
+import com.escapevelocity.ducklib.control.differentiate
+import com.escapevelocity.ducklib.control.integrate
+import com.escapevelocity.ducklib.control.pipe
 import kotlin.test.Test
 
 class ControlTest {
@@ -10,7 +10,7 @@ class ControlTest {
     @Test
     fun testDifferentiator() {
         var a = 0.0
-        val pipeline = { a } pipe Differentiator()
+        val pipeline = { a } pipe differentiate()
         for (i in 1..10) {
             println(pipeline())
             a += waitTime / 1000.0
@@ -21,7 +21,7 @@ class ControlTest {
     @Test
     fun testIntegrator() {
         var a = 1.0
-        val pipeline = { a } pipe Integrator()
+        val pipeline = { a } pipe integrate()
         for (i in 1..100) {
             //a += 1000.0 / waitTime
             println(pipeline())
@@ -32,7 +32,7 @@ class ControlTest {
     @Test
     fun testDifferentiatorIntegrator() {
         var a = 0.0
-        val pipeline = { a } pipe Integrator() pipe Differentiator()
+        val pipeline = { a } pipe integrate() pipe differentiate()
         for (i in 1..10) {
             a += 1000.0 / waitTime / 1000.0
             println(pipeline())

@@ -65,3 +65,8 @@ enum class Axis {
     X,
     Y,
 }
+
+operator fun Inches.times(right: Vector2) = Vector2(right.x * this, right.y * this)
+operator fun Double.times(right: Vector2) = Vector2(right.x * this, right.y * this)
+operator fun Inches.div(right: Vector2) = Vector2(right.x / this, right.y / this)
+operator fun Double.div(right: Vector2) = Vector2(right.x / this, right.y / this)

@@ -53,6 +53,8 @@ value class Inches(val v: Double) : Comparable<Inches> {
     operator fun rangeTo(other: Inches) = ClosedRangeT(this, other)
     operator fun rangeUntil(other: Inches) = OpenRangeT(this, other)
 
+    inline fun toDouble() = v
+
     companion object {
         fun fromMm(mm: Double) = (mm / 25.4).inches
         fun fromCm(cm: Double) = (cm / 2.54).inches

@@ -19,14 +19,16 @@ fun cubicBezier(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2) =
 fun cubicHermite(start: Vector2, startVelocity: Vector2, end: Vector2, endVelocity: Vector2) =
     cubicBezier(start, start - startVelocity / 3.0, end, end - endVelocity / 3.0)
 
-fun line(p1: Vector2, p2: Vector2) = {t: Double -> SplinePoint((1.0-t)*p1 + t*p2, p2-p1, Vector2.ZERO) }
+fun lerp(p1: Vector2, p2: Vector2) = {t: Double -> SplinePoint((1.0-t)*p1 + t*p2, p2-p1, Vector2.ZERO) }
 
 class Spline2(val spline: (Double) -> SplinePoint) {
 
-    val arclength: Inches = (0..<ARCLENGTH_PRECISION)
+    val arclength by lazy {
+        (0..<ARCLENGTH_PRECISION)
         .map {it.toDouble() / ARCLENGTH_PRECISION.toDouble()}
         .map { spline(it) }
         .fold(0.0.inches) { acc, x -> acc + x.velocity.length / ARCLENGTH_PRECISION.toDouble() }
+    }
 
     operator fun invoke(t: Double) = spline(t)
     operator fun invoke(t: Inches) = spline((t / arclength).toDouble())
@@ -43,4 +45,5 @@ data class SplinePoint(val position: Vector2, val velocity: Vector2, val acceler
     val normal get() = velocity.rotated((PI / 2.0).radians).normalized
 
     val tangent get() = velocity.normalized
+
 }

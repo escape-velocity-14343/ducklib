@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../ducklib-ftc/src/main/kotlin/com/escapevelocity/ducklib/ftc/ftcontrol/test/FtcRobotController" vcs="Git" />
   </component>
 </project>

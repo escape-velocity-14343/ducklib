@@ -11,14 +11,17 @@ repositories {
     gradlePluginPortal()
     google()
     maven("https://maven.brott.dev")
+    maven("https://mymaven.bylazar.com/releases")
 }
 
 dependencies {
     testImplementation(kotlin("test"))
     compileOnly("org.firstinspires.ftc:RobotCore:10.2.0")
+    compileOnly("org.firstinspires.ftc:FtcCommon:10.2.0")
     compileOnly("com.acmerobotics.dashboard:dashboard:0.4.16") {
         exclude("org.firstinspires.ftc")
     }
+    compileOnly("com.bylazar:ftcontrol:0.6.5")
     implementation("com.escapevelocity.ducklib:core")
 }
 

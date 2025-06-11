@@ -1,3 +1,6 @@
+---
+description: An overview of the built-in commands that ship with ducklib, with usage examples
+---
 # Built-in commands
 
 ducklib comes with a number of commands built in as basic utilities.

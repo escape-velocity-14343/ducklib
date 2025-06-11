@@ -1,3 +1,6 @@
+---
+description: How ducklib integrates FTC Dashboard
+---
 # FTC Dashboard integration
 
 If [FTC dashboard](https://github.com/acmerobotics/ftc-dashboard) is installed,

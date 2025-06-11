@@ -1,3 +1,6 @@
+---
+description: An overview of how hardware maps work in ducklib
+---
 # Hardware map extensions
 
 ## Key features

@@ -1,3 +1,6 @@
+---
+description: An overview of how triggers work in ducklib
+---
 # Triggers
 
 ## Introduction

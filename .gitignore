@@ -1,6 +1,8 @@
 # Default ignored files
 /shelf/
 /ducklib-test/.idea/workspace.xml
+/ducklib-ftc/.idea/workspace.xml
+/ducklib/.idea/workspace.xml
 
 .gradle
 build/
@@ -9,10 +11,10 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+ducklib*/.idea/modules.xml
+ducklib*/.idea/jarRepositories.xml
+ducklib*/.idea/compiler.xml
+ducklib*/.idea/libraries/
 *.iws
 *.iml
 *.ipr

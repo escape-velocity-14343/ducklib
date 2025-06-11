@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library") version "8.7.0"
     id("org.jetbrains.kotlin.android") version "2.1.0"
+    id("maven-publish")
 }
 
 group = "org.escapevelocity.ducklib"
@@ -48,6 +49,29 @@ android {
             withSourcesJar()
             withJavadocJar()
             allVariants()
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "dairy"
+            url = uri("https://repo.dairy.foundation/#/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.escapevelocity.ducklib"
+            artifactId = "ftc"
+            version = "1.0"
+            afterEvaluate {
+                from(components["release"])
+            }
         }
     }
 }

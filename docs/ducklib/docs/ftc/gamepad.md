@@ -1,6 +1,7 @@
 ---
 description: An overview of how gamepads work in ducklib
 ---
+
 # Gamepad extensions
 
 ducklib introduces some utility extension methods on `Gamepad`,

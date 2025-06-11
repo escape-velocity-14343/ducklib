@@ -1,3 +1,7 @@
+---
+description: An introduction to ducklib
+---
+
 # ducklib
 
 ## Why ducklib?

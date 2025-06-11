@@ -1,3 +1,7 @@
+---
+description: How to install ducklib
+---
+
 # Installation
 
 ## Prerequisites

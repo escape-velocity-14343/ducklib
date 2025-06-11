@@ -1,3 +1,7 @@
+---
+description: An example TeleOp
+---
+
 # Example TeleOp
 
 Here's an example TeleOp written with ducklib for a mecanum drivebase:

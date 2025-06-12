@@ -41,6 +41,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     operator fun div(right: Inches) = Vector2(x / right, y / right)
     operator fun div(right: Double) = Vector2(x / right, y / right)
     infix fun dot(right: Vector2) = x * right.x + y * right.y
+    infix fun cross(right: Vector2) = x * right.y - y * right.x
 
     fun flip(axis: Axis) = when (axis) {
         Axis.X -> Vector2(-x, +y)
@@ -57,7 +58,8 @@ data class Vector2(val x: Inches, val y: Inches) {
         val ONE = Vector2(1.0.inches)
         val X = Vector2(1.0.inches, 0.0.inches)
         val Y = Vector2(0.0.inches, 1.0.inches)
-        fun fromAngle(angle: Radians, length: Inches = 1.0.inches) = Vector2(cos(angle) * length, sin(angle) * length)
+        fun fromAngle(angle: Radians, length: Inches = 1.0.inches) =
+            Vector2(cos(angle) * length, sin(angle) * length)
     }
 }
 

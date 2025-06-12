@@ -1,6 +1,6 @@
 package com.escapevelocity.ducklib.control.samples
 
-import com.escapevelocity.ducklib.control.P
+/*import com.escapevelocity.ducklib.control.P
 import com.escapevelocity.ducklib.control.PIDController
 import com.escapevelocity.ducklib.core.command.commands.composition.forever
 import com.escapevelocity.ducklib.core.command.commands.instant
@@ -20,7 +20,7 @@ private fun pipelineSample() {
 
     // or make them run forever as a command
     pid.instant().forever.schedule()
-}
+}*/
 
 private const val motorPos: Double = 0.0
 private var motorPower: Double = 0.0

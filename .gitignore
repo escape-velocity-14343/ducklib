@@ -53,3 +53,4 @@ ducklib-ftc/local.properties
 ducklib-test/local.properties
 
 ducklib/docs/ducklib/docs/mkdocs.yml
+/ducklib-ftc/.idea

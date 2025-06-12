@@ -1,3 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+ducklib/.idea/
+!ducklib/.idea/misc.xml
+!ducklib/.idea/modules.xml
+!ducklib/.idea/vcs.xml

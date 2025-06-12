@@ -1,4 +1,4 @@
-package com.escapevelocity.ducklib.ftc.extensions
+package com.escapevelocity.ducklib.ftc.ftcontrol
 
 import com.bylazar.ftcontrol.panels.plugins.BasePluginConfig
 import com.bylazar.ftcontrol.panels.plugins.ModContext

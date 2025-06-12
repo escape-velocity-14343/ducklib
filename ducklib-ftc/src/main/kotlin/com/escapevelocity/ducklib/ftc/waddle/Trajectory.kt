@@ -115,8 +115,6 @@ class Trajectory(private vararg val splines: Spline2, val deltaInches: Inches = 
         val newVel = (profile.velocity +
                 profile.acceleration * nondiscreteTime)
 
-        splines(1.0)
-
         return DiscreteMotionProfileState(
             splines(inches).position,
             newVel,

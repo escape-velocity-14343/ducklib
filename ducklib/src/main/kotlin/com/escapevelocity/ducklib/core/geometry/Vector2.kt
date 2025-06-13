@@ -15,7 +15,7 @@ data class Vector2(val x: Inches, val y: Inches) {
     val length
         get() = hypot(x, y)
     val lengthSquared
-        get() = (x * x + y * y).v
+        get() = (x * x + y * y).inches
     val normalized
         get() = this / length
     val yx

@@ -8,11 +8,36 @@ import kotlin.math.hypot
  * Represents a spatial length, normally Inches.
  */
 @JvmInline
-value class Inches(val v: Double) : Comparable<Inches> {
-    operator fun plus(right: Inches) = Inches(this.v + right.v)
-    operator fun minus(right: Inches) = Inches(this.v - right.v)
-    operator fun times(right: Inches) = Inches(this.v * right.v)
-    operator fun div(right: Inches) = Inches(this.v / right.v)
+value class Inches(private val v: Double) : Comparable<Inches> {
+    /**
+     * Converts this value to inches.
+     */
+    val inches get() = v
+
+    /**
+     * Converts this value to feet.
+     */
+    val ft get() = v / 12
+
+    /**
+     * Converts this value to millimeters.
+     */
+    val mm get() = v * 25.4
+
+    /**
+     * Converts this value to centimeters.
+     */
+    val cm get() = v * 2.54
+
+    /**
+     * Converts this value to meters.
+     */
+    val m get() = v * 0.254
+
+    operator fun plus(right: Inches) = Inches(this.v + right.inches)
+    operator fun minus(right: Inches) = Inches(this.v - right.inches)
+    operator fun times(right: Inches) = Inches(this.v * right.inches)
+    operator fun div(right: Inches) = Inches(this.v / right.inches)
 
     /**
      * **NOTE**:
@@ -54,21 +79,19 @@ value class Inches(val v: Double) : Comparable<Inches> {
     operator fun rangeUntil(other: Inches) = OpenRangeT(this, other)
 
     companion object {
-        fun fromMm(mm: Double) = (mm / 25.4).inches
-        fun fromCm(cm: Double) = (cm / 2.54).inches
-        fun fromM(m: Double) = (m / 0.254).inches
-        fun fromFt(ft: Double) = (ft / 12.0).inches
+        @Deprecated("", ReplaceWith("mm.mm")) fun fromMm(mm: Double) = (mm / 25.4).inches
+        @Deprecated("", ReplaceWith("cm.cm")) fun fromCm(cm: Double) = (cm / 2.54).inches
+        @Deprecated("", ReplaceWith("m.m")) fun fromM(m: Double) = (m / 0.254).inches
+        @Deprecated("", ReplaceWith("ft.ft")) fun fromFt(ft: Double) = (ft * 12.0).inches
+        @Deprecated("", ReplaceWith("mm.mm")) fun fromMm(mm: Float) = (mm / 25.4).inches
+        @Deprecated("", ReplaceWith("cm.cm")) fun fromCm(cm: Float) = (cm / 2.54).inches
+        @Deprecated("", ReplaceWith("m.m")) fun fromM(m: Float) = (m / 0.254).inches
+        @Deprecated("", ReplaceWith("ft.ft")) fun fromFt(ft: Float) = (ft / 12.0).inches
     }
 }
 
 /**
- * Converts a [Double] to [Inches].
- */
-inline val Double.inches: Inches
-    get() = Inches(this)
-
-/**
- * Converts a [Number] to [Inches].
+ * Converts a [Number] in inches to [Inches].
  *
  * **NOTE**:
  * This converts the number to a double!
@@ -76,7 +99,48 @@ inline val Double.inches: Inches
  */
 inline val Number.inches: Inches
     get() = Inches(this.toDouble())
-val (() -> Double).inchesSupplier
+
+/**
+ * Converts a [Number] in feet to [Inches].
+ *
+ * **NOTE**:
+ * This converts the number to a double!
+ * If loss of precision occurs, it is NOT MY FAULT.
+ */
+inline val Number.ft: Inches
+    get() = (toDouble() * 12.0).inches
+
+/**
+ * Converts a [Number] in millimeters to [Inches].
+ *
+ * **NOTE**:
+ * This converts the number to a double!
+ * If loss of precision occurs, it is NOT MY FAULT.
+ */
+inline val Number.mm: Inches
+    get() = (toDouble() / 25.4).inches
+
+/**
+ * Converts a [Number] in cm to [Inches].
+ *
+ * **NOTE**:
+ * This converts the number to a double!
+ * If loss of precision occurs, it is NOT MY FAULT.
+ */
+inline val Number.cm: Inches
+    get() = (toDouble() / 2.54).inches
+
+/**
+ * Converts a [Number] in meters to [Inches].
+ *
+ * **NOTE**:
+ * This converts the number to a double!
+ * If loss of precision occurs, it is NOT MY FAULT.
+ */
+inline val Number.m: Inches
+    get() = (toDouble() / 0.0254).inches
+
+val (() -> Number).inchesSupplier
     get() = { this().inches }
 
 /**
@@ -84,45 +148,45 @@ val (() -> Double).inchesSupplier
  * This converts the number to a double!
  * If loss of precision occurs, it is NOT MY FAULT.
  */
-operator fun Number.plus(right: Inches) = Inches(this.toDouble() + right.v)
+operator fun Number.plus(right: Inches) = Inches(this.toDouble() + right.inches)
 
 /**
  * **NOTE**:
  * This converts the number to a double!
  * If loss of precision occurs, it is NOT MY FAULT.
  */
-operator fun Number.minus(right: Inches) = Inches(this.toDouble() - right.v)
+operator fun Number.minus(right: Inches) = Inches(this.toDouble() - right.inches)
 
 /**
  * **NOTE**:
  * This converts the number to a double!
  * If loss of precision occurs, it is NOT MY FAULT.
  */
-operator fun Number.times(right: Inches) = Inches(this.toDouble() * right.v)
+operator fun Number.times(right: Inches) = Inches(this.toDouble() * right.inches)
 
 /**
  * **NOTE**:
  * This converts the number to a double!
  * If loss of precision occurs, it is NOT MY FAULT.
  */
-operator fun Number.div(right: Inches) = Inches(this.toDouble() / right.v)
+operator fun Number.div(right: Inches) = Inches(this.toDouble() / right.inches)
 
-fun hypot(x: Inches, y: Inches) = Inches(hypot(x.v, y.v))
+fun hypot(x: Inches, y: Inches) = Inches(hypot(x.inches, y.inches))
 
 /**
  * @see kotlin.math.floor
  */
-fun floor(value: Inches) = kotlin.math.floor(value.v).inches
+fun floor(value: Inches) = kotlin.math.floor(value.inches).inches
 
 /**
  * @see kotlin.math.ceil
  */
-fun ceil(value: Inches) = kotlin.math.ceil(value.v).inches
+fun ceil(value: Inches) = kotlin.math.ceil(value.inches).inches
 
 /**
  * @see kotlin.math.round
  */
-fun round(value: Inches) = kotlin.math.round(value.v).inches
+fun round(value: Inches) = kotlin.math.round(value.inches).inches
 
 /**
  * Rounds [value] down to the nearest [increment]

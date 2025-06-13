@@ -17,6 +17,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     compileOnly("org.firstinspires.ftc:RobotCore:10.2.0")
+    compileOnly("org.firstinspires.ftc:Hardware:10.2.0")
     compileOnly("com.acmerobotics.dashboard:dashboard:0.4.16") {
         exclude("org.firstinspires.ftc")
     }

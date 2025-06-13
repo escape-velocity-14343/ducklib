@@ -195,6 +195,14 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
  */
 inline val Double.radians
     get() = Radians(this)
+
+/**
+ * Convenience property to wrap a Float in [Radians].
+ *
+ * This doesn't normalize the angle, if you want that use [Radians.normalized] separately
+ */
+inline val Float.radians
+    get() = Radians(this.toDouble())
 inline val (() -> Double).radiansSupplier
     get() = { this().radians }
 
@@ -257,7 +265,7 @@ fun atan(x: Double) = kotlin.math.atan(x).radians
  * @see com.escapevelocity.ducklib.core.math.umod
  */
 fun umod(x: Radians, y: Radians) = Radians(umod(x.v, y.v))
-fun atan2(y: Inches, x: Inches) = kotlin.math.atan2(y.v, x.v).radians
+fun atan2(y: Inches, x: Inches) = kotlin.math.atan2(y.inches, x.inches).radians
 
 /**
  * @see kotlin.math.floor

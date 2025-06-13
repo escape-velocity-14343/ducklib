@@ -7,6 +7,8 @@ data class Pose2(val position: Vector2, val heading: Radians) {
     constructor(x: Inches, y: Inches, heading: Radians) : this(Vector2(x, y), heading)
 
     val xyh get() = Triple(position.x, position.y, heading)
+    val x inline get() = position.x
+    val y inline get() = position.y
 
     operator fun plus(other: Pose2) = Pose2(position + other.position, heading.rotated(other.heading))
     operator fun plus(other: Radians) = Pose2(position, heading.rotated(other))

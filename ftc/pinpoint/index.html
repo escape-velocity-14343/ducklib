@@ -6,26 +6,32 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Official documentation for ducklib">
+        <meta name="description" content="ducklib comes with a pinpoint driver modified to use ducklib's geometry component">
       
       
       
+        <link rel="canonical" href="https://escape-velocity-14343.github.io/ducklib/ftc/pinpoint/">
       
       
+        <link rel="prev" href="../hardware_map/">
       
-      <link rel="icon" href="/ducklib/assets/icon.png">
+      
+        <link rel="next" href="../../scheduler/">
+      
+      
+      <link rel="icon" href="../../assets/icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
-        <title>ducklib</title>
+        <title>goBILDA Pinpoint - ducklib</title>
       
     
     
-      <link rel="stylesheet" href="/ducklib/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
         
-        <link rel="stylesheet" href="/ducklib/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -44,13 +50,39 @@
       
     
     
-      <link rel="stylesheet" href="/ducklib/stylesheets/custom_css.css">
+      <link rel="stylesheet" href="../../stylesheets/custom_css.css">
     
-    <script>__md_scope=new URL("/ducklib/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="goBILDA Pinpoint - ducklib" >
+      
+        <meta  property="og:description"  content="ducklib comes with a pinpoint driver modified to use ducklib's geometry component" >
+      
+        <meta  property="og:image"  content="https://escape-velocity-14343.github.io/ducklib/assets/images/social/ftc/pinpoint.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://escape-velocity-14343.github.io/ducklib/ftc/pinpoint/" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="goBILDA Pinpoint - ducklib" >
+      
+        <meta  name="twitter:description"  content="ducklib comes with a pinpoint driver modified to use ducklib's geometry component" >
+      
+        <meta  name="twitter:image"  content="https://escape-velocity-14343.github.io/ducklib/assets/images/social/ftc/pinpoint.png" >
+      
     
     
   </head>
@@ -71,6 +103,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#gobilda-pinpoint" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -83,9 +120,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/ducklib/." title="ducklib" class="md-header__button md-logo" aria-label="ducklib" data-md-component="logo">
+    <a href="../.." title="ducklib" class="md-header__button md-logo" aria-label="ducklib" data-md-component="logo">
       
-  <img src="/ducklib/assets/icon.svg" alt="logo">
+  <img src="../../assets/icon.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -102,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              goBILDA Pinpoint
             
           </span>
         </div>
@@ -180,9 +217,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/ducklib/." title="ducklib" class="md-nav__button md-logo" aria-label="ducklib" data-md-component="logo">
+    <a href="../.." title="ducklib" class="md-nav__button md-logo" aria-label="ducklib" data-md-component="logo">
       
-  <img src="/ducklib/assets/icon.svg" alt="logo">
+  <img src="../../assets/icon.svg" alt="logo">
 
     </a>
     ducklib
@@ -209,7 +246,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -231,7 +268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/example_teleop/" class="md-nav__link">
+      <a href="../../example_teleop/" class="md-nav__link">
         
   
   
@@ -253,7 +290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -302,7 +339,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="/ducklib/commands/" class="md-nav__link ">
+            <a href="../../commands/" class="md-nav__link ">
               
   
   
@@ -337,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/commands/builtin/" class="md-nav__link">
+      <a href="../../commands/builtin/" class="md-nav__link">
         
   
   
@@ -360,7 +397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/commands/groups/" class="md-nav__link">
+      <a href="../../commands/groups/" class="md-nav__link">
         
   
   
@@ -387,8 +424,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -409,11 +448,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -429,7 +468,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Ftc
@@ -443,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/ftc/dashboard/" class="md-nav__link">
+      <a href="../dashboard/" class="md-nav__link">
         
   
   
@@ -466,7 +505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/ftc/gamepad/" class="md-nav__link">
+      <a href="../gamepad/" class="md-nav__link">
         
   
   
@@ -489,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/ftc/hardware_map/" class="md-nav__link">
+      <a href="../hardware_map/" class="md-nav__link">
         
   
   
@@ -509,10 +548,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/ducklib/ftc/pinpoint/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -523,6 +571,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -567,7 +616,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="/ducklib/scheduler/" class="md-nav__link ">
+            <a href="../../scheduler/" class="md-nav__link ">
               
   
   
@@ -602,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/ducklib/scheduler/conflicts/" class="md-nav__link">
+      <a href="../../scheduler/conflicts/" class="md-nav__link">
         
   
   
@@ -655,7 +704,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="/ducklib/triggers/" class="md-nav__link ">
+            <a href="../../triggers/" class="md-nav__link ">
               
   
   
@@ -697,8 +746,33 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="gobilda-pinpoint">goBILDA Pinpoint<a class="headerlink" href="#gobilda-pinpoint" title="Permanent link">&para;</a></h1>
+<p>It works as you'd expect
+(e.g. as the normal driver works, but with ducklib Inches/Radians/Pose2/Vector2 instead of the robotcore navigation).</p>
+<p><a href="https://github.com/goBILDA-Official/FtcRobotController-Add-Pinpoint/blob/goBILDA-Odometry-Driver/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/GoBildaPinpointDriver.java">Here's a link to the original driver</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -736,10 +810,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/ducklib/", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.indexes", "toc.integrate"], "search": "/ducklib/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.indexes", "toc.integrate"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/ducklib/assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
     
   </body>

@@ -133,7 +133,11 @@ open class LambdaCommand() : Command() {
     }
 
     class LambdaCommandBuilder internal constructor() {
-
+        /**
+         * The requirements of this command.
+         * I don't feel like pasting in the entire docstring.
+         */
+        var requirements: Set<Any> = emptySet()
         /**
          * Whether this command is suspendable or not.
          *

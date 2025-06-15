@@ -1,6 +1,6 @@
 package com.escapevelocity.ducklib.core.math
 
-import kotlin.math.abs
+import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -108,3 +108,37 @@ fun ceil(value: Double, increment: Double) = ceil(value / increment) * increment
 fun round(value: Double, increment: Double) = round(value / increment) * increment
 
 fun Double.signedPow(exponent: Double) = this.absoluteValue.pow(exponent) * this.sign
+
+/**
+ * Interpolates between [min] and [max] by [t].
+ *
+ * **NOTE**: This function extends nicely to values of [t] outside of [0, 1].
+ *
+ * @param min The value the function will return when [t] is 0
+ * @param max The value the function will return when [t] is 1
+ */
+fun lerp(min: Double, max: Double, t: Double) = min + (max - min) * t
+
+fun lerp(range: ClosedRange<Double>, t: Double) = lerp(range.start, range.endInclusive, t)
+
+/**
+ * The inverse of [lerp] as the name suggests.
+ * Maps [t] at to [min] at 0 and to [max] at 1.
+ *
+ * **NOTE**: This function extends nicely to values of [t] outside of [[min], [max]].
+ *
+ * @param min The minimum value of [t]
+ * @param max The maximum value of [t]
+ * @return A value between 0 and 1, as long as [t] is between [min] and [max].
+ */
+fun invLerp(min: Double, max: Double, t: Double) = (t - min) / (max - min)
+
+fun invLerp(range: ClosedRange<Double>, t: Double) = invLerp(range.start, range.endInclusive, t)
+
+/**
+ * Remaps a value [t] in the range [[min0], [max0]] to [[min1], [max1]].
+ */
+fun remap(min0: Double, max0: Double, min1: Double, max1: Double, t: Double) = lerp(min1, max1, invLerp(min0, max0, t))
+
+fun remap(range0: ClosedRange<Double>, range1: ClosedRange<Double>, t: Double) =
+    remap(range0.start, range0.endInclusive, range1.start, range1.endInclusive, t)

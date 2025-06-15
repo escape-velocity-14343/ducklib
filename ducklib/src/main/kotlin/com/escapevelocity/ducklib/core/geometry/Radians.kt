@@ -1,5 +1,7 @@
 package com.escapevelocity.ducklib.core.geometry
 
+import com.escapevelocity.ducklib.core.geometry.Radians.Companion.PI
+import com.escapevelocity.ducklib.core.geometry.Radians.Companion.TAU
 import com.escapevelocity.ducklib.core.math.umod
 import com.escapevelocity.ducklib.core.util.ClosedRangeT
 import com.escapevelocity.ducklib.core.util.OpenRangeT
@@ -9,15 +11,17 @@ import java.util.*
  * Represents an angle or arc length in radians, where one full rotation is 2π radians.
  */
 @JvmInline
-value class Radians(val v: Double) : Comparable<Radians>, Formattable {
+value class Radians(val radians: Double) : Comparable<Radians>, Formattable {
     val degrees
-        get() = v * 180.0 / kotlin.math.PI
+        get() = radians * 180.0 / kotlin.math.PI
+    val rotations
+        get() = radians / TAU.radians
 
     /**
      * Returns the equivalent angle normalized in the range [-[PI], [PI]).
      */
     val normalized
-        get() = umod(v - PI, TAU) - PI
+        get() = umod(radians - PI, TAU) - PI
 
     /**
      * Adds the two angles together, like a rotation that **doesn't wrap**.
@@ -28,7 +32,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to add to this
      */
-    operator fun plus(right: Radians) = Radians(this.v + right.v)
+    operator fun plus(right: Radians) = Radians(this.radians + right.radians)
 
     /**
      * Subtracts [right] from this angle, like a rotation that **doesn't wrap**.
@@ -39,7 +43,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to subtract from this
      */
-    operator fun minus(right: Radians) = Radians(this.v - right.v)
+    operator fun minus(right: Radians) = Radians(this.radians - right.radians)
 
     /**
      * Multiplies this angle by [right].
@@ -51,7 +55,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to multiply this by
      */
-    operator fun times(right: Radians) = Radians(this.v * right.v)
+    operator fun times(right: Radians) = Radians(this.radians * right.radians)
 
     /**
      * Divides this angle by [right].
@@ -63,7 +67,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to divide this by
      */
-    operator fun div(right: Radians) = Radians(this.v / right.v)
+    operator fun div(right: Radians) = Radians(this.radians / right.radians)
 
     /**
      * Calculates the remainder of `this / right`.
@@ -75,7 +79,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to rotate this by
      */
-    operator fun rem(right: Radians) = Radians(this.v % right.v)
+    operator fun rem(right: Radians) = Radians(this.radians % right.radians)
 
     /**
      * Adds the two angles together, like a rotation that **doesn't wrap**.
@@ -86,7 +90,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to add to this
      */
-    operator fun plus(right: Double) = Radians(this.v + right)
+    operator fun plus(right: Double) = Radians(this.radians + right)
 
     /**
      * Subtracts [right] from this angle, like a rotation that **doesn't wrap**.
@@ -97,7 +101,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to subtract from this
      */
-    operator fun minus(right: Double) = Radians(this.v - right)
+    operator fun minus(right: Double) = Radians(this.radians - right)
 
     /**
      * Multiplies this angle by [right].
@@ -109,7 +113,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to multiply this by
      */
-    operator fun times(right: Double) = Radians(this.v * right)
+    operator fun times(right: Double) = Radians(this.radians * right)
 
     /**
      * Divides this angle by [right].
@@ -121,7 +125,7 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to divide this by
      */
-    operator fun div(right: Double) = Radians(this.v / right)
+    operator fun div(right: Double) = Radians(this.radians / right)
 
     /**
      * Calculates the remainder of `this / right`.
@@ -133,11 +137,11 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
      *
      * @param right The angle to rotate this by
      */
-    operator fun rem(right: Double) = Radians(this.v % right)
+    operator fun rem(right: Double) = Radians(this.radians % right)
 
-    operator fun unaryMinus() = Radians(-this.v)
-    operator fun inc() = Radians(this.v + 1)
-    operator fun dec() = Radians(this.v - 1)
+    operator fun unaryMinus() = Radians(-this.radians)
+    operator fun inc() = Radians(this.radians + 1)
+    operator fun dec() = Radians(this.radians - 1)
 
     operator fun rangeTo(other: Radians) = ClosedRangeT(this, other)
     operator fun rangeUntil(other: Radians) = OpenRangeT(this, other)
@@ -155,14 +159,14 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
     fun angleTo(other: Radians) = (other - this).normalized
 
     override fun toString() = "%.3s".format(this)
-    override fun compareTo(other: Radians): Int = this.v.compareTo(other.v)
+    override fun compareTo(other: Radians): Int = this.radians.compareTo(other.radians)
     override fun formatTo(
         formatter: Formatter?,
         flags: Int,
         width: Int,
         precision: Int
     ) {
-        formatter?.format("%.${precision}f (%.${precision}f°)", v, degrees)
+        formatter?.format("%.${precision}f (%.${precision}f°)", radians, degrees)
     }
 
     companion object {
@@ -182,9 +186,6 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
          * Tau (2pi) constant in [com.escapevelocity.ducklib.core.geometry.Radians]
          */
         val TAU = kotlin.math.PI.radians * 2.0
-
-        fun fromDegrees(degrees: Double) = PI / 180.0 * degrees
-        fun fromRotations(rotations: Double) = rotations * TAU
     }
 }
 
@@ -193,8 +194,14 @@ value class Radians(val v: Double) : Comparable<Radians>, Formattable {
  *
  * This doesn't normalize the angle, if you want that use [Radians.normalized] separately
  */
-inline val Double.radians
-    get() = Radians(this)
+inline val Number.radians
+    get() = Radians(toDouble())
+
+inline val Number.degrees
+    get() = PI / 180.0 * toDouble()
+
+inline val Number.rotations
+    get() = TAU * toDouble()
 
 /**
  * Convenience property to wrap a Float in [Radians].
@@ -209,42 +216,42 @@ inline val (() -> Double).radiansSupplier
 /**
  * @see [Radians.plus]
  */
-operator fun Double.plus(right: Radians) = Radians(this + right.v)
+operator fun Double.plus(right: Radians) = Radians(this + right.radians)
 
 /**
  * @see [Radians.minus]
  */
-operator fun Double.minus(right: Radians) = Radians(this - right.v)
+operator fun Double.minus(right: Radians) = Radians(this - right.radians)
 
 /**
  * @see [Radians.times]
  */
-operator fun Double.times(right: Radians) = Radians(this * right.v)
+operator fun Double.times(right: Radians) = Radians(this * right.radians)
 
 /**
  * @see [Radians.div]
  */
-operator fun Double.div(right: Radians) = Radians(this / right.v)
+operator fun Double.div(right: Radians) = Radians(this / right.radians)
 
 /**
  * @see [Radians.rem]
  */
-operator fun Double.rem(right: Radians) = Radians(this % right.v)
+operator fun Double.rem(right: Radians) = Radians(this % right.radians)
 
 /**
  * @see [kotlin.math.cos]
  */
-fun cos(x: Radians) = kotlin.math.cos(x.v)
+fun cos(x: Radians) = kotlin.math.cos(x.radians)
 
 /**
  * @see [kotlin.math.sin]
  */
-fun sin(x: Radians) = kotlin.math.sin(x.v)
+fun sin(x: Radians) = kotlin.math.sin(x.radians)
 
 /**
  * @see [kotlin.math.tan]
  */
-fun tan(x: Radians) = kotlin.math.tan(x.v)
+fun tan(x: Radians) = kotlin.math.tan(x.radians)
 
 /**
  * @see [kotlin.math.acos]
@@ -264,23 +271,23 @@ fun atan(x: Double) = kotlin.math.atan(x).radians
 /**
  * @see com.escapevelocity.ducklib.core.math.umod
  */
-fun umod(x: Radians, y: Radians) = Radians(umod(x.v, y.v))
+fun umod(x: Radians, y: Radians) = Radians(umod(x.radians, y.radians))
 fun atan2(y: Inches, x: Inches) = kotlin.math.atan2(y.inches, x.inches).radians
 
 /**
  * @see kotlin.math.floor
  */
-fun floor(value: Radians) = kotlin.math.floor(value.v).radians
+fun floor(value: Radians) = kotlin.math.floor(value.radians).radians
 
 /**
  * @see kotlin.math.ceil
  */
-fun ceil(value: Radians) = kotlin.math.ceil(value.v).radians
+fun ceil(value: Radians) = kotlin.math.ceil(value.radians).radians
 
 /**
  * @see kotlin.math.round
  */
-fun round(value: Radians) = kotlin.math.round(value.v).radians
+fun round(value: Radians) = kotlin.math.round(value.radians).radians
 
 /**
  * Rounds [value] down to the nearest [increment]

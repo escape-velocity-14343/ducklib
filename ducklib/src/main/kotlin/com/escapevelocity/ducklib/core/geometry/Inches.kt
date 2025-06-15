@@ -208,3 +208,5 @@ fun ceil(value: Inches, increment: Inches) = ceil(value / increment) * increment
  * @see ceil
  */
 fun round(value: Inches, increment: Inches) = round(value / increment) * increment
+
+fun abs(value: Inches) = kotlin.math.abs(value.inches).inches

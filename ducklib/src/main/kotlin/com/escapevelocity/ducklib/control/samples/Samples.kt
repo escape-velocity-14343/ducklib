@@ -2,10 +2,10 @@ package com.escapevelocity.ducklib.control.samples
 
 import com.escapevelocity.ducklib.control.P
 import com.escapevelocity.ducklib.control.PIDController
+import com.escapevelocity.ducklib.control.pipe
 import com.escapevelocity.ducklib.core.command.commands.composition.forever
 import com.escapevelocity.ducklib.core.command.commands.instant
 import com.escapevelocity.ducklib.core.command.scheduler.DuckyScheduler.Companion.schedule
-import com.escapevelocity.ducklib.core.util.pipe
 
 private fun pipelineSample() {
     // create a PIDController pipeline directly

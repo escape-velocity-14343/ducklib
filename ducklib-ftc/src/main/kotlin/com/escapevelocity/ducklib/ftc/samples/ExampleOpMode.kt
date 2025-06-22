@@ -74,10 +74,10 @@ private class DrivetrainSubsystem(map: HardwareMapEx) : Subsystem() {
 
     fun drive(power: Pose2) {
         val (x, y, h) = power.xyh
-        flMotor.power = x.v - y.v - h.radians
-        frMotor.power = x.v + y.v + h.radians
-        blMotor.power = x.v + y.v - h.radians
-        brMotor.power = x.v - y.v + h.radians
+        flMotor.power = x.inches - y.inches - h.radians
+        frMotor.power = x.inches + y.inches + h.radians
+        blMotor.power = x.inches + y.inches - h.radians
+        brMotor.power = x.inches - y.inches + h.radians
     }
 
     fun drive(translationPower: Vector2, headingPower: Radians) =

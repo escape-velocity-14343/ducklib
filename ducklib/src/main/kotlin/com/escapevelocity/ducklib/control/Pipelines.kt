@@ -100,7 +100,7 @@ infix fun <TIn, TOut> Collection<(TIn) -> TOut>.combine(combiner: (accumulator: 
 infix fun <TIn, TOut> Collection<(TIn) -> TOut>.combineIndexed(combiner: (index: Int, accumulator: TOut, element: TOut) -> TOut): (TIn) -> TOut =
     { input -> map { it(input) }.reduceIndexed(combiner) }
 
-fun Collection<(Double) -> Double>.add() = combine { accumulator, element -> accumulator + element }
+fun Collection<(Double) -> Double>.add() = this combine { accumulator, element -> accumulator + element }
 
 fun Collection<(Double) -> Double>.add(vararg weights: Double): (Double) -> Double {
     require(weights.size == size) { "Weights collection must be the same size as the controller collection" }

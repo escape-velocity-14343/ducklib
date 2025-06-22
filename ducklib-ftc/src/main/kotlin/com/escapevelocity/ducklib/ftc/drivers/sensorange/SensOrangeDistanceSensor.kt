@@ -2,7 +2,6 @@ package com.escapevelocity.ducklib.ftc.drivers.sensorange
 
 import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.AnalogInputController
-import com.qualcomm.robotcore.hardware.AnalogSensor
 import com.qualcomm.robotcore.hardware.configuration.annotations.AnalogSensorType
 import com.qualcomm.robotcore.hardware.configuration.annotations.DeviceProperties
 import kotlin.math.roundToInt
@@ -10,10 +9,10 @@ import kotlin.math.roundToInt
 @AnalogSensorType
 @DeviceProperties(name = "@string/configTypeAnalogEncoder", xmlTag = "AnalogEncoder", builtIn = false)
 class SensOrangeDistanceSensor(controller: AnalogInputController, channel: Int) : AnalogInput(controller, channel) {
-    var maxVoltage = 3.3
+    var maxReportedVoltage = 3.3
     val distance
         // might wanna add interpolation later
-        get() = LUTData.data[(voltage * LUTData.data.size / maxVoltage).roundToInt()] / 660.0 * 50.0
+        get() = LUTData.data[(voltage * LUTData.data.size / maxReportedVoltage).roundToInt()] / 660.0 * 50.0
 
     private object LUTData {
         val data: DoubleArray = doubleArrayOf(

@@ -16,13 +16,26 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.DevicePropertie
     builtIn = false
 )
 class SensOrangeAbsoluteEncoder(controller: AnalogInputController, channel: Int) : AnalogInput(controller, channel) {
-    var offset = Radians.Companion.ZERO
+    var offset = Radians.ZERO
     var maxAngle = 360.degrees
     var maxReportedVoltage = 3.3
     var inverted = false
 
+    private var lastAngle = Radians.ZERO
+
     val angle
-        get() = (voltage * maxAngle / maxReportedVoltage).rotated(offset)
+        get() = (voltage * maxAngle / maxReportedVoltage).rotated(offset).let(if (inverted) { it -> -it } else { it -> it })
+    var totalAngle = Radians.ZERO
+        private set
+        get() {
+            if (field == Radians.ZERO) {
+                field = angle
+                lastAngle = angle
+            }
+            field += angle.angleTo(lastAngle)
+            lastAngle = angle
+            return field
+        }
 
     override fun getManufacturer() = HardwareDevice.Manufacturer.Other
     override fun getDeviceName() = "sensOrange Absolute Encoder"

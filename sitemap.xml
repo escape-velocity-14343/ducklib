@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/example_teleop/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/example_teleop/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/installation/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/installation/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/commands/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/commands/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/commands/builtin/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/commands/builtin/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/commands/groups/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/commands/groups/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/ftc/dashboard/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/ftc/dashboard/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/ftc/gamepad/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/ftc/gamepad/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/ftc/hardware_map/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/ftc/hardware_map/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/ftc/pinpoint/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/ftc/pinpoint/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/scheduler/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/scheduler/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/scheduler/conflicts/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/scheduler/conflicts/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
     <url>
-         <loc>https://escape-velocity-14343.github.io/ducklib/triggers/</loc>
-         <lastmod>2025-06-13</lastmod>
+         <loc>https://sockeye-d.github.io/ducklib/triggers/</loc>
+         <lastmod>2025-07-11</lastmod>
     </url>
 </urlset>
